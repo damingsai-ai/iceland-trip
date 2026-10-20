@@ -327,7 +327,7 @@ function updateSrc(){
 
 /* ===== 畫面：每天摺疊清單 + 總覽地圖 ===== */
 const COL=['#1971c2','#3b5bdb','#7048e8','#ae3ec9','#0c8599','#0ca678','#2f9e44','#1098ad','#5f3dc4','#495057','#364fc7','#087f5b']; // 刻意避開紅/橘/黃（保留給路況警示）
-let RT={},HIT={},sel=null,RTP=Promise.resolve();
+let HOME,RT={},HIT={},sel=null,RTP=Promise.resolve();
 const gm=s=>`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
 const sumKm=r=>r.legs.reduce((a,l)=>a+l.km,0),sumMin=r=>r.legs.reduce((a,l)=>a+l.min,0);
 const nm=s=>s.name.split(' ')[0];
@@ -366,6 +366,7 @@ function select(day,zoom){
  document.querySelectorAll('.day').forEach(e=>e.classList.toggle('open',+e.id.slice(3)===day));
  if(day)fillBody(day);
  draw();
+ if(!zoom&&HOME)map.fitBounds(HOME); // 點日期（或收合）一律回到初始全島視角
  if(day){document.getElementById('day'+day).scrollIntoView({block:'nearest',behavior:'smooth'});if(zoom&&RT[day])fit(day)}
 }
 async function loadAll(){
@@ -379,7 +380,7 @@ async function loadAll(){
 async function init(first){
  group(await loadSheet());RT={};HIT={};updateSrc();loadSpots().then(()=>{if(sel&&RT[sel])fillBody(sel)});
  buildList();$('#msg').innerHTML=srcNote?`<p>${srcNote}</p>`:'';
- map.fitBounds(L.latLngBounds(Object.values(DAYS).flat().map(s=>[s.lat,s.lng])).pad(.05));
+ HOME=L.latLngBounds(Object.values(DAYS).flat().map(s=>[s.lat,s.lng])).pad(.05);map.fitBounds(HOME);
  const h=parseInt((location.hash||'').slice(2)),want=first?h:sel;
  RTP=loadAll();select(DAYS[want]?want:null,false);
  await RTP;renderRoad();
