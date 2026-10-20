@@ -31,34 +31,45 @@ jobs:
             }
             throw err;
           }
-          const CLOSED = /ófært|lokað|closed|impassable/i;
-          const WARN = /þungfært|þæfingur|hálk|snjó|krap|skafrenn|éljag|slippery|snow|icy|heavy|ice/i;
+          const CLOSED = /ófært|ofaert|lokað|lokad|closed|impassable/i;
+          const WARN = /þungfært|thungfaert|þæfingur|thaefingur|hálk|halk|snjóþekja|snjothekja|krap|skafrenn|éljag|eljag|fjallab|slippery|snow|icy|heavy/i;
           const [a, g] = await Promise.all([get(A), get(W)]);
-          const rows = Array.isArray(a) ? a : (a.features || []);
+          const rows = (Array.isArray(a) ? a : (a.features || [])).map(r => r.properties || r);
           const txt = {};
-          for (let r of rows) {
-            r = r.properties || r;
-            const o = (txt[r.IdButur] ??= { t: '', n: r.Nafn || r.Lysing || ('路段 ' + r.IdButur) });
+          const cnt = {};
+          for (const r of rows) {
+            const o = (txt[r.IdButur] ??= { t: '', s: new Set(), d: new Set(), n: '' });
             o.t += ' ' + Object.values(r).filter(v => typeof v === 'string').join(' ');
+            if (r.AstandYfirbord) { o.s.add(r.AstandYfirbord); cnt[r.AstandYfirbord] = (cnt[r.AstandYfirbord] || 0) + 1; }
+            for (const k of ['AstandLysingEn', 'AstandLysing', 'AstandVidbotaruppl']) if (r[k]) o.d.add(r[k]);
+            o.n ||= r.Nafn || r.Heiti || r.Lysing || r.VegNumer || r.Vegnumer || '';
           }
-          const segs = [];
           const feats = g.features || [];
+          // 座標資料的屬性名稱不一定叫 IdButur，所以逐一比對屬性值與 feature id
+          const idOf = f => {
+            const P = f.properties || {};
+            for (const v of Object.values(P)) if (txt[v] !== undefined) return v;
+            const m = String(f.id || '').match(/(\d+)$/);
+            return m && txt[m[1]] !== undefined ? m[1] : undefined;
+          };
+          const segs = [];
+          let matched = 0;
           for (const f of feats) {
-            const o = txt[f.properties && f.properties.IdButur];
+            const id = idOf(f);
+            const o = id === undefined ? null : txt[id];
             if (!o || !f.geometry) continue;
-            const lv = CLOSED.test(o.t) ? 2 : WARN.test(o.t) ? 1 : 0;
+            matched++;
+            const states = [...o.s];
+            const lv = CLOSED.test(o.t) ? 2 : states.some(x => x !== 'GREIDFAERT') ? 1 : WARN.test(o.t) ? 1 : 0;
             if (!lv) continue;
             const lines = f.geometry.type === 'MultiLineString' ? f.geometry.coordinates : [f.geometry.coordinates];
-            segs.push({ lv, name: o.n, desc: o.t.trim().slice(0, 120),
+            segs.push({ lv, name: o.n || ('路段 ' + id), desc: ([...o.d].join(' / ') || states.join(',')).slice(0, 160),
               lines: lines.map(l => l.map(p => [+p[0].toFixed(4), +p[1].toFixed(4)])) });
           }
-          console.log('records', Object.keys(txt).length, 'features', feats.length, 'flagged', segs.length);
-          console.log('matched', feats.filter(f => txt[f.properties && f.properties.IdButur]).length);
-          const sample = rows.map(r => r.properties || r);
-          console.log('sample', JSON.stringify(sample[0]).slice(0, 700));
-          const vals = {};
-          for (const r of sample) for (const [k, v] of Object.entries(r)) if (typeof v === 'string') (vals[k] ??= new Set()).add(v.slice(0, 60));
-          for (const [k, set] of Object.entries(vals)) if (set.size <= 25) console.log('values', k, JSON.stringify([...set]));
+          console.log('records', Object.keys(txt).length, 'features', feats.length, 'matched', matched, 'flagged', segs.length);
+          console.log('keys', Object.keys(rows[0] || {}).join(','));
+          console.log('states', JSON.stringify(cnt));
+          console.log('featsample', JSON.stringify(feats[0] && feats[0].properties).slice(0, 400), 'id=', feats[0] && feats[0].id);
           if (!Object.keys(txt).length || !feats.length) throw new Error('empty data');
           fs.writeFileSync('road.json', JSON.stringify({ updated: new Date().toISOString(), segs }));
           EOF
