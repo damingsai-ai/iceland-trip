@@ -1,0 +1,65 @@
+name: Update road data
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch Vegagerdin road data
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'fs';
+          const H = 'gagnaveita.vegagerdin.is';
+          const A = '/api/faerd2017_1';
+          const W = '/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:faerdferlar2017_1&outputFormat=application/json&srsName=EPSG:4326';
+          async function get(path) {
+            let err;
+            for (const sc of ['https', 'http']) {
+              try {
+                const r = await fetch(sc + '://' + H + path, { signal: AbortSignal.timeout(90000) });
+                if (!r.ok) throw new Error(sc + ' ' + r.status);
+                return await r.json();
+              } catch (e) { err = e; console.log('failed', sc, path.slice(0, 30), String(e)); }
+            }
+            throw err;
+          }
+          const CLOSED = /ófært|lokað|closed|impassable/i;
+          const WARN = /þungfært|þæfingur|hálk|snjó|krap|skafrenn|éljag|slippery|snow|icy|heavy|ice/i;
+          const [a, g] = await Promise.all([get(A), get(W)]);
+          const rows = Array.isArray(a) ? a : (a.features || []);
+          const txt = {};
+          for (let r of rows) {
+            r = r.properties || r;
+            const o = (txt[r.IdButur] ??= { t: '', n: r.Nafn || r.Lysing || ('路段 ' + r.IdButur) });
+            o.t += ' ' + Object.values(r).filter(v => typeof v === 'string').join(' ');
+          }
+          const segs = [];
+          const feats = g.features || [];
+          for (const f of feats) {
+            const o = txt[f.properties && f.properties.IdButur];
+            if (!o || !f.geometry) continue;
+            const lv = CLOSED.test(o.t) ? 2 : WARN.test(o.t) ? 1 : 0;
+            if (!lv) continue;
+            const lines = f.geometry.type === 'MultiLineString' ? f.geometry.coordinates : [f.geometry.coordinates];
+            segs.push({ lv, name: o.n, desc: o.t.trim().slice(0, 120),
+              lines: lines.map(l => l.map(p => [+p[0].toFixed(4), +p[1].toFixed(4)])) });
+          }
+          console.log('records', Object.keys(txt).length, 'features', feats.length, 'flagged', segs.length);
+          if (!Object.keys(txt).length || !feats.length) throw new Error('empty data');
+          fs.writeFileSync('road.json', JSON.stringify({ updated: new Date().toISOString(), segs }));
+          EOF
+      - name: Commit
+        run: |
+          git config user.name "road-bot"
+          git config user.email "road-bot@users.noreply.github.com"
+          git add road.json
+          git commit -m "update road data" || exit 0
+          git push
