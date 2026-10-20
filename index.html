@@ -210,17 +210,10 @@ async function route(day){
 /* ===== 路況（Vegagerðin 開放資料，與 umferdin.is 同源） ===== */
 const CLOSED=/ófært|lokað|closed|impassable/i,WARN=/þungfært|þæfingur|hálk|snjó|krap|skafrenn|éljag|slippery|snow|icy|heavy|ice/i;
 async function loadRoad(){
- try{
-  const [a,g]=await Promise.all([fetch(FAERD).then(r=>r.json()),fetch(WFS).then(r=>r.json())]);
-  const txt={};
-  (Array.isArray(a)?a:a.features||[]).forEach(r=>{r=r.properties||r;const id=r.IdButur;
-   (txt[id]??={t:'',n:r.Nafn||r.Lysing||'路段 '+id}).t+=' '+Object.values(r).filter(v=>typeof v==='string').join(' ')});
-  const segs=[];
-  (g.features||[]).forEach(f=>{const id=f.properties?.IdButur,o=txt[id];if(!o||!f.geometry)return;
-   const lv=CLOSED.test(o.t)?2:WARN.test(o.t)?1:0;if(!lv)return;
-   const lines=f.geometry.type==='MultiLineString'?f.geometry.coordinates:[f.geometry.coordinates];
-   segs.push({lv,name:o.n,desc:o.t.trim().slice(0,120),lines})});
-  ROAD={ok:true,segs,at:new Date()};
+ try{ // 讀取倉庫裡由 GitHub Actions 每 30 分鐘更新的 road.json（同網域，無跨網域問題）
+  const j=await(await fetch('road.json?t='+Date.now())).json();
+  if(!j.updated||!j.segs)throw 0;
+  ROAD={ok:true,segs:j.segs,at:new Date(j.updated)};
  }catch(e){ROAD={ok:false}}
  await RTP;drawRoad();renderRoad();
 }
@@ -239,9 +232,9 @@ function near(pts,seg){
 function showRoad(day){
  const el=$('#road');if(!el)return;
  if(!ROAD){el.className='';el.innerHTML='⏳ 讀取路況中…';return}
- if(!ROAD.ok){el.className='warn';el.innerHTML='⚠️ 暫時無法取得即時路況（資料來源可能擋跨網域或離線）。出發前請到 <a href="https://umferdin.is/en" target="_blank">umferdin.is</a> 確認。';return}
+ if(!ROAD.ok){el.className='warn';el.innerHTML='⚠️ 尚未取得路況資料（road.json 還沒產生，或讀取失敗）。出發前請到 <a href="https://umferdin.is/en" target="_blank">umferdin.is</a> 確認。';return}
  const hits=HIT[day]||[];
- if(!hits.length){el.className='ok';el.innerHTML='✅ 路線附近沒有封路或惡劣路況通報 <small>（'+ROAD.at.toLocaleTimeString('zh-TW')+' 更新）</small>';return}
+ if(!hits.length){el.className='ok';el.innerHTML='✅ 路線附近沒有封路或惡劣路況通報 <small>（'+ROAD.at.toLocaleString('zh-TW',{hour12:false})+' 更新）</small>';return}
  const closed=hits.filter(s=>s.lv==2);
  el.className=closed.length?'bad':'warn';
  el.innerHTML=(closed.length?'⛔ 路線上有封路／不可通行路段':'⚠️ 路線上有惡劣路況')+'<br>'+hits.slice(0,6).map(x=>`${x.lv==2?'⛔':'⚠️'} ${esc(x.name)}：${esc(x.desc)}`).join('<br>')+'<br><small>詳情請以 umferdin.is 為準</small>'
