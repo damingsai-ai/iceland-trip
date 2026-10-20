@@ -59,7 +59,7 @@ summary.dh{cursor:pointer}.al-i{cursor:pointer}
 <header><h1>🇮🇸 冰島環島 12 天</h1>
 <div><button id="rf">↻ 重新讀取</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a></div></header>
 <main><div id="map"></div><section id="panel"><div class="sum"><div><b id="s1">—</b><span>全程行車 km</span></div><div><b id="s2">—</b><span>全程開車時間</span></div><div><b id="s3">—</b><span>單日最長</span></div></div>
-<p><small>點日期展開當天路線（地圖不縮放）；點路線或景點才會放大。</small></p><div id="alerts"></div><div id="msg"></div><div id="list"></div>
+<p><small>點日期展開當天路線（地圖不縮放）；點路線或景點才會放大。</small></p><div id="src"></div><div id="alerts"></div><div id="msg"></div><div id="list"></div>
 <p><small>距離與時間：OSRM 路網計算，已乘 1.15 緩衝；* 表示路線服務無回應，為直線估算。</small></p></section></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>
@@ -151,13 +151,13 @@ function csv(t){const R=[];let r=[],f='',q=false;for(let i=0;i<t.length;i++){con
  else if(c=='"')q=true;else if(c==','){r.push(f);f=''}else if(c=='\n'){r.push(f);R.push(r);r=[];f=''}else if(c!='\r')f+=c}
  if(f||r.length){r.push(f);R.push(r)}return R}
 function toStops(rows){
- const h=rows[0].map(s=>s.trim()),ix=k=>h.findIndex(x=>x.includes(k));
- const c={d:ix('Day'),o:ix('順序'),n:ix('景點'),r:ix('備註'),i:ix('簡介'),s:ix('預計停留'),m:ix('提醒'),a:ix('經度'),b:ix('緯度')};
+ const h=rows[0].map(s=>s.trim()),ix=(k,d)=>{const i=h.findIndex(x=>x.includes(k));return i>=0?i:d};
+ const c={d:ix('Day',0),o:ix('順序',1),n:ix('景點',2),r:ix('備註',4),i:ix('簡介',-1),s:ix('預計停留',3),m:ix('提醒',11),a:ix('經度',5),b:ix('緯度',6)};
  return rows.slice(1).map((r,k)=>{
   const x=parseFloat(r[c.a]),y=parseFloat(r[c.b]);
   // 欄位標題「經度/緯度」可能對調：冰島緯度為正、經度為負，自動判斷
   const lat=x>0?x:y,lng=x>0?y:x;
-  return{day:parseInt(r[c.d]),ord:parseFloat(r[c.o])||k,name:(r[c.n]||'').trim(),note:r[c.r]||'',intro:c.i>=0?r[c.i]||'':'',
+  return{day:parseInt(String(r[c.d]).replace(/\D/g,'')),ord:parseFloat(r[c.o])||k,name:(r[c.n]||'').trim(),note:r[c.r]||'',intro:c.i>=0?r[c.i]||'':'',
    stay:c.s>=0?r[c.s]||'':'',remind:c.m>=0?r[c.m]||'':'',lat,lng}
  }).filter(s=>s.day&&s.name&&isFinite(s.lat)&&isFinite(s.lng));
 }
@@ -179,13 +179,15 @@ async function loadSheet(){
  try{ // 方法 1：JSONP（不受跨網域限制）
   const t=await jsonp();
   const rows=[t.cols.map(c=>c.label||''),...t.rows.map(r=>(r.c||[]).map(c=>c&&c.v!=null?String(c.v):''))];
-  const s=toStops(rows);if(s.length){srcNote='';return s}why='表內沒有可用資料列'
+  const hi=rows.findIndex(r=>r.some(x=>x.includes('景點')));
+  const s=toStops(hi>=0?rows.slice(hi):[[],...rows]);
+  if(s.length){srcNote='';ITSRC='Google 試算表（即時）';return s}why='表內沒有可用資料列；共 '+rows.length+' 列，表頭在第 '+(hi+1)+' 列'
  }catch(e){why=String(e)}
  try{ // 方法 2：fetch CSV
   const r=await fetch(CSV_URL+'&t='+Date.now());if(!r.ok)throw 0;
-  const s=toStops(csv(await r.text()));if(s.length){srcNote='';return s}
+  const s=toStops(csv(await r.text()));if(s.length){srcNote='';ITSRC='Google 試算表（CSV）';return s}
  }catch(e){}
- srcNote='⚠️ 無法即時讀取 Google 試算表（'+why+'），目前顯示內建備份資料。';return fbStops()
+ srcNote='⚠️ 無法即時讀取 Google 試算表（'+why+'），目前顯示內建備份資料。';ITSRC='內建備份資料（非即時）';return fbStops()
 }
 function group(stops){DAYS={};stops.forEach(s=>(DAYS[s.day]??=[]).push(s));
  Object.values(DAYS).forEach(a=>a.sort((p,q)=>p.ord-q.ord))}
@@ -240,7 +242,8 @@ function showRoad(day){
  el.innerHTML=(closed.length?'⛔ 路線上有封路／不可通行路段':'⚠️ 路線上有惡劣路況')+'<br>'+hits.slice(0,6).map(x=>`${x.lv==2?'⛔':'⚠️'} ${esc(x.name)}：${esc(x.desc)}`).join('<br>')+'<br><small>詳情請以 umferdin.is 為準</small>'
 }
 /* ===== 路況警示試算表 ===== */
-let alertLayer,ALERTS=[],ALOK=false,AERR='',AH={},AM=[],AUPD='';
+let ITSRC='',forceSheet=false,alertLayer,ALERTS=[],ALOK=false,AERR='',AH={},AM=[],AUPD='';
+const useSheet=()=>!ROAD?.ok||forceSheet; // 自動排程可用時，預設不顯示試算表警示
 const ic=a=>({封路:'⛔',施工:'🚧',限制通行:'🚫',危險:'⚠️'})[a.type]||'❗';
 const sevCol=a=>a.sev==='高'?'#e03131':a.sev==='中'?'#f08c00':'#f2c200';
 function nearA(pts,a){const k=Math.cos(65*Math.PI/180)*111.32;
@@ -261,12 +264,13 @@ async function loadAlerts(){
  drawAlerts();alertList();renderRoad();
 }
 function drawAlerts(){
- alertLayer.clearLayers();AM=[];
+ alertLayer.clearLayers();AM=[];if(!useSheet())return;
  ALERTS.forEach((a,i)=>{AM[i]=L.marker([a.lat,a.lng],{zIndexOffset:1000,icon:L.divIcon({className:'',html:`<div class="al" style="border-color:${sevCol(a)}">${ic(a)}</div>`,iconSize:[26,26]})})
   .bindPopup(`<b>${ic(a)} ${esc(a.type)}（${esc(a.sev)}）</b><br>${esc(a.road)} ${esc(a.name)}<br>${esc(a.desc)}<br><small>${esc(a.start)}～${esc(a.end)}</small><br><a href="https://www.google.com/maps/search/?api=1&query=${a.lat},${a.lng}" target="_blank" rel="noopener">在 Google Maps 開啟</a>`).addTo(alertLayer)})
 }
 function alertList(){
  const el=$('#alerts');if(!el)return;
+ if(!useSheet()){el.innerHTML='';return}
  if(!ALOK){el.innerHTML=AERR?`<p><small>⚠️ 路況警示讀取失敗（${esc(AERR)}）</small></p>`:'';return}
  el.innerHTML=`<details class="day" ${ALERTS.length?'open':''}><summary class="dh"><b>🚧 路況警示</b><span class="hd">${ALERTS.length} 則${AUPD?' · 更新 '+esc(AUPD):''}</span></summary><div class="db" style="display:block">`+
   (ALERTS.map(a=>`<div class="st" data-ai="${a.i}"><div class="n" style="background:${sevCol(a)}">${ic(a)}</div><div><h3>${esc(a.type)}·${esc(a.sev)} ${esc(a.road)} ${esc(a.name)}</h3><div class="note">${esc(a.desc)}</div><div class="leg">${esc(a.start)}～${esc(a.end)}</div></div></div>`).join('')||'目前沒有有效警示')+'</div></details>'
@@ -274,6 +278,7 @@ function alertList(){
 function zoomAlert(i){const a=ALERTS[i];if(!a)return;map.setView([a.lat,a.lng],11);AM[i]&&AM[i].openPopup()}
 function showAlerts(day){
  const el=$('#alr');if(!el)return;
+ if(!useSheet()){el.innerHTML='';return}
  if(!ALOK){el.innerHTML=AERR?`<small>⚠️ 路況警示試算表讀取失敗（${esc(AERR)}）</small>`:'';return}
  const h=AH[day]||[];
  el.innerHTML=h.length?`<small>路線 ${ALERT_KM} km 內的警示（點一下看位置）：</small>`+h.map(a=>`<div class="note al-i" data-ai="${a.i}">${ic(a)} <b>${esc(a.type)}·${esc(a.sev)}</b> ${esc(a.road)} ${esc(a.name)}：${esc(a.desc)} <small>${esc(a.start)}～${esc(a.end)}</small></div>`).join(''):`<small>✅ 路線 ${ALERT_KM} km 內沒有試算表登錄的警示</small>`
@@ -284,9 +289,20 @@ function badge(d){const h=HIT[d]||[],a=AH[d]||[];
 function renderRoad(){
  Object.keys(DAYS).forEach(d=>{const r=RT[d];if(!r)return;
   if(ROAD?.ok)HIT[d]=ROAD.segs.filter(g=>near(r.pts,g));
-  AH[d]=ALERTS.filter(a=>nearA(r.pts,a))});
+  AH[d]=useSheet()?ALERTS.filter(a=>nearA(r.pts,a)):[]});
  Object.keys(DAYS).forEach(d=>{const e=document.querySelector(`#day${d} .bd`);if(e)e.textContent=RT[d]?badge(d):''});
+ drawAlerts();alertList();updateSrc();
  if(sel){showRoad(sel);showAlerts(sel)}
+}
+function updateSrc(){
+ const el=$('#src');if(!el)return;
+ const old=ROAD?.ok&&Date.now()-ROAD.at>3*3600e3;
+ let r;
+ if(ROAD?.ok)r='📡 路況來源：公路局開放資料（GitHub 排程自動更新，'+ROAD.at.toLocaleString('zh-TW',{hour12:false})+'）'+(old?' ⚠️ 超過 3 小時未更新':'');
+ else if(ALOK)r='📄 路況來源：Google 試算表「冰島路況」（自動排程資料讀不到，改用備援）';
+ else r='⚠️ 路況來源：自動排程與試算表都讀取失敗';
+ const sh=ALOK&&ROAD?.ok?`<br>試算表警示 ${ALERTS.length} 則：${forceSheet?'顯示中':'未顯示'} <button id="tg">${forceSheet?'隱藏':'同時顯示'}</button>`:'';
+ el.innerHTML=`<p><small>🗺️ 行程來源：${esc(ITSRC||'讀取中…')}<br>${r}${sh}</small></p>`;
 }
 
 /* ===== 畫面：每天摺疊清單 + 總覽地圖 ===== */
@@ -340,7 +356,7 @@ async function loadAll(){
  $('#s1').textContent=km.toFixed(0);$('#s2').textContent=fmt(mn);$('#s3').textContent=`Day ${mxd} · ${fmt(mx)}`;
 }
 async function init(first){
- group(await loadSheet());RT={};HIT={};
+ group(await loadSheet());RT={};HIT={};updateSrc();
  buildList();$('#msg').innerHTML=srcNote?`<p>${srcNote}</p>`:'';
  map.fitBounds(L.latLngBounds(Object.values(DAYS).flat().map(s=>[s.lat,s.lng])).pad(.05));
  const h=parseInt((location.hash||'').slice(2)),want=first?h:sel;
@@ -354,7 +370,7 @@ $('#list').onclick=e=>{
  const b=e.target.closest('.dh');if(b){const d=+b.dataset.d;select(sel===d?null:d);return}
  const st=e.target.closest('.st');if(st&&sel&&!e.target.closest('a')){const s=DAYS[sel][+st.dataset.i];map.setView([s.lat,s.lng],13)}
 };
-$('#panel').addEventListener('click',e=>{const x=e.target.closest('[data-ai]');if(x&&!e.target.closest('a'))zoomAlert(+x.dataset.ai)});
+$('#panel').addEventListener('click',e=>{if(e.target.id==='tg'){forceSheet=!forceSheet;renderRoad();return}const x=e.target.closest('[data-ai]');if(x&&!e.target.closest('a'))zoomAlert(+x.dataset.ai)});
 $('#rf').onclick=()=>{loadAlerts();Object.keys(routeCache).forEach(k=>delete routeCache[k]);init(false);loadRoad()};
 init(true);loadRoad();loadAlerts();
 setInterval(()=>{loadRoad();loadAlerts()},10*60*1000);
