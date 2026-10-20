@@ -167,8 +167,9 @@ function fbStops(){return FB.split('\n').map((l,i)=>{const[d,n,r,la,lo]=l.split(
 let DAYS={},cur=1,map,layer,roadLayer,ROAD=null,srcNote='';
 const routeCache={};
 
+let JID=0;
 function jsonp(id=SHEET_ID){return new Promise((res,rej)=>{
- const n='__gs'+Date.now(),sc=document.createElement('script');
+ const n='__gs'+(++JID)+'_'+Date.now(),sc=document.createElement('script');
  const done=()=>{clearTimeout(t);delete window[n];sc.remove()},t=setTimeout(()=>{done();rej('逾時')},12000);
  window[n]=d=>{done();d&&d.status==='ok'?res(d.table):rej('Google 回應錯誤（'+(d&&d.status)+'）')};
  sc.onerror=()=>{done();rej('無法連線')};
@@ -242,7 +243,7 @@ function showRoad(day){
  el.innerHTML=(closed.length?'⛔ 路線上有封路／不可通行路段':'⚠️ 路線上有惡劣路況')+'<br>'+hits.slice(0,6).map(x=>`${x.lv==2?'⛔':'⚠️'} ${esc(x.name)}：${esc(x.desc)}`).join('<br>')+'<br><small>詳情請以 umferdin.is 為準</small>'
 }
 /* ===== 路況警示試算表 ===== */
-let ITSRC='',forceSheet=false,alertLayer,ALERTS=[],ALOK=false,AERR='',AH={},AM=[],AUPD='';
+let ITSRC='',forceSheet=true,alertLayer,ALERTS=[],ALOK=false,AERR='',AH={},AM=[],AUPD='';
 const useSheet=()=>!ROAD?.ok||forceSheet; // 自動排程可用時，預設不顯示試算表警示
 const ic=a=>({封路:'⛔',施工:'🚧',限制通行:'🚫',危險:'⚠️'})[a.type]||'❗';
 const sevCol=a=>a.sev==='高'?'#e03131':a.sev==='中'?'#f08c00':'#f2c200';
@@ -298,7 +299,7 @@ function updateSrc(){
  const el=$('#src');if(!el)return;
  const old=ROAD?.ok&&Date.now()-ROAD.at>3*3600e3;
  let r;
- if(ROAD?.ok)r='📡 路況來源：公路局開放資料（GitHub 排程自動更新，'+ROAD.at.toLocaleString('zh-TW',{hour12:false})+'）'+(old?' ⚠️ 超過 3 小時未更新':'');
+ if(ROAD?.ok)r='📡 路況來源：公路局開放資料（GitHub 排程自動更新，'+ROAD.at.toLocaleString('zh-TW',{hour12:false})+'；目前通報路段 '+ROAD.segs.length+' 段）'+(old?' ⚠️ 超過 3 小時未更新':'');
  else if(ALOK)r='📄 路況來源：Google 試算表「冰島路況」（自動排程資料讀不到，改用備援）';
  else r='⚠️ 路況來源：自動排程與試算表都讀取失敗';
  const sh=ALOK&&ROAD?.ok?`<br>試算表警示 ${ALERTS.length} 則：${forceSheet?'顯示中':'未顯示'} <button id="tg">${forceSheet?'隱藏':'同時顯示'}</button>`:'';
