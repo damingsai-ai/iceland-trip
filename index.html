@@ -51,7 +51,7 @@ small{color:var(--mut)}
 .dh i{flex:none;width:10px;height:10px;border-radius:50%}.dh .hd{flex:1;min-width:0;color:var(--mut);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dh .sx{flex:none;font-size:12px}.dh .bd{flex:none;min-width:1em}
 .al{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid;text-align:center;font-size:14px;line-height:20px;box-shadow:0 1px 4px #0006}
-summary.dh{cursor:pointer}.al-i{cursor:pointer}
+summary.dh{cursor:pointer}.rm,#tg{padding:1px 8px;font-size:12px;margin:2px 0}.rm.on{background:var(--ac);color:#fff;border-color:var(--ac)}.al-i{cursor:pointer}
 .db{display:none;padding:0 10px 10px}.day.open .db{display:block}.st{cursor:pointer}
 </style>
 </head>
@@ -234,7 +234,8 @@ async function loadRoad(){
 }
 function drawRoad(){
  roadLayer.clearLayers();if(!ROAD?.ok)return;
- const set=new Set();Object.values(HIT).forEach(a=>a.forEach(x=>set.add(x))); // 只畫在行程路線附近的路段
+ if(roadMode==='off')return;
+ const set=new Set(roadMode==='all'?ROAD.segs:Object.values(HIT).flat()); // near=只畫行程路線附近；all=全國
  set.forEach(s=>s.lines.forEach(l=>L.polyline(l.map(p=>[p[1],p[0]]),{color:s.lv==2?'#e03131':'#f08c00',weight:4,opacity:.95,dashArray:'7 6'}).bindPopup(esc(s.name)+'<br>'+esc(s.desc)).addTo(roadLayer)))
 }
 function dseg(p,a,b){const k=Math.cos(65*Math.PI/180)*111320,X=q=>q[0]*k,Y=q=>q[1]*110574;
@@ -260,7 +261,7 @@ function showRoad(day){
  el.innerHTML=(closed.length?'⛔ 路線上有封路／不可通行路段':'⚠️ 路線上有惡劣路況')+'<br>'+uniq(hits).slice(0,8).map(x=>`${x.lv==2?'⛔':'⚠️'} ${esc(x.name)}：${esc(x.desc)}`).join('<br>')+'<br><small>詳情請以 umferdin.is 為準</small>'
 }
 /* ===== 路況警示試算表 ===== */
-let ITSRC='',forceSheet=true,alertLayer,ALERTS=[],ALOK=false,AERR='',AH={},AM=[],AUPD='';
+let ITSRC='',forceSheet=true,roadMode='near',alertLayer,ALERTS=[],ALOK=false,AERR='',AH={},AM=[],AUPD='';
 const useSheet=()=>!ROAD?.ok||forceSheet; // 自動排程可用時，預設不顯示試算表警示
 const ic=a=>({封路:'⛔',施工:'🚧',限制通行:'🚫',危險:'⚠️'})[a.type]||'❗';
 const sevCol=a=>a.sev==='高'?'#e03131':a.sev==='中'?'#f08c00':'#f2c200';
@@ -319,8 +320,9 @@ function updateSrc(){
  if(ROAD?.ok)r='📡 路況來源：公路局開放資料（GitHub 排程自動更新，'+ROAD.at.toLocaleString('zh-TW',{hour12:false})+'；目前通報路段 '+ROAD.segs.length+' 段）'+(old?' ⚠️ 超過 3 小時未更新':'');
  else if(ALOK)r='📄 路況來源：Google 試算表「冰島路況」（自動排程資料讀不到，改用備援）';
  else r='⚠️ 路況來源：自動排程與試算表都讀取失敗';
+ const nn=new Set(Object.values(HIT).flat()).size,rmHtml=ROAD?.ok?'<br>公路局路況（地圖）：'+[['near','路線附近 '+nn+' 段'],['all','全國 '+ROAD.segs.length+' 段'],['off','隱藏']].map(([m,t])=>`<button class="rm${roadMode===m?' on':''}" data-m="${m}">${t}</button>`).join(' '):'';
  const sh=ALOK&&ROAD?.ok?`<br>試算表警示 ${ALERTS.length} 則：${forceSheet?'顯示中':'未顯示'} <button id="tg">${forceSheet?'隱藏':'同時顯示'}</button>`:'';
- el.innerHTML=`<p><small>🗺️ 行程來源：${esc(ITSRC||'讀取中…')}<br>${r}${sh}</small></p>`;
+ el.innerHTML=`<p><small>🗺️ 行程來源：${esc(ITSRC||'讀取中…')}<br>${r}${rmHtml}${sh}</small></p>`;
 }
 
 /* ===== 畫面：每天摺疊清單 + 總覽地圖 ===== */
@@ -389,7 +391,7 @@ $('#list').onclick=e=>{
  const b=e.target.closest('.dh');if(b){const d=+b.dataset.d;select(sel===d?null:d);return}
  const st=e.target.closest('.st');if(st&&sel&&!e.target.closest('a')){const s=DAYS[sel][+st.dataset.i];map.setView([s.lat,s.lng],13)}
 };
-$('#panel').addEventListener('click',e=>{if(e.target.id==='tg'){forceSheet=!forceSheet;renderRoad();return}const x=e.target.closest('[data-ai]');if(x&&!e.target.closest('a'))zoomAlert(+x.dataset.ai)});
+$('#panel').addEventListener('click',e=>{const rb=e.target.closest('.rm');if(rb){roadMode=rb.dataset.m;drawRoad();updateSrc();return}if(e.target.id==='tg'){forceSheet=!forceSheet;renderRoad();return}const x=e.target.closest('[data-ai]');if(x&&!e.target.closest('a'))zoomAlert(+x.dataset.ai)});
 $('#rf').onclick=()=>{loadAlerts();Object.keys(routeCache).forEach(k=>delete routeCache[k]);init(false);loadRoad()};
 init(true);loadRoad();loadAlerts();
 setInterval(()=>{loadRoad();loadAlerts()},10*60*1000);
