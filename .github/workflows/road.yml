@@ -53,6 +53,12 @@ jobs:
               lines: lines.map(l => l.map(p => [+p[0].toFixed(4), +p[1].toFixed(4)])) });
           }
           console.log('records', Object.keys(txt).length, 'features', feats.length, 'flagged', segs.length);
+          console.log('matched', feats.filter(f => txt[f.properties && f.properties.IdButur]).length);
+          const sample = rows.map(r => r.properties || r);
+          console.log('sample', JSON.stringify(sample[0]).slice(0, 700));
+          const vals = {};
+          for (const r of sample) for (const [k, v] of Object.entries(r)) if (typeof v === 'string') (vals[k] ??= new Set()).add(v.slice(0, 60));
+          for (const [k, set] of Object.entries(vals)) if (set.size <= 25) console.log('values', k, JSON.stringify([...set]));
           if (!Object.keys(txt).length || !feats.length) throw new Error('empty data');
           fs.writeFileSync('road.json', JSON.stringify({ updated: new Date().toISOString(), segs }));
           EOF
