@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>冰島環島 四方案</title>
+<style>
+.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-tile-container,.leaflet-layer{position:absolute;left:0;top:0}
+.leaflet-container{overflow:hidden;position:relative;background:#ddd;outline:0}
+.leaflet-container img{max-width:none!important}.leaflet-overlay-pane svg{max-width:none!important}
+.leaflet-tile,.leaflet-marker-icon{user-select:none}
+.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-marker-pane{z-index:600}.leaflet-popup-pane{z-index:700}
+.leaflet-zoom-animated{transform-origin:0 0}
+.leaflet-control{position:relative;z-index:800;float:left;clear:both;margin:10px}
+.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-right{right:0}.leaflet-right .leaflet-control{float:right}
+.leaflet-control{pointer-events:auto}
+.leaflet-control-zoom a{display:block;width:30px;height:30px;line-height:30px;text-align:center;background:#fff;color:#000;border-bottom:1px solid #ccc;text-decoration:none;font-weight:bold}
+.leaflet-control-attribution{background:#fffc;padding:0 5px;font-size:11px;color:#333}
+.leaflet-popup{position:absolute;text-align:center}.leaflet-popup-content-wrapper{background:#fff;color:#000;padding:1px;border-radius:12px;text-align:left}
+.leaflet-popup-content{margin:12px 19px}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-left:-20px;overflow:hidden}
+.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;transform:rotate(45deg);background:#fff}
+.leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;padding:4px 8px;text-decoration:none;color:#666}
+</style>
+<style>
+/* 與原版相同版面：上方標頭＋方案切換＋天數分頁，左地圖右清單（手機上下） */
+:root{--bg:#f6f8fa;--card:#fff;--tx:#1f2933;--mut:#6b7785;--ac:#1971c2;--bd:#dde3ea;--soft:#eef3f8}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181d;--card:#1e242b;--tx:#e6ebf0;--mut:#93a0ad;--ac:#74b3f5;--bd:#333c46;--soft:#232b34;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14181d;--card:#1e242b;--tx:#e6ebf0;--mut:#93a0ad;--ac:#74b3f5;--bd:#333c46;--soft:#232b34;color-scheme:dark}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{display:flex;flex-direction:column;font:14px/1.5 -apple-system,"Noto Sans TC",sans-serif;background:var(--bg);color:var(--tx)}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:8px max(12px,env(safe-area-inset-right,0px)) 8px max(12px,env(safe-area-inset-left,0px));background:var(--card);border-bottom:1px solid var(--bd)}
+h1{font-size:16px;margin:0}
+header a,button{font:inherit;color:var(--ac);background:none;border:1px solid var(--bd);border-radius:6px;padding:3px 9px;cursor:pointer;text-decoration:none}
+button:focus-visible,a:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+#plans{display:flex;gap:0;border:1px solid var(--bd);border-radius:7px;overflow:hidden}
+#plans button{border:0;border-radius:0;border-right:1px solid var(--bd);padding:4px 12px;font-weight:600}
+#plans button:last-child{border-right:0}
+#plans button.on{background:var(--ac);color:#fff}
+#tabs{display:flex;gap:6px;overflow-x:auto;padding:8px max(12px,env(safe-area-inset-right,0px)) 8px max(12px,env(safe-area-inset-left,0px));background:var(--card);border-bottom:1px solid var(--bd)}
+#tabs button{flex:none;line-height:1.25;text-align:center}#tabs button small{display:block;font-size:11px}
+#tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}#tabs button.on small{color:#fff}
+main{flex:1;display:flex;min-height:0}
+#map{flex:1.4;min-width:0}
+#panel{flex:1;max-width:460px;overflow:auto;padding:12px max(12px,env(safe-area-inset-right,0px)) 12px 12px}
+@media(max-width:760px){main{flex-direction:column}#map{flex:none;height:40vh}#panel{max-width:none;padding-left:max(12px,env(safe-area-inset-left,0px))}}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.sum div{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:6px;text-align:center}
+.sum b{display:block;font-size:17px;font-variant-numeric:tabular-nums}.sum span{color:var(--mut);font-size:12px}
+#road{border-radius:8px;padding:8px 10px;margin-bottom:8px;border:1px solid var(--bd);background:var(--card)}
+#road.bad{border-color:#e03131;background:#e0313118}#road.warn{border-color:#f08c00;background:#f08c0018}#road.ok{border-color:#2f9e44;background:#2f9e4418}
+.st{display:flex;gap:8px;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px;margin-bottom:6px}
+.st.info{background:var(--soft);border-style:dashed}
+.st .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--ac);color:#fff;text-align:center;line-height:24px;font-size:12px}
+.st.info .n{background:none;border:1px solid var(--mut);color:var(--mut);line-height:22px}
+.st>div:last-child{min-width:0}
+.st h3{margin:0;font-size:14px}.st h3 .t{color:var(--ac);font-variant-numeric:tabular-nums;margin-right:6px}
+.en{color:var(--mut);font-size:12px}
+.leg{color:var(--mut);font-size:12px}.note{margin:2px 0}
+.st a{font-size:12px;color:var(--ac)}
+.pin{background:var(--ac);color:#fff;border:2px solid #fff;border-radius:50%;text-align:center;font:bold 12px/20px sans-serif;width:22px;height:22px}
+small{color:var(--mut)}
+</style>
+</head>
+<body>
+<header><h1>🇮🇸 冰島環島 四方案</h1>
+<nav id="plans" aria-label="切換方案"></nav>
+<div><button id="rf">↻ 重新讀取</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a></div></header>
+<nav id="tabs"></nav>
+<main><div id="map"></div><section id="panel"></section></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+/* ===== 設定 ===== */
+const SHEET_ID='11_OOwwmxWXNXVU_AN5B521HpmTqmnsvCRhFrAbdDkUE';
+const PLANS=['A1','B1','A2','B2'];
+const csvUrl=name=>`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(name)}`;
+const MASTER='景點總覽';
+const FAERD='https://gagnaveita.vegagerdin.is/api/faerd2017_1';
+const WFS='https://gagnaveita.vegagerdin.is/geoserver/gis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=gis:faerdferlar2017_1&outputFormat=application/json&srsName=EPSG:4326';
+const BUFFER=1.15; // 車程緩衝（冬季/碎石路）
+
+/* ===== 工具 ===== */
+const $=s=>document.querySelector(s);
+const fmt=m=>m>=60?`${Math.floor(m/60)} 小時 ${String(Math.round(m%60)).padStart(2,'0')} 分`:`${Math.round(m)} 分`;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function csv(t){const R=[];let r=[],f='',q=false;for(let i=0;i<t.length;i++){const c=t[i];
+ if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+ else if(c=='"')q=true;else if(c==','){r.push(f);f=''}else if(c=='\n'){r.push(f);R.push(r);r=[];f=''}else if(c!='\r')f+=c}
+ if(f||r.length){r.push(f);R.push(r)}return R}
+const norm=s=>String(s||'').replace(/^住宿[:：]\s*/,'').replace(/[\s（）()]/g,'').toLowerCase();
+// 冰島緯度為正、經度為負；欄位若對調自動修正
+function ll(a,b){const x=parseFloat(a),y=parseFloat(b);if(!isFinite(x)||!isFinite(y))return null;return x>0?{lat:x,lng:y}:{lat:y,lng:x}}
+
+/* ===== 景點總覽：補座標、簡介、注意事項 ===== */
+let MAS={};
+async function loadMaster(){
+ try{
+  const r=await fetch(csvUrl(MASTER)+'&t='+Date.now());if(!r.ok)throw 0;
+  const rows=csv(await r.text()),h=rows[0].map(s=>s.trim()),ix=k=>h.findIndex(x=>x.includes(k));
+  const c={zh:ix('景點中文'),en:ix('原文'),a:ix('緯度'),b:ix('經度'),i:ix('說明'),w:ix('注意')};
+  MAS={};
+  rows.slice(1).forEach(r=>{const o={pos:ll(r[c.a],r[c.b]),intro:c.i>=0?r[c.i]:'',warn:c.w>=0?r[c.w]:''};
+   [r[c.zh],r[c.en]].forEach(k=>{const n=norm(k);if(n)MAS[n]??=o})});
+ }catch(e){MAS={}}
+}
+const look=(...ks)=>{for(const k of ks){const m=MAS[norm(k)];if(m)return m}return null};
+
+/* ===== 方案行程 ===== */
+function toStops(rows){
+ const h=rows[0].map(s=>s.trim()),ix=k=>h.findIndex(x=>x.includes(k));
+ const c={d:ix('Day'),dt:ix('日期'),t:ix('時間'),n:ix('景點/事項'),e:ix('原文'),a:ix('緯度'),b:ix('經度'),m:ix('停留'),f:ix('用餐')};
+ if(c.d<0)c.d=0;if(c.n<0)c.n=3;
+ return rows.slice(1).map((r,k)=>{
+  const day=parseInt((String(r[c.d]).match(/\d+/)||[])[0]),name=(r[c.n]||'').trim(),en=c.e>=0?(r[c.e]||'').trim():'';
+  const m=look(en,name);
+  let pos=ll(r[c.a],r[c.b])||m?.pos||null;
+  const warn=m?.warn&&m.warn!=='-'?m.warn:'';
+  return{day,ord:k,date:c.dt>=0?r[c.dt]:'',time:c.t>=0?r[c.t]:'',name,en:en&&en!==name?en:'',
+   remind:c.m>=0?r[c.m]||'':'',meal:c.f>=0?r[c.f]||'':'',intro:m?.intro||'',warn,
+   lat:pos?.lat,lng:pos?.lng,geo:!!pos}
+ }).filter(s=>s.day&&s.name);
+}
+
+/* ===== 狀態 ===== */
+let plan='A1',DAYS={},DATES={},cur=1,map,layer,roadLayer,ROAD=null,srcNote='';
+const routeCache={},planCache={};
+try{const p=localStorage.getItem('plan');if(PLANS.includes(p))plan=p}catch(e){}
+{const m=(location.hash||'').match(/^#(A1|B1|A2|B2)(?:d(\d+))?/);if(m){plan=m[1];if(m[2])cur=+m[2]}}
+
+async function loadPlan(p,force){
+ if(planCache[p]&&!force)return planCache[p];
+ const r=await fetch(csvUrl('Plan_'+p)+'&t='+Date.now());if(!r.ok)throw new Error(r.status);
+ const s=toStops(csv(await r.text()));if(!s.length)throw new Error('empty');
+ return planCache[p]=s;
+}
+function group(stops){DAYS={};DATES={};stops.forEach(s=>{(DAYS[s.day]??=[]).push(s);if(s.date)DATES[s.day]??=s.date});
+ Object.values(DAYS).forEach(a=>a.sort((p,q)=>p.ord-q.ord))}
+const geo=day=>DAYS[day].filter(s=>s.geo);
+
+/* ===== 路線（OSRM 公共伺服器） ===== */
+const hav=(a,b)=>{const R=6371,t=x=>x*Math.PI/180,dl=t(b.lat-a.lat),dn=t(b.lng-a.lng);
+ const h=Math.sin(dl/2)**2+Math.cos(t(a.lat))*Math.cos(t(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+async function route(day){
+ const st=geo(day),key=st.map(s=>s.lat+','+s.lng).join(';');
+ if(st.length<2)return{pts:st.map(s=>[s.lng,s.lat]),legs:[],est:false};
+ if(routeCache[key])return routeCache[key];
+ try{
+  const u=`https://router.project-osrm.org/route/v1/driving/${st.map(s=>s.lng+','+s.lat).join(';')}?overview=full&geometries=geojson`;
+  const j=await(await fetch(u)).json();if(j.code!=='Ok')throw 0;
+  const rt=j.routes[0];
+  return routeCache[key]={pts:rt.geometry.coordinates,legs:rt.legs.map(l=>({km:l.distance/1000,min:l.duration/60*BUFFER})),est:false};
+ }catch(e){
+  const legs=st.slice(1).map((s,i)=>{const km=hav(st[i],s)*1.3;return{km,min:km/70*60*BUFFER}});
+  return routeCache[key]={pts:st.map(s=>[s.lng,s.lat]),legs,est:true};
+ }
+}
+
+/* ===== 路況（Vegagerðin 開放資料，與 umferdin.is 同源） ===== */
+const CLOSED=/ófært|lokað|closed|impassable/i,WARN=/þungfært|þæfingur|hálk|snjó|krap|skafrenn|éljag|slippery|snow|icy|heavy|ice/i;
+async function loadRoad(){
+ try{
+  const [a,g]=await Promise.all([fetch(FAERD).then(r=>r.json()),fetch(WFS).then(r=>r.json())]);
+  const txt={};
+  (Array.isArray(a)?a:a.features||[]).forEach(r=>{r=r.properties||r;const id=r.IdButur;
+   (txt[id]??={t:'',n:r.Nafn||r.Lysing||'路段 '+id}).t+=' '+Object.values(r).filter(v=>typeof v==='string').join(' ')});
+  const segs=[];
+  (g.features||[]).forEach(f=>{const id=f.properties?.IdButur,o=txt[id];if(!o||!f.geometry)return;
+   const lv=CLOSED.test(o.t)?2:WARN.test(o.t)?1:0;if(!lv)return;
+   const lines=f.geometry.type==='MultiLineString'?f.geometry.coordinates:[f.geometry.coordinates];
+   segs.push({lv,name:o.n,desc:o.t.trim().slice(0,120),lines})});
+  ROAD={ok:true,segs,at:new Date()};
+ }catch(e){ROAD={ok:false}}
+ drawRoad();renderRoad();
+}
+function drawRoad(){
+ roadLayer.clearLayers();if(!ROAD?.ok)return;
+ ROAD.segs.forEach(s=>s.lines.forEach(l=>L.polyline(l.map(p=>[p[1],p[0]]),{color:s.lv==2?'#e03131':'#f08c00',weight:5,opacity:.8}).bindPopup(esc(s.name)+'<br>'+esc(s.desc)).addTo(roadLayer)))
+}
+function dseg(p,a,b){const k=Math.cos(65*Math.PI/180)*111320,X=q=>q[0]*k,Y=q=>q[1]*110574;
+ const px=X(p),py=Y(p),ax=X(a),ay=Y(a),bx=X(b),by=Y(b),dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy;
+ let t=L2?((px-ax)*dx+(py-ay)*dy)/L2:0;t=Math.max(0,Math.min(1,t));return Math.hypot(px-ax-t*dx,py-ay-t*dy)}
+function near(pts,seg){
+ for(const l of seg.lines){let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;l.forEach(p=>{x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);y0=Math.min(y0,p[1]);y1=Math.max(y1,p[1])});
+  const P=.01;for(const p of pts){if(p[0]<x0-P||p[0]>x1+P||p[1]<y0-P||p[1]>y1+P)continue;
+   for(let i=1;i<l.length;i++)if(dseg(p,l[i-1],l[i])<300)return true}}
+ return false}
+async function renderRoad(){
+ const el=$('#road');if(!el||!DAYS[cur])return;
+ if(!ROAD){el.className='';el.innerHTML='⏳ 讀取路況中…';return}
+ if(!ROAD.ok){el.className='warn';el.innerHTML='⚠️ 暫時無法取得即時路況（資料來源可能擋跨網域或離線）。出發前請到 <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is</a> 確認。';return}
+ const r=await route(cur),hits=ROAD.segs.filter(s=>near(r.pts,s));
+ if(!hits.length){el.className='ok';el.innerHTML='✅ 路線附近沒有封路或惡劣路況通報 <small>（'+ROAD.at.toLocaleTimeString('zh-TW')+' 更新）</small>';return}
+ const closed=hits.filter(s=>s.lv==2);
+ el.className=closed.length?'bad':'warn';
+ el.innerHTML=(closed.length?'⛔ 路線上有封路／不可通行路段':'⚠️ 路線上有惡劣路況')+'<br>'+hits.slice(0,6).map(s=>`${s.lv==2?'⛔':'⚠️'} ${esc(s.name)}：${esc(s.desc)}`).join('<br>')+'<br><small>詳情請以 umferdin.is 為準</small>'
+}
+
+/* ===== 畫面 ===== */
+const gm=s=>s.geo?`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((s.en||s.name).replace(/^住宿[:：]\s*/,'')+' Iceland')}`;
+async function show(day){
+ cur=day;location.hash=plan+'d'+day;
+ document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',+b.dataset.d===day));
+ const all=DAYS[day],st=geo(day);layer.clearLayers();
+ st.forEach((s,i)=>L.marker([s.lat,s.lng],{icon:L.divIcon({className:'',html:`<div class="pin">${i+1}</div>`,iconSize:[22,22]})}).bindPopup(`${esc(s.time)} ${esc(s.name)}`).addTo(layer));
+ if(st.length>1)map.fitBounds(L.latLngBounds(st.map(s=>[s.lat,s.lng])).pad(.15));else if(st.length)map.setView([st[0].lat,st[0].lng],10);
+ $('#panel').innerHTML='⏳ 計算路線中…';
+ const p0=plan,r=await route(day);if(cur!==day||plan!==p0)return;
+ if(r.pts.length>1)L.polyline(r.pts.map(p=>[p[1],p[0]]),{color:'#1971c2',weight:4,opacity:.85}).addTo(layer);
+ const km=r.legs.reduce((a,l)=>a+l.km,0),mn=r.legs.reduce((a,l)=>a+l.min,0);
+ let dir='';
+ if(st.length>1){const mid=st.slice(1,-1).slice(0,8).map(s=>s.lat+','+s.lng).join('|'),f=st[0],l=st[st.length-1];
+  dir=`https://www.google.com/maps/dir/?api=1&origin=${f.lat},${f.lng}&destination=${l.lat},${l.lng}&travelmode=driving${mid?'&waypoints='+mid:''}`}
+ let gi=-1;
+ $('#panel').innerHTML=(srcNote?`<p>${srcNote}</p>`:'')+
+  `<div class="sum"><div><b>${km.toFixed(0)} km</b><span>總里程</span></div><div><b>${fmt(mn)}</b><span>總車程${r.est?'（直線估算）':''}</span></div><div><b>${st.length}</b><span>地圖站數</span></div></div>
+  <div id="road"></div>
+  ${dir?`<p><a href="${dir}" target="_blank" rel="noopener">🧭 在 Google Maps 開啟整天導航</a></p>`:''}`+
+  all.map(s=>{
+   let mark='·',leg='';
+   if(s.geo){gi++;mark=gi+1;const lg=gi?r.legs[gi-1]:null;
+    leg=lg?`<div class="leg">距上一站 ${lg.km.toFixed(1)} km · 開車約 ${fmt(lg.min)}</div>`:'<div class="leg">今日起點</div>'}
+   else leg='<div class="leg">無座標，不列入路線計算</div>';
+   return`<div class="st${s.geo?'':' info'}"><div class="n">${mark}</div><div><h3>${s.time?`<span class="t">${esc(s.time)}</span>`:''}${esc(s.name)}</h3>
+   ${s.en?`<div class="en">${esc(s.en)}</div>`:''}${leg}
+   ${s.remind?`<div class="note">📝 ${esc(s.remind)}</div>`:''}
+   ${s.meal?`<div class="note">🍽 ${esc(s.meal)}</div>`:''}
+   ${s.intro?`<div class="note"><small>${esc(s.intro)}</small></div>`:''}
+   ${s.warn?`<div class="note">⚠️ ${esc(s.warn)}</div>`:''}
+   <a href="${gm(s)}" target="_blank" rel="noopener">在 Google Maps 開啟 ↗</a></div></div>`}).join('');
+ renderRoad();
+}
+function planTabs(){
+ $('#plans').innerHTML=PLANS.map(p=>`<button id="plan-${p}" data-p="${p}" class="${p===plan?'on':''}">${p}</button>`).join('');
+ $('#plans').onclick=e=>{const p=e.target.dataset?.p;if(p&&p!==plan)switchPlan(p)}
+}
+function tabs(){
+ $('#tabs').innerHTML=Object.keys(DAYS).map(d=>`<button data-d="${d}">Day ${d}${DATES[d]?`<small>${esc(DATES[d])}</small>`:''}</button>`).join('');
+ $('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)show(+b.dataset.d)}
+}
+async function switchPlan(p,force){
+ plan=p;try{localStorage.setItem('plan',p)}catch(e){}
+ document.querySelectorAll('#plans button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+ $('#panel').innerHTML='⏳ 讀取 Plan_'+p+'…';
+ try{group(await loadPlan(p,force));srcNote=''}
+ catch(e){if(plan!==p)return;DAYS={};$('#tabs').innerHTML='';layer.clearLayers();
+  $('#panel').innerHTML=`<p>⚠️ 無法讀取 Plan_${p} 分頁。請確認試算表已設為「知道連結者可檢視」，且分頁名稱沒有改動，然後按「↻ 重新讀取」。</p>`;return}
+ if(plan!==p)return;
+ tabs();show(DAYS[cur]?cur:+Object.keys(DAYS)[0]);
+}
+map=L.map('map').setView([64.9,-18.6],6);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+layer=L.layerGroup().addTo(map);roadLayer=L.layerGroup().addTo(map);
+$('#rf').onclick=async()=>{Object.keys(routeCache).forEach(k=>delete routeCache[k]);await loadMaster();Object.keys(planCache).forEach(k=>delete planCache[k]);switchPlan(plan,true);loadRoad()};
+planTabs();
+loadMaster().then(()=>switchPlan(plan));loadRoad();
+setInterval(loadRoad,10*60*1000);   // 每 10 分鐘更新路況
+</script>
+</body>
+</html>
