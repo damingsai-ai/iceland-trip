@@ -51,13 +51,13 @@ small{color:var(--mut)}
 .dh i{flex:none;width:10px;height:10px;border-radius:50%}.dh .hd{flex:1;min-width:0;color:var(--mut);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dh .sx{flex:none;font-size:12px}.dh .bd{flex:none;min-width:1em}
 .al{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid;text-align:center;font-size:14px;line-height:20px;box-shadow:0 1px 4px #0006}
-summary.dh{cursor:pointer}.rm,#tg{padding:1px 8px;font-size:12px;margin:2px 0}.rm.on{background:var(--ac);color:#fff;border-color:var(--ac)}.al-i{cursor:pointer}
+summary.dh{cursor:pointer}.rm,#tg,#pt{padding:1px 8px;font-size:12px;margin:2px 0}.rm.on,#pt.on{background:var(--ac);color:#fff;border-color:var(--ac)}.al-i{cursor:pointer}
 .db{display:none;padding:0 10px 10px}.day.open .db{display:block}.st{cursor:pointer}
 </style>
 </head>
 <body>
 <header><h1>🇮🇸 冰島環島 12 天</h1>
-<div><button id="rf">↻ 重新讀取</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a></div></header>
+<div><button id="rf">↻ 重新讀取</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">🚁 空拍機地圖 ↗</a></div></header>
 <main><div id="map"></div><section id="panel"><div class="sum"><div><b id="s1">—</b><span>全程行車 km</span></div><div><b id="s2">—</b><span>全程開車時間</span></div><div><b id="s3">—</b><span>單日最長</span></div></div>
 <p><small>點日期展開當天路線（地圖不縮放）；點路線或景點才會放大。<br>圖例：<b>實線</b>＝行程路線（各天不同的藍綠紫色）；<b style="color:#e03131">紅色虛線</b>＝封路／不可通行；<b style="color:#f08c00">橘色虛線</b>＝惡劣或受限路段；圓形圖示＝試算表警示。</small></p><div id="src"></div><div id="alerts"></div><div id="msg"></div><div id="list"></div>
 <p><small>距離與時間：OSRM 路網計算，已乘 1.15 緩衝；* 表示路線服務無回應，為直線估算。</small></p></section></main>
@@ -322,7 +322,7 @@ function updateSrc(){
  else r='⚠️ 路況來源：自動排程與試算表都讀取失敗';
  const nn=new Set(Object.values(HIT).flat()).size,rmHtml=ROAD?.ok?'<br>公路局路況（地圖）：'+[['near','路線附近 '+nn+' 段'],['all','全國 '+ROAD.segs.length+' 段'],['off','隱藏']].map(([m,t])=>`<button class="rm${roadMode===m?' on':''}" data-m="${m}">${t}</button>`).join(' '):'';
  const sh=ALOK&&ROAD?.ok?`<br>試算表警示 ${ALERTS.length} 則：${forceSheet?'顯示中':'未顯示'} <button id="tg">${forceSheet?'隱藏':'同時顯示'}</button>`:'';
- el.innerHTML=`<p><small>🗺️ 行程來源：${esc(ITSRC||'讀取中…')}<br>${r}${rmHtml}${sh}</small></p>`;
+ el.innerHTML=`<p><small>🗺️ 行程來源：${esc(ITSRC||'讀取中…')}<br>${r}${rmHtml}${sh}<br>🚁 空拍參考：<button id="pt" class="${protOn?'on':''}">${protOn?'隱藏':'顯示'}受保護區圖層</button> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">官方空拍機地圖 ↗</a><br>受保護區（國家公園、自然保護區）空拍另有規定，但<b>不等於禁飛區地圖</b>，機場限制區與臨時禁飛請以官方地圖和 AIP 為準。</small></p>`;
 }
 
 /* ===== 畫面：每天摺疊清單 + 總覽地圖 ===== */
@@ -388,11 +388,14 @@ async function init(first){
 map=L.map('map');
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
 layer=L.layerGroup().addTo(map);roadLayer=L.layerGroup().addTo(map);alertLayer=L.layerGroup().addTo(map);
+let protOn=false;
+// 環境署（Umhverfisstofnun）官方 WMS：受保護區。圖片圖層，不需跨網域授權；讀不到時只是不顯示
+const protLayer=L.tileLayer.wms('https://gis.ust.is/geoserver/wms',{layers:'fridlyst_svaedi:fridlyst_svaedi',format:'image/png',transparent:true,opacity:.45,attribution:'© Umhverfisstofnun'});
 $('#list').onclick=e=>{
  const b=e.target.closest('.dh');if(b){const d=+b.dataset.d;select(sel===d?null:d);return}
  const st=e.target.closest('.st');if(st&&sel&&!e.target.closest('a')){const s=DAYS[sel][+st.dataset.i];map.setView([s.lat,s.lng],13)}
 };
-$('#panel').addEventListener('click',e=>{const rb=e.target.closest('.rm');if(rb){roadMode=rb.dataset.m;drawRoad();updateSrc();return}if(e.target.id==='tg'){forceSheet=!forceSheet;renderRoad();return}const x=e.target.closest('[data-ai]');if(x&&!e.target.closest('a'))zoomAlert(+x.dataset.ai)});
+$('#panel').addEventListener('click',e=>{const rb=e.target.closest('.rm');if(rb){roadMode=rb.dataset.m;drawRoad();updateSrc();return}if(e.target.id==='pt'){protOn=!protOn;protOn?protLayer.addTo(map):map.removeLayer(protLayer);updateSrc();return}if(e.target.id==='tg'){forceSheet=!forceSheet;renderRoad();return}const x=e.target.closest('[data-ai]');if(x&&!e.target.closest('a'))zoomAlert(+x.dataset.ai)});
 $('#rf').onclick=()=>{loadAlerts();Object.keys(routeCache).forEach(k=>delete routeCache[k]);init(false);loadRoad()};
 init(true);loadRoad();loadAlerts();
 setInterval(()=>{loadRoad();loadAlerts()},10*60*1000);
