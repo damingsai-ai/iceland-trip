@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="冰島四方案">
 <title>冰島環島 四方案</title>
 <style>
 .leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-tile-container,.leaflet-layer{position:absolute;left:0;top:0}
@@ -59,11 +62,13 @@ summary.dh{cursor:pointer}.rm,#tg,#pt{padding:1px 8px;font-size:12px;margin:2px 
 .st.info{border-style:dashed;cursor:default}.st.info .n{background:none;border:1px solid var(--mut);color:var(--mut);line-height:22px}
 .st h3 .t{color:var(--ac);font-variant-numeric:tabular-nums;margin-right:6px}.en{color:var(--mut);font-size:12px}
 .dh small{font-weight:normal}
+#net{font-size:12px;color:#fff;background:#e8590c;border-radius:6px;padding:2px 8px}
+#off:disabled{opacity:.6;cursor:wait}
 </style>
 </head>
 <body>
-<header><h1>🇮🇸 冰島環島 四方案</h1><nav id="plans" aria-label="切換方案"></nav>
-<div><button id="rf">↻ 重新讀取</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">🚁 空拍機地圖 ↗</a></div></header>
+<header><h1>🇮🇸 冰島環島 四方案</h1><nav id="plans" aria-label="切換方案"></nav><span id="net" hidden>📴 離線中</span>
+<div><button id="rf">↻ 重新讀取</button> <button id="off">📥 準備離線</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">🚁 空拍機地圖 ↗</a></div></header>
 <main><div id="map"></div><section id="panel"><div class="sum"><div><b id="s1">—</b><span>全程行車 km</span></div><div><b id="s2">—</b><span>全程開車時間</span></div><div><b id="s3">—</b><span>單日最長</span></div></div>
 <p><small>點日期展開當天路線（地圖不縮放）；點路線或景點才會放大。<br>圖例：<b>實線</b>＝行程路線（各天不同的藍綠紫色）；<b style="color:#e03131">紅色虛線</b>＝封路／不可通行；<b style="color:#f08c00">橘色虛線</b>＝惡劣或受限路段；圓形圖示＝試算表警示。</small></p><div id="src"></div><div id="alerts"></div><div id="msg"></div><div id="list"></div>
 <p><small>距離與時間：OSRM 路網計算，已乘 1.15 緩衝；* 表示路線服務無回應，為直線估算。</small></p></section></main>
@@ -109,13 +114,17 @@ let DAYS={},cur=1,map,layer,roadLayer,ROAD=null,srcNote='';
 const routeCache={};
 
 let JID=0;
-function jsonp(id=SHEET_ID,sh=''){return new Promise((res,rej)=>{
+function jsonp0(id,sh){return new Promise((res,rej)=>{
  const n='__gs'+(++JID)+'_'+Date.now(),sc=document.createElement('script');
  const done=()=>{clearTimeout(t);delete window[n];sc.remove()},t=setTimeout(()=>{done();rej('逾時')},12000);
  window[n]=d=>{done();d&&d.status==='ok'?res(d.table):rej('Google 回應錯誤（'+(d&&d.status)+'）')};
  sc.onerror=()=>{done();rej('無法連線')};
  sc.src=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?headers=1${sh?'&sheet='+encodeURIComponent(sh):''}&tqx=responseHandler:${n}&tq=`+encodeURIComponent('select *');
  document.head.appendChild(sc)})}
+let STALE=0; // 離線時使用的舊資料時間
+function jsonp(id=SHEET_ID,sh=''){const k='gs:'+id+':'+sh;
+ return jsonp0(id,sh).then(t=>{try{localStorage.setItem(k,JSON.stringify({at:Date.now(),t}))}catch(e){}return t},
+  e=>{let c=null;try{c=JSON.parse(localStorage.getItem(k))}catch(_){}if(c&&c.t){STALE=Math.max(STALE,c.at);return c.t}throw e})}
 const cellV=c=>{if(!c)return'';const v=c.v;if(v==null)return c.f||'';return Array.isArray(v)||(typeof v==='string'&&v.startsWith('Date('))?(c.f||String(v)):String(v)};
 const rowsOf=t=>[t.cols.map(c=>c.label||''),...t.rows.map(r=>(r.c||[]).map(cellV))];
 let MAS={};
@@ -147,11 +156,12 @@ function group(items){DAYS={};ALLD={};DATES={};
 /* ===== 路線（OSRM 公共伺服器） ===== */
 const hav=(a,b)=>{const R=6371,t=x=>x*Math.PI/180,dl=t(b.lat-a.lat),dn=t(b.lng-a.lng);
  const h=Math.sin(dl/2)**2+Math.cos(t(a.lat))*Math.cos(t(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const osrmUrl=st=>`https://router.project-osrm.org/route/v1/driving/${st.map(s=>s.lng+','+s.lat).join(';')}?overview=full&geometries=geojson`;
 async function route(day){
  const st=DAYS[day],key=st.map(s=>s.lat+','+s.lng).join(';');
  if(routeCache[key])return routeCache[key];
  try{
-  const u=`https://router.project-osrm.org/route/v1/driving/${st.map(s=>s.lng+','+s.lat).join(';')}?overview=full&geometries=geojson`;
+  const u=osrmUrl(st);
   const j=await(await fetch(u)).json();if(j.code!=='Ok')throw 0;
   const rt=j.routes[0];
   return routeCache[key]={pts:rt.geometry.coordinates,legs:rt.legs.map(l=>({km:l.distance/1000,min:l.duration/60*BUFFER})),est:false};
@@ -261,7 +271,7 @@ function updateSrc(){
  else r='⚠️ 路況來源：自動排程與試算表都讀取失敗';
  const nn=new Set(Object.values(HIT).flat()).size,rmHtml=ROAD?.ok?'<br>公路局路況（地圖）：'+[['near','路線附近 '+nn+' 段'],['all','全國 '+ROAD.segs.length+' 段'],['off','隱藏']].map(([m,t])=>`<button class="rm${roadMode===m?' on':''}" data-m="${m}">${t}</button>`).join(' '):'';
  const sh=ALOK&&ROAD?.ok?`<br>試算表警示 ${ALERTS.length} 則：${forceSheet?'顯示中':'未顯示'} <button id="tg">${forceSheet?'隱藏':'同時顯示'}</button>`:'';
- el.innerHTML=`<p><small>🗺️ 行程來源：${esc(ITSRC||'讀取中…')}<br>${r}${rmHtml}${sh}<br>🚁 空拍參考：<button id="pt" class="${protOn?'on':''}">${protOn?'隱藏':'顯示'}受保護區圖層</button> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">官方空拍機地圖 ↗</a><br>受保護區（國家公園、自然保護區）空拍另有規定，但<b>不等於禁飛區地圖</b>，機場限制區與臨時禁飛請以官方地圖和 AIP 為準。</small></p>`;
+ el.innerHTML=`<p><small>${STALE?`📴 <b>離線：顯示 ${new Date(STALE).toLocaleString('zh-TW',{hour12:false})} 存下的行程資料</b><br>`:''}${offInfo()}🗺️ 行程來源：${esc(STALE?'Plan_'+plan+'（離線備份）':ITSRC||'讀取中…')}<br>${r}${rmHtml}${sh}<br>🚁 空拍參考：<button id="pt" class="${protOn?'on':''}">${protOn?'隱藏':'顯示'}受保護區圖層</button> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">官方空拍機地圖 ↗</a><br>受保護區（國家公園、自然保護區）空拍另有規定，但<b>不等於禁飛區地圖</b>，機場限制區與臨時禁飛請以官方地圖和 AIP 為準。</small></p>`;
 }
 
 /* ===== 畫面：每天摺疊清單 + 總覽地圖 ===== */
@@ -323,7 +333,7 @@ async function loadAll(g){
  $('#s1').textContent=km.toFixed(0);$('#s2').textContent=fmt(mn);$('#s3').textContent=`Day ${mxd} · ${fmt(mx)}`;
 }
 async function init(first){
- const g=++GEN;
+ const g=++GEN;STALE=0;
  group(await loadSheet());if(g!==GEN)return;RT={};HIT={};updateSrc();
  if(!Object.keys(DAYS).length){buildList();$('#msg').innerHTML=`<p>${srcNote}</p>`;layer.clearLayers();map.setView([64.9,-18.6],6);['#s1','#s2','#s3'].forEach(x=>$(x).textContent='—');return}
  buildList();$('#msg').innerHTML=srcNote?`<p>${srcNote}</p>`:'';
@@ -333,7 +343,7 @@ async function init(first){
  await RTP;renderRoad();
 }
 map=L.map('map');
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,crossOrigin:true,attribution:'© OpenStreetMap'}).addTo(map);
 layer=L.layerGroup().addTo(map);roadLayer=L.layerGroup().addTo(map);alertLayer=L.layerGroup().addTo(map);
 let protOn=false;
 // 環境署（Umhverfisstofnun）官方 WMS：受保護區。圖片圖層，不需跨網域授權；讀不到時只是不顯示
@@ -346,6 +356,36 @@ $('#panel').addEventListener('click',e=>{const rb=e.target.closest('.rm');if(rb)
 $('#rf').onclick=()=>{loadAlerts();Object.keys(routeCache).forEach(k=>delete routeCache[k]);init(false);loadRoad()};
 function planTabs(){$('#plans').innerHTML=PLANS.map(p=>`<button data-p="${p}" class="${p===plan?'on':''}">${p}</button>`).join('')}
 $('#plans').onclick=e=>{const p=e.target.dataset?.p;if(!p||p===plan)return;plan=p;try{localStorage.setItem('plan',p)}catch(e){}planTabs();init(false)};
+/* ===== 離線 ===== */
+let SW=false,TILES=null,tT=0;
+const prepAt=()=>{try{return localStorage.getItem('offPrep')}catch(e){return null}};
+function offInfo(){
+ if(!SW)return'💾 離線功能：這個瀏覽器不支援，或還在啟用中<br>';
+ const p=prepAt();
+ return`💾 離線：已存地圖圖磚 ${TILES??'…'} 張；行程與路線${p?' '+new Date(p).toLocaleString('zh-TW',{hour12:false})+' 已備妥':'尚未下載（按「📥 準備離線」）'}<br>`}
+async function countTiles(){try{TILES=(await (await caches.open('tiles')).keys()).length}catch(e){TILES=null}updateSrc()}
+function net(){$('#net').hidden=navigator.onLine}
+addEventListener('online',()=>{net();$('#rf').click()});addEventListener('offline',net);net();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js',{scope:'./plans.html'}).then(()=>{SW=true;countTiles()}).catch(()=>{});
+map.on('moveend',()=>{clearTimeout(tT);tT=setTimeout(countTiles,4000)});
+async function prepOffline(){
+ const b=$('#off');if(!navigator.onLine){b.textContent='📴 需要網路';setTimeout(()=>b.textContent='📥 準備離線',2500);return}
+ b.disabled=true;let bad=0;
+ try{
+  b.textContent='📥 路況…';await fetch('road.json?t='+Date.now()).catch(()=>bad++);
+  await jsonp(SHEET_ID,'景點總覽').catch(()=>bad++);await jsonp(ALERT_ID).catch(()=>{});
+  for(const p of PLANS){
+   b.textContent='📥 '+p+'…';
+   const rows=rowsOf(await jsonp(SHEET_ID,'Plan_'+p)),hi=rows.findIndex(r=>r.some(x=>x.includes('景點')));
+   const by={};toStops(hi>=0?rows.slice(hi):rows).forEach(s=>{if(s.geo)(by[s.day]??=[]).push(s)});
+   for(const st of Object.values(by))if(st.length>1)await fetch(osrmUrl(st)).catch(()=>bad++);
+  }
+  try{localStorage.setItem('offPrep',new Date().toISOString())}catch(e){}
+  b.textContent=bad?'⚠️ 部分失敗，可再按一次':'✅ 離線資料已備妥';
+ }catch(e){b.textContent='⚠️ 失敗，請在有網路時重試'}
+ b.disabled=false;updateSrc();setTimeout(()=>b.textContent='📥 準備離線',4000)
+}
+$('#off').onclick=prepOffline;
 planTabs();
 init(true);loadRoad();loadAlerts();
 setInterval(()=>{loadRoad();loadAlerts()},10*60*1000);
