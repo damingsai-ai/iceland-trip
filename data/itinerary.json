@@ -1,0 +1,654 @@
+{
+ "version": 1,
+ "spots": {
+  "kef": {
+   "name": "KEF 機場（取車／還車）",
+   "lat": 63.982742,
+   "lng": -22.628024
+  },
+  "hallgrimskirkja": {
+   "name": "哈爾格林姆教堂 Hallgrímskirkja",
+   "lat": 64.1417,
+   "lng": -21.9266
+  },
+  "reykjavik": {
+   "name": "雷克雅維克 Reykjavík（市區）",
+   "lat": 64.1466,
+   "lng": -21.9426
+  },
+  "ytri-tunga": {
+   "name": "海豹沙灘 Ytri Tunga",
+   "lat": 64.814086,
+   "lng": -23.079462
+  },
+  "bjarnarfoss": {
+   "name": "Bjarnarfoss 瀑布",
+   "lat": 64.855308,
+   "lng": -23.402968
+  },
+  "budakirkja": {
+   "name": "黑教堂 Búðakirkja",
+   "lat": 64.827039,
+   "lng": -23.386853
+  },
+  "arnarstapi": {
+   "name": "阿爾納斯塔皮 Arnarstapi",
+   "lat": 64.769821,
+   "lng": -23.624866
+  },
+  "londrangar": {
+   "name": "怪物海岸 Lóndrangar",
+   "lat": 64.735626,
+   "lng": -23.775167
+  },
+  "djupalonssandur": {
+   "name": "黑沙灘 Djúpalónssandur",
+   "lat": 64.754825,
+   "lng": -23.89789
+  },
+  "ingjaldsholskirkja": {
+   "name": "紅教堂 Ingjaldshólskirkja",
+   "lat": 64.919354,
+   "lng": -23.858007
+  },
+  "kirkjufell": {
+   "name": "教會山 Kirkjufell",
+   "lat": 64.942282,
+   "lng": -23.306944
+  },
+  "grundarfjordur": {
+   "name": "格倫達菲厄澤 Grundarfjörður",
+   "lat": 64.925175,
+   "lng": -23.261357
+  },
+  "hvammstangi": {
+   "name": "華姆斯唐吉 Hvammstangi",
+   "lat": 65.400837,
+   "lng": -20.945991
+  },
+  "hvitserkur": {
+   "name": "犀牛石 Hvítserkur",
+   "lat": 65.607957,
+   "lng": -20.636304
+  },
+  "kolugljufur": {
+   "name": "巨人峽谷 Kolugljúfur",
+   "lat": 65.3547,
+   "lng": -20.545
+  },
+  "blonduos": {
+   "name": "布倫迪歐斯 Blönduós",
+   "lat": 65.659451,
+   "lng": -20.285544
+  },
+  "akureyri": {
+   "name": "阿克雷里 Akureyri",
+   "lat": 65.683045,
+   "lng": -18.08998
+  },
+  "godafoss": {
+   "name": "眾神瀑布 Goðafoss",
+   "lat": 65.68351,
+   "lng": -17.550695
+  },
+  "skutustadagigar": {
+   "name": "偽火山口 Skútustaðagígar",
+   "lat": 65.569143,
+   "lng": -17.034898
+  },
+  "dimmuborgir": {
+   "name": "黑色城堡 Dimmuborgir",
+   "lat": 65.592533,
+   "lng": -16.91311
+  },
+  "grjotagja": {
+   "name": "洞穴溫泉 Grjótagjá",
+   "lat": 65.628084,
+   "lng": -16.882397
+  },
+  "hverir": {
+   "name": "地熱谷 Hverir",
+   "lat": 65.647072,
+   "lng": -16.808357
+  },
+  "myvatn-nature-baths": {
+   "name": "米湖溫泉 Mývatn Nature Baths",
+   "lat": 65.631335,
+   "lng": -16.847447
+  },
+  "dettifoss-862": {
+   "name": "黛提瀑布 Dettifoss（西岸 862）",
+   "lat": 65.8146,
+   "lng": -16.3846
+  },
+  "modrudalur": {
+   "name": "莫茲魯達勒 Möðrudalur",
+   "lat": 65.439346,
+   "lng": -15.90667
+  },
+  "egilsstadir": {
+   "name": "埃伊爾斯塔濟 Egilsstaðir",
+   "lat": 65.261374,
+   "lng": -14.407569
+  },
+  "vok-baths": {
+   "name": "沃克溫泉 Vök Baths",
+   "lat": 65.304414,
+   "lng": -14.446993
+  },
+  "bulandstindur": {
+   "name": "金字塔山 Búlandstindur",
+   "lat": 64.700026,
+   "lng": -14.416773
+  },
+  "djupivogur": {
+   "name": "都皮沃古爾 Djúpivogur",
+   "lat": 64.656918,
+   "lng": -14.285369
+  },
+  "vestrahorn": {
+   "name": "蝙蝠山 Vestrahorn",
+   "lat": 64.247058,
+   "lng": -14.970171
+  },
+  "hofn": {
+   "name": "赫本 Höfn",
+   "lat": 64.255387,
+   "lng": -15.208864
+  },
+  "jokulsarlon": {
+   "name": "冰河湖 Jökulsárlón",
+   "lat": 64.076907,
+   "lng": -16.221039
+  },
+  "diamond-beach": {
+   "name": "鑽石沙灘 Diamond Beach",
+   "lat": 64.046601,
+   "lng": -16.176579
+  },
+  "fjallsarlon": {
+   "name": "小冰河湖 Fjallsárlón",
+   "lat": 64.0137,
+   "lng": -16.3725
+  },
+  "mulagljufur": {
+   "name": "侏儸紀峽谷 Múlagljúfur",
+   "lat": 63.989,
+   "lng": -16.399
+  },
+  "hofskirkja": {
+   "name": "霍夫斯草皮教堂 Hofskirkja",
+   "lat": 63.912415,
+   "lng": -16.703691
+  },
+  "freysnes": {
+   "name": "斯卡夫塔山 / Freysnes",
+   "lat": 63.990334,
+   "lng": -16.894571
+  },
+  "spot": {
+   "name": "斯卡夫塔山 冰川健行集合",
+   "lat": 64.0160975,
+   "lng": -16.9682083
+  },
+  "fjadrargljufur": {
+   "name": "羽毛峽谷 Fjaðrárgljúfur",
+   "lat": 63.771888,
+   "lng": -18.171823
+  },
+  "vik": {
+   "name": "維克 Vík",
+   "lat": 63.417796,
+   "lng": -18.997782
+  },
+  "reynisfjara": {
+   "name": "黑沙灘 Reynisfjara",
+   "lat": 63.405965,
+   "lng": -19.071746
+  },
+  "dyrholaey": {
+   "name": "海蝕洞燈塔 Dyrhólaey",
+   "lat": 63.405964,
+   "lng": -19.118185
+  },
+  "kvernufoss": {
+   "name": "迷你羽毛瀑布 Kvernufoss",
+   "lat": 63.529919,
+   "lng": -19.481407
+  },
+  "skogafoss": {
+   "name": "彩虹瀑布 Skógafoss",
+   "lat": 63.53215,
+   "lng": -19.511354
+  },
+  "seljalandsfoss": {
+   "name": "水濂洞瀑布 Seljalandsfoss",
+   "lat": 63.615703,
+   "lng": -19.988534
+  },
+  "gljufrabui": {
+   "name": "秘密瀑布 Gljúfrabúi",
+   "lat": 63.620963,
+   "lng": -19.98648
+  },
+  "selfoss": {
+   "name": "塞爾福斯 Selfoss",
+   "lat": 63.934741,
+   "lng": -21.004484
+  },
+  "kerid": {
+   "name": "火口湖 Kerið",
+   "lat": 64.041377,
+   "lng": -20.885157
+  },
+  "gullfoss": {
+   "name": "古佛斯瀑布 Gullfoss",
+   "lat": 64.327186,
+   "lng": -20.119812
+  },
+  "geysir": {
+   "name": "間歇泉 Geysir",
+   "lat": 64.310463,
+   "lng": -20.302298
+  },
+  "bruarfoss": {
+   "name": "藍色秘境 Brúarfoss",
+   "lat": 64.264451,
+   "lng": -20.515746
+  },
+  "thingvellir": {
+   "name": "辛格韋德利 Þingvellir",
+   "lat": 64.283199,
+   "lng": -21.07614
+  },
+  "blue-lagoon": {
+   "name": "藍湖溫泉 Blue Lagoon",
+   "lat": 63.880783,
+   "lng": -22.447296
+  },
+  "gunnuhver": {
+   "name": "Gunnuhver 地熱區",
+   "lat": 63.8197,
+   "lng": -22.6831
+  },
+  "reykjanes": {
+   "name": "雷恰內斯 Reykjanes",
+   "lat": 63.809669,
+   "lng": -22.694272
+  },
+  "keflavik": {
+   "name": "凱夫拉維克 Keflavík",
+   "lat": 64.000317,
+   "lng": -22.559835
+  }
+ },
+ "days": [
+  {
+   "id": "dux3umb7",
+   "items": [
+    {
+     "id": "ijki6k0a",
+     "spot": "kef",
+     "note": "取車"
+    },
+    {
+     "id": "i1iri3bl",
+     "spot": "hallgrimskirkja",
+     "note": "哈爾格林姆教堂、彩虹街、托寧湖、太陽航海者、Harpa；Bónus 採買"
+    }
+   ]
+  },
+  {
+   "id": "d34hmpu9",
+   "items": [
+    {
+     "id": "iodupgun",
+     "spot": "reykjavik"
+    },
+    {
+     "id": "iwpy45ag",
+     "spot": "ytri-tunga"
+    },
+    {
+     "id": "ipwc3hcp",
+     "spot": "bjarnarfoss"
+    },
+    {
+     "id": "i338v78r",
+     "spot": "budakirkja"
+    },
+    {
+     "id": "inryo2nz",
+     "spot": "arnarstapi"
+    },
+    {
+     "id": "iiwpyw6o",
+     "spot": "londrangar"
+    },
+    {
+     "id": "ib45q8k2",
+     "spot": "djupalonssandur"
+    },
+    {
+     "id": "i1qhcqve",
+     "spot": "ingjaldsholskirkja"
+    },
+    {
+     "id": "i9fy8hnf",
+     "spot": "kirkjufell",
+     "note": "教會山瀑布同一個停車場"
+    },
+    {
+     "id": "iazf7ksd",
+     "spot": "grundarfjordur"
+    }
+   ]
+  },
+  {
+   "id": "dewkrz05",
+   "items": [
+    {
+     "id": "iwmnk4u2",
+     "spot": "grundarfjordur"
+    },
+    {
+     "id": "igrs60is",
+     "spot": "hvammstangi",
+     "note": "加油、早午餐"
+    },
+    {
+     "id": "i2uzd9gh",
+     "spot": "hvitserkur",
+     "note": "711 碎石路，視路況"
+    },
+    {
+     "id": "ictzu4vc",
+     "spot": "kolugljufur",
+     "note": "從 1 號公路轉 715 南下"
+    },
+    {
+     "id": "imicu36w",
+     "spot": "blonduos",
+     "note": "加油加滿、休息"
+    },
+    {
+     "id": "ieg5j8tp",
+     "spot": "akureyri",
+     "note": "市區、阿克雷里大教堂"
+    }
+   ]
+  },
+  {
+   "id": "d0y36hzc",
+   "items": [
+    {
+     "id": "iy578cjx",
+     "spot": "akureyri"
+    },
+    {
+     "id": "i5o6a67v",
+     "spot": "godafoss"
+    },
+    {
+     "id": "i09eck9x",
+     "spot": "skutustadagigar",
+     "note": "沿 848 繞湖南岸"
+    },
+    {
+     "id": "i81fikx0",
+     "spot": "dimmuborgir",
+     "note": "Hverfjall 火山錐就在旁邊，可加"
+    },
+    {
+     "id": "ilag9azs",
+     "spot": "grjotagja"
+    },
+    {
+     "id": "irmerita",
+     "spot": "hverir",
+     "note": "過 Námaskarð 山口"
+    },
+    {
+     "id": "iyt8z2l2",
+     "spot": "myvatn-nature-baths",
+     "note": "泡湯到天黑"
+    }
+   ]
+  },
+  {
+   "id": "ddv58v0l",
+   "items": [
+    {
+     "id": "idufa2vn",
+     "spot": "myvatn-nature-baths"
+    },
+    {
+     "id": "ilby95cm",
+     "spot": "dettifoss-862",
+     "note": "862 冬季路況先查 umferdin.is"
+    },
+    {
+     "id": "isx1igde",
+     "spot": "modrudalur",
+     "note": "午餐、草皮屋教堂"
+    },
+    {
+     "id": "is1qsvyi",
+     "spot": "egilsstadir"
+    },
+    {
+     "id": "i54g6trk",
+     "spot": "vok-baths",
+     "note": "泡湯"
+    },
+    {
+     "id": "ip0frx2b",
+     "spot": "egilsstadir"
+    }
+   ]
+  },
+  {
+   "id": "dqy9hgjz",
+   "items": [
+    {
+     "id": "ihh3gwsz",
+     "spot": "egilsstadir"
+    },
+    {
+     "id": "i5drcahl",
+     "spot": "bulandstindur",
+     "note": "金字塔山觀景"
+    },
+    {
+     "id": "ivy5jmur",
+     "spot": "djupivogur",
+     "note": "石蛋 Eggin í Gleðivík"
+    },
+    {
+     "id": "i54nsens",
+     "spot": "vestrahorn",
+     "note": "Stokksnes 需付私人道路費"
+    },
+    {
+     "id": "ie2shjs6",
+     "spot": "hofn",
+     "note": "Pakkhús 龍蝦晚餐"
+    }
+   ]
+  },
+  {
+   "id": "dmsgpk55",
+   "items": [
+    {
+     "id": "im1ktfgp",
+     "spot": "hofn"
+    },
+    {
+     "id": "iii20e4n",
+     "spot": "jokulsarlon",
+     "note": "藍冰洞團：需訂上午梯次"
+    },
+    {
+     "id": "irdmz5pq",
+     "spot": "diamond-beach"
+    },
+    {
+     "id": "i8w9tx66",
+     "spot": "fjallsarlon"
+    },
+    {
+     "id": "idbcspds",
+     "spot": "mulagljufur",
+     "note": "來回健行約 1.5 小時，抓緊日照"
+    },
+    {
+     "id": "iiueq8po",
+     "spot": "hofskirkja",
+     "note": "黃昏快速拍照"
+    },
+    {
+     "id": "izjsrgms",
+     "spot": "freysnes"
+    }
+   ]
+  },
+  {
+   "id": "dvm9926g",
+   "items": [
+    {
+     "id": "ihjc06f5",
+     "spot": "freysnes"
+    },
+    {
+     "id": "is2npmu8",
+     "spot": "spot",
+     "note": "冰川健行 09:30–13:30"
+    },
+    {
+     "id": "iypalqsb",
+     "spot": "fjadrargljufur"
+    },
+    {
+     "id": "ik5mlcn3",
+     "spot": "vik",
+     "note": "Smiðjan 漢堡 / Black Crust Pizzeria"
+    }
+   ]
+  },
+  {
+   "id": "do7edugh",
+   "items": [
+    {
+     "id": "in9dq3bw",
+     "spot": "vik"
+    },
+    {
+     "id": "ixdq160p",
+     "spot": "reynisfjara",
+     "note": "遵守海浪警示"
+    },
+    {
+     "id": "imhcubyt",
+     "spot": "dyrholaey"
+    },
+    {
+     "id": "i2n0orul",
+     "spot": "kvernufoss"
+    },
+    {
+     "id": "ib82ei4t",
+     "spot": "skogafoss"
+    },
+    {
+     "id": "ipf70thd",
+     "spot": "seljalandsfoss"
+    },
+    {
+     "id": "i1o70mt2",
+     "spot": "gljufrabui"
+    },
+    {
+     "id": "i3x6qr7n",
+     "spot": "selfoss"
+    }
+   ]
+  },
+  {
+   "id": "dzafo2ts",
+   "items": [
+    {
+     "id": "irvsga32",
+     "spot": "selfoss"
+    },
+    {
+     "id": "iu7ap16v",
+     "spot": "kerid"
+    },
+    {
+     "id": "i4rvfacz",
+     "spot": "gullfoss"
+    },
+    {
+     "id": "isk731ye",
+     "spot": "geysir"
+    },
+    {
+     "id": "ixwf1y0w",
+     "spot": "bruarfoss"
+    },
+    {
+     "id": "illjgxec",
+     "spot": "thingvellir"
+    },
+    {
+     "id": "is63qv0c",
+     "spot": "reykjavik"
+    }
+   ]
+  },
+  {
+   "id": "dsksliyp",
+   "items": [
+    {
+     "id": "i1xfjszi",
+     "spot": "reykjavik"
+    },
+    {
+     "id": "it98j06i",
+     "spot": "blue-lagoon",
+     "note": "已預約；沿 41/43 號"
+    },
+    {
+     "id": "it7cjobl",
+     "spot": "gunnuhver"
+    },
+    {
+     "id": "ibuuci9e",
+     "spot": "reykjanes",
+     "note": "燈塔"
+    },
+    {
+     "id": "i128x9nn",
+     "spot": "keflavik",
+     "note": "整理行李"
+    }
+   ]
+  },
+  {
+   "id": "d1smq5zt",
+   "items": [
+    {
+     "id": "iqnnexkb",
+     "spot": "keflavik"
+    },
+    {
+     "id": "ifc3aypc",
+     "spot": "kef",
+     "note": "還車後搭 18:05 SK2596"
+    }
+   ]
+  }
+ ],
+ "updated": "2026-11-19T05:44:12.042Z",
+ "by": "damingsai-ai"
+}
