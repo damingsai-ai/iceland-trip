@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>冰島環島 12 天</title>
+<title>冰島旅遊規劃</title>
 <style>
 .leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-tile-container,.leaflet-layer{position:absolute;left:0;top:0}
 .leaflet-container{overflow:hidden;position:relative;background:#ddd;outline:0}
@@ -502,7 +502,7 @@ async function exportHTML(){ // 匯出一個可以單獨打開的網頁（含地
 @media(prefers-color-scheme:dark){:root{--bg:#14181d;--card:#1e242b;--tx:#e6ebf0;--mut:#93a0ad;--ac:#74b3f5;--bd:#333c46}}
 *{box-sizing:border-box}body{margin:0;font:14px/1.55 -apple-system,"Noto Sans TC",sans-serif;background:var(--bg);color:var(--tx)}
 header{padding:14px 16px;background:var(--card);border-bottom:1px solid var(--bd)}h1{margin:0;font-size:20px}header p{margin:4px 0 0;color:var(--mut)}
-#map{height:46vh;min-height:280px}main{max-width:860px;margin:0 auto;padding:12px 16px 40px}
+#mw{position:relative}#map{height:46vh;min-height:280px}#bml{position:absolute;top:10px;right:10px;z-index:1000;background:#fffe;color:#1f2933;border-radius:6px;padding:4px 8px;font-size:12px;box-shadow:0 1px 4px #0004}#bml select{font:inherit}main{max-width:860px;margin:0 auto;padding:12px 16px 40px}
 .day{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin:12px 0;break-inside:avoid-page}
 .day h2{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:16px;cursor:pointer}.day h2 i{width:12px;height:12px;border-radius:50%}.day h2 span{margin-left:auto;font-size:13px;font-weight:normal;color:var(--mut);font-variant-numeric:tabular-nums}
 .st{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--bd);break-inside:avoid}.st>div{min-width:0}
@@ -510,20 +510,25 @@ header{padding:14px 16px;background:var(--card);border-bottom:1px solid var(--bd
 .st h3{margin:0;font-size:14px}.leg{color:var(--mut);font-size:12px}.st p{margin:3px 0}.st a{font-size:12px;color:var(--ac)}
 .pin{color:#fff;border:2px solid #fff;border-radius:50%;text-align:center;font:bold 11px/18px sans-serif;width:22px;height:22px;box-shadow:0 1px 3px #0006}
 footer{color:var(--mut);font-size:12px;text-align:center;padding-bottom:24px}
-@media print{#map{height:340px}.st a{display:none}body{background:#fff;color:#000}.day{border-color:#ccc}}
+@media print{#bml{display:none}#map{height:340px}.st a{display:none}body{background:#fff;color:#000}.day{border-color:#ccc}}
 </style></head><body>
 <header><h1>🇮🇸 ${esc(title)}</h1><p>全程約 ${Math.round(km)} km · 開車約 ${fmt(mn)} · ${TRIP.days.length} 天 · 匯出於 ${new Date().toLocaleString('zh-TW',{hour12:false})}</p></header>
-<div id="map"></div><main>${body}</main>
+<div id="mw"><div id="map"></div><label id="bml">底圖 <select id="bm"></select></label></div><main>${body}</main>
 <footer>車程為 OSRM 路網計算並乘 1.15 緩衝，僅供參考；出發前請到 umferdin.is 查路況。</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"><\/script>
 <script>
 const D=${data};
 if(window.L){const map=L.map('map'),all=[],G={};
- const T=[['https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap © CARTO'}],
-  ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}]];
- let ti=0,tl=null,bad=0,ok=0;
- const addT=()=>{if(tl)map.removeLayer(tl);bad=0;ok=0;tl=L.tileLayer(T[ti][0],T[ti][1]).addTo(map);
+ // 直接打開的 .html 檔沒有網址，OpenStreetMap 官方圖磚會拒絕；改用不需要網址與金鑰的底圖，並可切換
+ const T=[['街道圖（Esri）','https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}],
+  ['地形圖（Esri）','https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}],
+  ['衛星圖（Esri）','https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}],
+  ['OpenTopoMap','https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{subdomains:'abc',maxZoom:17,attribution:'© OpenStreetMap · © OpenTopoMap (CC-BY-SA)'}]];
+ let ti=0,tl=null,bad=0,ok=0;const sel=document.getElementById('bm');
+ sel.innerHTML=T.map((t,i)=>'<option value="'+i+'">'+t[0]+'</option>').join('');
+ const addT=()=>{if(tl)map.removeLayer(tl);bad=0;ok=0;sel.value=ti;tl=L.tileLayer(T[ti][1],T[ti][2]).addTo(map);
   tl.on('tileload',()=>ok++);tl.on('tileerror',()=>{if(++bad>3&&!ok&&ti<T.length-1){ti++;addT()}})};
+ sel.onchange=()=>{ti=+sel.value;addT()};
  addT();
  D.forEach(d=>{const g=G[d.n]=[];if(d.pts.length>1){L.polyline(d.pts,{color:d.col,weight:4,opacity:.85}).addTo(map);g.push(...d.pts)}
   d.m.forEach(m=>{L.marker([m[0],m[1]],{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+d.col+'">'+m[2]+'</div>',iconSize:[22,22]})}).bindPopup('Day '+d.n+' · '+m[3].replace(/</g,'&lt;')).addTo(map);g.push([m[0],m[1]])});all.push(...g)});
