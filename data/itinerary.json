@@ -1,6 +1,9 @@
 {
  "version": 1,
  "spots": {
+  "101": {
+   "name": "台北101"
+  },
   "kef": {
    "name": "KEF 機場（取車／還車）",
    "lat": 63.982742,
@@ -295,6 +298,11 @@
      "id": "i1iri3bl",
      "spot": "hallgrimskirkja",
      "note": "哈爾格林姆教堂、彩虹街、托寧湖、太陽航海者、Harpa；Bónus 採買"
+    },
+    {
+     "id": "iogfjerl",
+     "spot": "101",
+     "title": "101"
     }
    ]
   },
@@ -649,6 +657,6 @@
    ]
   }
  ],
- "updated": "2026-11-19T05:44:12.042Z",
- "by": "damingsai-ai"
+ "updated": "2026-11-21T03:24:50.493Z",
+ "by": "Ming"
 }
