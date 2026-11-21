@@ -76,12 +76,14 @@ dialog .acts{display:flex;flex-direction:row-reverse;justify-content:flex-start;
 dialog .acts button{padding:5px 14px}
 dialog .acts .pri{background:var(--ac);color:#fff;border-color:var(--ac)}
 dialog p{margin:6px 0;font-size:13px}
+.xpg{display:grid;gap:8px;margin:8px 0}.xpg button{text-align:left;padding:8px 10px}.xpg button small{display:block;color:var(--mut)}
+dialog ul{margin:6px 0;padding-left:20px;font-size:13px}
 #toast{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:13px;z-index:2000;max-width:90vw}
 </style>
 </head>
 <body>
 <header><h1>🇮🇸 冰島環島 12 天</h1>
-<div><button id="ed">✏️ 編輯</button> <button id="rf">↻ 重新讀取</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">🚁 空拍機地圖 ↗</a></div></header>
+<div><button id="ed">✏️ 編輯</button> <button id="xp">⇅ 匯出／匯入</button> <button id="rf">↻ 重新讀取</button> <a href="https://umferdin.is/en" target="_blank" rel="noopener">umferdin.is ↗</a> <a href="https://kort.gis.is/mapview/?app=dronar" target="_blank" rel="noopener">🚁 空拍機地圖 ↗</a></div></header>
 <main><div id="map"></div><section id="panel"><div class="sum"><div><b id="s1">—</b><span>全程行車 km</span></div><div><b id="s2">—</b><span>全程開車時間</span></div><div><b id="s3">—</b><span>單日最長</span></div></div>
 <p><small>點日期展開當天路線（地圖不縮放）；點路線或景點才會放大。<br>圖例：<b>實線</b>＝行程路線（各天不同的藍綠紫色）；<b style="color:#e03131">紅色虛線</b>＝封路／不可通行；<b style="color:#f08c00">橘色虛線</b>＝惡劣或受限路段。</small></p><div id="src"></div><div id="msg"></div><div id="ebar" hidden></div><div id="list"></div>
 <p><small>距離與時間：OSRM 路網計算，已乘 1.15 緩衝；* 表示路線服務無回應，為直線估算。</small></p></section></main>
@@ -348,7 +350,7 @@ function itemTools(s){return`<div class="eb"><button data-e="edit" data-id="${s.
 function parseLL(t){const m=String(t||'').match(/(-?\d+(?:\.\d+)?)\s*[,，\s]\s*(-?\d+(?:\.\d+)?)/);if(!m)return null;const x=+m[1],y=+m[2];return x>0?{lat:x,lng:y}:{lat:y,lng:x}}
 function slug(n){return String(n||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[ðÐ]/g,'d').replace(/[þÞ]/g,'th').replace(/[æÆ]/g,'ae').replace(/[øØ]/g,'o').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)||'spot'}
 function newSpotId(name,spots){const b=slug(name);let id=b,n=2;while(spots[id])id=b+'-'+n++;return id}
-function dialog(html,onOk){const f=$('#dlgf'),d=$('#dlg');f.innerHTML=html+`<div class="acts"><button value="ok" class="pri">確定</button><button value="cancel" formnovalidate>取消</button></div>`;
+function dialog(html,onOk){const f=$('#dlgf'),d=$('#dlg');if(d.open)d.close();f.innerHTML=html+`<div class="acts"><button value="ok" class="pri">確定</button><button value="cancel" formnovalidate>取消</button></div>`;
  f.onsubmit=e=>{if(e.submitter?.value!=='ok')return;const r=onOk(f);if(r===false)e.preventDefault()};
  d.showModal();return f}
 const spotLabel=(id,sp)=>sp.name||id;
@@ -449,6 +451,142 @@ function edAct(b){
  if(a==='down'){if(f.i<f.d.items.length-1)doOp({op:'item.move',id,day:f.d.id,before:f.d.items[f.i+2]?.id||null});
   else if(dn<TRIP.days.length){const nd=TRIP.days[dn];doOp({op:'item.move',id,day:nd.id,before:nd.items[0]?.id||null})}return}
 }
+/* ===== 匯出／匯入 ===== */
+const COLS=['Day','順序','地點','顯示名稱','緯度','經度','預計停留','備註','提醒','簡介'];
+const today=()=>new Date().toLocaleDateString('sv-SE');
+function download(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)}
+function tableRows(){ // 行程 → 資料列（第一列是欄位名稱）
+ const out=[COLS];
+ TRIP.days.forEach((d,di)=>{if(!d.items.length){out.push([di+1,'','','','','','','','',''])}
+  d.items.forEach((it,k)=>{const sp=it.spot?TRIP.spots[it.spot]:null;
+   out.push([di+1,k+1,sp?.name||'',it.title||'',sp&&isFinite(sp.lat)?sp.lat:'',sp&&isFinite(sp.lng)?sp.lng:'',it.stay||'',it.note||'',it.remind||'',sp?.intro||''])})});
+ return out}
+function toCSV(rows){return '﻿'+rows.map(r=>r.map(v=>{v=String(v??'');return /[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(',')).join('\r\n')+'\r\n'}
+function parseCSV(t){t=t.replace(/^﻿/,'');const sep=(t.split('\n')[0].match(/\t/g)||[]).length>(t.split('\n')[0].match(/,/g)||[]).length?'\t':',';
+ const R=[];let r=[],f='',q=false;
+ for(let i=0;i<t.length;i++){const c=t[i];
+  if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+  else if(c=='"'&&f==='')q=true;else if(c==sep){r.push(f);f=''}else if(c=='\n'){r.push(f);R.push(r);r=[];f=''}else if(c!='\r')f+=c}
+ if(f||r.length){r.push(f);R.push(r)}return R.filter(x=>x.some(v=>String(v).trim()))}
+let XLSXP=null;
+function loadXLSX(){return XLSXP??=new Promise((res,rej)=>{if(window.XLSX)return res(window.XLSX);const sc=document.createElement('script');
+ sc.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';sc.onload=()=>res(window.XLSX);sc.onerror=()=>{XLSXP=null;rej('Excel 元件載入失敗，請改用 CSV')};document.head.appendChild(sc)})}
+async function exportXLSX(){const X=await loadXLSX(),ws=X.utils.aoa_to_sheet(tableRows());
+ ws['!cols']=[6,6,28,20,11,11,12,40,30,40].map(w=>({wch:w}));
+ const wb=X.utils.book_new();X.utils.book_append_sheet(wb,ws,'行程');
+ download(`iceland-trip_${today()}.xlsx`,new Blob([X.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}))}
+function exportCSV(){download(`iceland-trip_${today()}.csv`,new Blob([toCSV(tableRows())],{type:'text/csv;charset=utf-8'}))}
+async function exportHTML(){ // 匯出一個可以單獨打開的網頁（含地圖、每日路線與景點）
+ toast('⏳ 整理路線中…',15000);await RTP;
+ const days=TRIP.days.map((d,di)=>{const n=di+1,r=RT[n],st=ALLD[n]||[];let gi=-1;
+  const pts=[];(r?.pts||[]).forEach((p,i,a)=>{const q=[+p[1].toFixed(5),+p[0].toFixed(5)],l=pts[pts.length-1];if(!l||Math.abs(l[0]-q[0])+Math.abs(l[1]-q[1])>.0004||i===a.length-1)pts.push(q)});
+  return{n,col:COL[(n-1)%COL.length],km:r?sumKm(r):0,min:r?r.legs.reduce((a,l)=>a+l.min,0):0,est:!!r?.est,pts,
+   stops:st.map(s=>{const geo=isFinite(s.lat);let leg=null,no=null;if(geo){gi++;no=gi+1;const lg=gi&&r?r.legs[gi-1]:null;if(lg)leg={km:+lg.km.toFixed(1),min:Math.round(lg.min)}}
+    return{no,name:s.name,lat:geo?s.lat:null,lng:geo?s.lng:null,leg,stay:s.stay,note:s.note,remind:s.remind,intro:s.intro}})}});
+ const km=days.reduce((a,d)=>a+d.km,0),mn=days.reduce((a,d)=>a+d.min,0),title=document.title;
+ const gmU=s=>s.lat!=null?`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name+' Iceland')}`;
+ const body=days.map(d=>`<section class="day" id="d${d.n}"><h2 data-d="${d.n}"><i style="background:${d.col}"></i>Day ${d.n}<span>${d.stops.length?(d.km?Math.round(d.km)+' km · '+fmt(d.min)+(d.est?'（估算）':''):''):'（空白）'}</span></h2>`+
+  d.stops.map(s=>`<div class="st${s.no?'':' info'}"><b class="no" style="${s.no?'background:'+d.col:''}">${s.no??'·'}</b><div><h3>${esc(s.name)}</h3>
+   <div class="leg">${s.no?(s.leg?`距上一站 ${s.leg.km} km · 開車約 ${fmt(s.leg.min)}`:'今日起點'):'無座標'}${s.stay?` · 預計停留 ${esc(s.stay)}`:''}</div>
+   ${s.intro?`<p>${esc(s.intro)}</p>`:''}${s.note?`<p>📝 ${esc(s.note)}</p>`:''}${s.remind?`<p>🔔 ${esc(s.remind)}</p>`:''}
+   <a href="${gmU(s)}" target="_blank" rel="noopener">Google Maps ↗</a></div></div>`).join('')+'</section>').join('');
+ const data=JSON.stringify(days.map(d=>({n:d.n,col:d.col,pts:d.pts,m:d.stops.filter(s=>s.no).map(s=>[s.lat,s.lng,s.no,s.name])}))).replace(/</g,'\\u003c');
+ const leafCss=document.querySelector('style').textContent;
+ const html=`<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(title)} 行程表</title>
+<style>${leafCss}</style>
+<style>
+:root{--bg:#f6f8fa;--card:#fff;--tx:#1f2933;--mut:#6b7785;--ac:#1971c2;--bd:#dde3ea}
+@media(prefers-color-scheme:dark){:root{--bg:#14181d;--card:#1e242b;--tx:#e6ebf0;--mut:#93a0ad;--ac:#74b3f5;--bd:#333c46}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.55 -apple-system,"Noto Sans TC",sans-serif;background:var(--bg);color:var(--tx)}
+header{padding:14px 16px;background:var(--card);border-bottom:1px solid var(--bd)}h1{margin:0;font-size:20px}header p{margin:4px 0 0;color:var(--mut)}
+#map{height:46vh;min-height:280px}main{max-width:860px;margin:0 auto;padding:12px 16px 40px}
+.day{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin:12px 0;break-inside:avoid-page}
+.day h2{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:16px;cursor:pointer}.day h2 i{width:12px;height:12px;border-radius:50%}.day h2 span{margin-left:auto;font-size:13px;font-weight:normal;color:var(--mut);font-variant-numeric:tabular-nums}
+.st{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--bd);break-inside:avoid}.st>div{min-width:0}
+.no{flex:none;width:24px;height:24px;border-radius:50%;color:#fff;text-align:center;line-height:24px;font-size:12px}.st.info .no{background:none;border:1px solid var(--mut);color:var(--mut);line-height:22px}
+.st h3{margin:0;font-size:14px}.leg{color:var(--mut);font-size:12px}.st p{margin:3px 0}.st a{font-size:12px;color:var(--ac)}
+.pin{color:#fff;border:2px solid #fff;border-radius:50%;text-align:center;font:bold 11px/18px sans-serif;width:22px;height:22px;box-shadow:0 1px 3px #0006}
+footer{color:var(--mut);font-size:12px;text-align:center;padding-bottom:24px}
+@media print{#map{height:340px}.st a{display:none}body{background:#fff;color:#000}.day{border-color:#ccc}}
+</style></head><body>
+<header><h1>🇮🇸 ${esc(title)}</h1><p>全程約 ${Math.round(km)} km · 開車約 ${fmt(mn)} · ${TRIP.days.length} 天 · 匯出於 ${new Date().toLocaleString('zh-TW',{hour12:false})}</p></header>
+<div id="map"></div><main>${body}</main>
+<footer>車程為 OSRM 路網計算並乘 1.15 緩衝，僅供參考；出發前請到 umferdin.is 查路況。</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"><\/script>
+<script>
+const D=${data};
+if(window.L){const map=L.map('map'),all=[],G={};
+ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+ D.forEach(d=>{const g=G[d.n]=[];if(d.pts.length>1){L.polyline(d.pts,{color:d.col,weight:4,opacity:.85}).addTo(map);g.push(...d.pts)}
+  d.m.forEach(m=>{L.marker([m[0],m[1]],{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+d.col+'">'+m[2]+'</div>',iconSize:[22,22]})}).bindPopup('Day '+d.n+' · '+m[3].replace(/</g,'&lt;')).addTo(map);g.push([m[0],m[1]])});all.push(...g)});
+ all.length?map.fitBounds(all,{padding:[20,20]}):map.setView([64.9,-18.6],6);
+ document.addEventListener('click',e=>{const h=e.target.closest('h2[data-d]');if(h&&G[h.dataset.d].length){map.fitBounds(G[h.dataset.d],{padding:[30,30],maxZoom:12});window.scrollTo({top:0,behavior:'smooth'})}})}
+else document.getElementById('map').style.display='none';
+<\/script></body></html>`;
+ download(`iceland-trip_${today()}.html`,new Blob([html],{type:'text/html;charset=utf-8'}));toast('✅ 已匯出網頁')}
+async function readTable(file){ // 讀匯入的檔案 → 二維陣列
+ if(/\.xlsx?$/i.test(file.name)){const X=await loadXLSX(),wb=X.read(await file.arrayBuffer(),{type:'array'});
+  return X.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:false,defval:''})}
+ return parseCSV(await file.text())}
+function buildImport(rows){ // 資料列 → 資料庫格式，盡量沿用現有地點
+ const hi=rows.findIndex(r=>r.some(v=>/^(day|天)/i.test(String(v).trim()))&&r.some(v=>/地點|景點|顯示名稱/.test(v)));
+ if(hi<0)throw '找不到表頭（第一列需要有 Day、地點 等欄位名稱）';
+ const h=rows[hi].map(v=>String(v).trim()),ix=re=>h.findIndex(v=>re.test(v));
+ const c={d:ix(/^(day|天)/i),o:ix(/順序/),n:ix(/地點|景點/),t:ix(/顯示名稱/),a:ix(/緯度/),b:ix(/經度/),ll:ix(/座標/),s:ix(/停留/),r:ix(/備註/),m:ix(/提醒/),i:ix(/簡介|介紹/)};
+ const g=(r,k)=>c[k]>=0?String(r[c[k]]??'').trim():'';
+ const spots=JSON.parse(JSON.stringify(TRIP?.spots||{})),byName={};
+ Object.entries(spots).forEach(([id,sp])=>(byName[sp.name]??=[]).push(id));
+ const st={rows:0,skip:0,newSp:0,reuse:0,nogeo:0},days={};let maxD=0;
+ rows.slice(hi+1).forEach((r,k)=>{
+  const dn=parseInt(g(r,'d').replace(/\D/g,''));if(!dn){if(r.some(v=>String(v).trim()))st.skip++;return}
+  maxD=Math.max(maxD,dn);days[dn]??=[];
+  const name=g(r,'n'),title=g(r,'t');if(!name&&!title)return; // 只有 Day：空白的一天
+  let pos=null;
+  if(c.ll>=0&&g(r,'ll'))pos=parseLL(g(r,'ll'));
+  else{const x=parseFloat(g(r,'a')),y=parseFloat(g(r,'b'));if(isFinite(x)&&isFinite(y))pos=x>0?{lat:x,lng:y}:{lat:y,lng:x}}
+  let sid='';
+  if(name){
+   const cand=byName[name]||[];
+   sid=pos?cand.find(id=>!isFinite(spots[id].lat)||Math.abs(spots[id].lat-pos.lat)<.002&&Math.abs(spots[id].lng-pos.lng)<.004)||'':cand[0]||'';
+   if(sid){st.reuse++;if(pos){spots[sid].lat=pos.lat;spots[sid].lng=pos.lng}}
+   else{sid=newSpotId(name,spots);spots[sid]=clean({name,lat:pos?.lat,lng:pos?.lng});(byName[name]??=[]).push(sid);st.newSp++}
+   const it=g(r,'i');if(it)spots[sid].intro=it;
+   if(!isFinite(spots[sid].lat))st.nogeo++}
+  else st.nogeo++;
+  st.rows++;
+  const o=parseFloat(g(r,'o'));
+  days[dn].push({o:isFinite(o)?o:1e6+k,k,item:clean({id:uid('i'),spot:sid,title:title&&title!==name?title:'',stay:g(r,'s'),note:g(r,'r'),remind:g(r,'m')})})});
+ if(!maxD)throw '檔案裡沒有任何行程資料';
+ const out={version:1,spots,days:[]};
+ for(let n=1;n<=maxD;n++)out.days.push({id:uid('d'),items:(days[n]||[]).sort((p,q)=>p.o-q.o||p.k-q.k).map(x=>x.item)});
+ return{data:out,st}}
+function xpDialog(){
+ if(!TRIP){toast('行程還沒讀取完成');return}
+ const f=dialog(`<h3>匯出／匯入行程</h3>
+  <div class="xpg"><button type="button" data-x="html">🗺️ 匯出網頁（.html）<small>含地圖、每日路線與景點，可離線打開、列印或傳給別人</small></button>
+  <button type="button" data-x="xlsx">📊 匯出 Excel（.xlsx）<small>一列一個項目，可用 Excel、Numbers、Google 試算表編輯</small></button>
+  <button type="button" data-x="csv">📄 匯出 CSV（.csv）<small>純文字資料表，任何試算表軟體都能開</small></button></div>
+  <h3 style="margin-top:14px">匯入</h3>
+  ${PW?`<p>選擇從這裡匯出的 Excel 或 CSV（改過也可以）。匯入會<b>取代目前整個行程</b>，按「💾 儲存」前都可以放棄。</p>
+  <label>選擇檔案<input type="file" id="xf" accept=".xlsx,.xls,.csv,.tsv,.txt"></label>`
+  :`<p>匯入會改寫行程，需要先登入編輯。</p><div class="xpg"><button type="button" data-x="login">✏️ 輸入行程密碼</button></div>`}`,()=>{});
+ f.querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{const x=b.dataset.x;
+  if(x==='login'){loginDialog();return}
+  $('#dlg').close();
+  try{if(x==='html')await exportHTML();if(x==='xlsx')await exportXLSX();if(x==='csv')exportCSV()}catch(e){toast('⚠️ 匯出失敗：'+e,6000)}});
+ const fi=f.querySelector('#xf');
+ if(fi)fi.onchange=async()=>{const file=fi.files[0];if(!file)return;
+  try{const {data,st}=buildImport(await readTable(file));
+   const items=data.days.reduce((a,d)=>a+d.items.length,0);
+   dialog(`<h3>確認匯入「${esc(file.name)}」</h3>
+    <ul><li>${data.days.length} 天、${items} 個項目</li><li>沿用既有地點 ${st.reuse} 次，新增地點 ${st.newSp} 個</li>
+    ${st.nogeo?`<li>${st.nogeo} 個項目沒有座標（不列入路線計算）</li>`:''}${st.skip?`<li>⚠️ ${st.skip} 列沒有 Day，已略過</li>`:''}</ul>
+    <p>按「確定」會用這個檔案<b>取代目前整個行程</b>（目前 ${TRIP.days.length} 天、${TRIP.days.reduce((a,d)=>a+d.items.length,0)} 個項目）。確認畫面沒問題後，再按「💾 儲存」寫進資料庫。</p>`,()=>{
+    doOp({op:'replace',data},true);EDIT=true;sel=null;init(false);toast('✅ 已匯入，確認後請按「💾 儲存」',6000)})}
+  catch(e){toast('⚠️ 匯入失敗：'+e,7000)}}}
+$('#xp').onclick=xpDialog;
 addEventListener('beforeunload',e=>{if(OPS.length&&EDIT){e.preventDefault();e.returnValue=''}});
 setInterval(checkRemote,3*60*1000);
 init(true);loadRoad();
