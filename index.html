@@ -375,6 +375,7 @@ function itemDialog(n,iid){
   if(!sv&&!title){toast('請選一個地點，或填顯示名稱');return false}
   const lt=v('#s_ll'),pos=lt?parseLL(lt):null;
   if(lt&&!pos){toast('座標格式看不懂，請用「64.14, -21.92」');return false}
+  if(pos&&!(pos.lat>62.5&&pos.lat<67.5&&pos.lng>-25.5&&pos.lng<-12.5)&&!confirm('這個座標（'+pos.lat.toFixed(4)+', '+pos.lng.toFixed(4)+'）不在冰島，路線會被拉得很遠。確定要用嗎？'))return false;
   let sid=lab[sv]||'';
   if(sv){const sf={name:v('#s_nm')||sv,lat:pos?.lat??'',lng:pos?.lng??'',intro:v('#s_i')};
    if(!sid)sid=newSpotId(sf.name,TRIP.spots);
@@ -518,7 +519,12 @@ footer{color:var(--mut);font-size:12px;text-align:center;padding-bottom:24px}
 <script>
 const D=${data};
 if(window.L){const map=L.map('map'),all=[],G={};
- L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+ const T=[['https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap © CARTO'}],
+  ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}]];
+ let ti=0,tl=null,bad=0,ok=0;
+ const addT=()=>{if(tl)map.removeLayer(tl);bad=0;ok=0;tl=L.tileLayer(T[ti][0],T[ti][1]).addTo(map);
+  tl.on('tileload',()=>ok++);tl.on('tileerror',()=>{if(++bad>3&&!ok&&ti<T.length-1){ti++;addT()}})};
+ addT();
  D.forEach(d=>{const g=G[d.n]=[];if(d.pts.length>1){L.polyline(d.pts,{color:d.col,weight:4,opacity:.85}).addTo(map);g.push(...d.pts)}
   d.m.forEach(m=>{L.marker([m[0],m[1]],{icon:L.divIcon({className:'',html:'<div class="pin" style="background:'+d.col+'">'+m[2]+'</div>',iconSize:[22,22]})}).bindPopup('Day '+d.n+' · '+m[3].replace(/</g,'&lt;')).addTo(map);g.push([m[0],m[1]])});all.push(...g)});
  all.length?map.fitBounds(all,{padding:[20,20]}):map.setView([64.9,-18.6],6);
