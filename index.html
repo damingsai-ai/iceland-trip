@@ -107,7 +107,7 @@ const DATA_PATH='data/itinerary.json',API=`https://api.github.com/repos/${GH.o}/
 const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let TRIP=null,TSHA=null,TSRC='',RELOAD=true;
 // 編輯透過 Cloudflare Worker：GitHub token 存在 Worker，網頁只需要行程密碼
-const WORKER_URL='__WORKER_URL__'.replace(/\/+$/,'');
+const WORKER_URL='https://iceland-trip.damingsai.workers.dev'.replace(/\/+$/,'');
 let PW=LS.get('tripPw')||'',ME=LS.get('tripName')||'';
 LS.del('ghToken');LS.del('ghUser'); // 舊版存的 GitHub token 不再需要，順手清掉
 const wFetch=(p,o={})=>fetch(WORKER_URL+p,{...o,headers:{...(o.headers||{}),'X-Trip-Password':PW},cache:'no-store'});
