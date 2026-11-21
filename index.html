@@ -106,13 +106,22 @@ const GH=(()=>{const h=location.hostname,p=location.pathname.split('/').filter(B
 const DATA_PATH='data/itinerary.json',API=`https://api.github.com/repos/${GH.o}/${GH.r}/contents/${DATA_PATH}`;
 const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let TRIP=null,TSHA=null,TSRC='',RELOAD=true;
-let TOKEN=LS.get('ghToken')||'',ME=LS.get('ghUser')||'';
+// 編輯透過 Cloudflare Worker：GitHub token 存在 Worker，網頁只需要行程密碼
+const WORKER_URL='__WORKER_URL__'.replace(/\/+$/,'');
+let PW=LS.get('tripPw')||'',ME=LS.get('tripName')||'';
+LS.del('ghToken');LS.del('ghUser'); // 舊版存的 GitHub token 不再需要，順手清掉
+const wFetch=(p,o={})=>fetch(WORKER_URL+p,{...o,headers:{...(o.headers||{}),'X-Trip-Password':PW},cache:'no-store'});
 const OPK='itinOps:'+GH.o+'/'+GH.r;let OPS=LS.get(OPK)||[]; // 尚未儲存的修改
 const b64e=s=>{const b=new TextEncoder().encode(s);let t='';for(let i=0;i<b.length;i+=0x8000)t+=String.fromCharCode(...b.subarray(i,i+0x8000));return btoa(t)};
 const b64d=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,'')),c=>c.charCodeAt(0)));
 const tmo=(p,ms)=>Promise.race([p,new Promise((_,j)=>setTimeout(()=>j('逾時'),ms))]);
-const ghH=()=>({Accept:'application/vnd.github+json',...(TOKEN?{Authorization:'Bearer '+TOKEN}:{})});
+const ghH=()=>({Accept:'application/vnd.github+json'});
 async function ghGet(){ // 讀 repo 裡最新的資料檔；不存在時 data 為 null
+ if(PW&&WORKER_URL){ // 編輯者走 Worker：資料最新、也不受 GitHub 每小時次數限制
+  const w=await tmo(wFetch('/data'),9000);
+  if(w.status===401){PW='';LS.del('tripPw');throw '行程密碼已變更，請重新登入'}
+  if(!w.ok)throw 'Worker '+w.status;
+  const j=await w.json();return{data:j.content?JSON.parse(b64d(j.content)):null,sha:j.sha}}
  const r=await tmo(fetch(API+'?ref=main',{headers:ghH(),cache:'no-store'}),9000);
  if(r.status===404)return{data:null,sha:null};
  if(!r.ok)throw 'GitHub '+r.status;
@@ -327,7 +336,7 @@ function bar(){
  if(el.hidden)return;
  el.innerHTML=`<div class="row"><b>✏️ ${EDIT?'編輯中':'有未儲存的修改'}</b><span>${ME?'· '+esc(ME):''}</span>
   ${OPS.length?`<span class="pend">${OPS.length} 項未儲存（${esc(opsSummary())}）</span>`:'<small>沒有未儲存的修改</small>'}</div>
-  <div class="row"><button class="pri" data-e="save" ${!OPS.length||SAVING||!TOKEN?'disabled':''}>${SAVING?'⏳ 儲存中…':'💾 儲存'}</button>
+  <div class="row"><button class="pri" data-e="save" ${!OPS.length||SAVING||!PW?'disabled':''}>${SAVING?'⏳ 儲存中…':'💾 儲存'}</button>
   <button data-e="discard" ${!OPS.length||SAVING?'disabled':''}>↶ 放棄修改</button>
   ${EDIT?'<button data-e="exit">完成編輯</button>':'<button data-e="enter">繼續編輯</button>'}</div>
   ${EDIT?`<div class="row">${TRIP?'<button data-e="dadd">＋ 新增一天</button>':''} <button data-e="logout">登出</button></div>
@@ -384,32 +393,32 @@ function itemDialog(n,iid){
  f.querySelector('#f_sp').addEventListener('change',fill);f.querySelector('#f_sp').addEventListener('input',()=>{if(lab[v('#f_sp')])fill()});fill();
 }
 function loginDialog(){
- dialog(`<h3>登入 GitHub 才能編輯</h3>
-  <p>行程存放在 GitHub repo「${esc(GH.o)}/${esc(GH.r)}」的 ${DATA_PATH}。編輯前需要一組 GitHub 存取權杖（token），只會存在這台裝置。</p>
-  <p>到 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → 建立 fine-grained token ↗</a>：Repository access 選「Only select repositories → ${esc(GH.r)}」，Permissions 的 <b>Contents</b> 設為 <b>Read and write</b>，建立後複製貼上。</p>
-  <p><small>同行的人：請 repo 擁有者在 Settings → Collaborators 邀請你，接受後到 <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=iceland-trip" target="_blank" rel="noopener">建立 classic token ↗</a>（勾 public_repo）。</small></p>
-  <label>Token<input id="tk" type="password" autocomplete="off" placeholder="github_pat_… 或 ghp_…"></label>`,f=>{
-  const tk=f.querySelector('#tk').value.trim();if(!tk){toast('請貼上 token');return false}
-  login(tk).then(()=>{toast('✅ 已登入：'+ME);EDIT=true;init(false)}).catch(e=>toast('⚠️ '+e,6000))})}
-async function login(tk){
- const h={Accept:'application/vnd.github+json',Authorization:'Bearer '+tk};
- const u=await fetch('https://api.github.com/user',{headers:h});if(!u.ok)throw 'Token 無效或已過期（'+u.status+'）';
- const r=await fetch(`https://api.github.com/repos/${GH.o}/${GH.r}`,{headers:h});if(!r.ok)throw '這組 token 讀不到 repo（'+r.status+'）';
- if(!(await r.json()).permissions?.push)throw '這個 GitHub 帳號沒有 '+GH.r+' 的寫入權限';
- TOKEN=tk;ME=(await u.json()).login;LS.set('ghToken',tk);LS.set('ghUser',ME)}
+ if(!WORKER_URL||WORKER_URL.includes('__')){toast('網頁還沒設定 Worker 網址',6000);return}
+ dialog(`<h3>輸入行程密碼才能編輯</h3>
+  <p>密碼只會存在這台裝置，下次打開不用再輸入。</p>
+  <label>你的名字（存檔紀錄會顯示是誰改的）<input id="nm" autocomplete="nickname" value="${esc(ME)}" placeholder="例如：大明"></label>
+  <label>行程密碼<input id="pw" type="password" autocomplete="current-password"></label>`,f=>{
+  const pw=f.querySelector('#pw').value.trim(),nm=f.querySelector('#nm').value.trim();
+  if(!nm||!pw){toast('名字和密碼都要填');return false}
+  login(pw,nm).then(()=>{toast('✅ 已登入：'+ME);EDIT=true;init(false)}).catch(e=>toast('⚠️ '+e,6000))})}
+async function login(pw,nm){
+ let r;try{r=await fetch(WORKER_URL+'/check',{method:'POST',headers:{'X-Trip-Password':pw}})}catch(e){throw '連不到編輯服務（Worker），請確認網路'}
+ if(r.status===401)throw '行程密碼錯誤';
+ if(!r.ok)throw '編輯服務錯誤（'+r.status+'）：'+((await r.json().catch(()=>({}))).error||'');
+ PW=pw;ME=nm;LS.set('tripPw',pw);LS.set('tripName',nm)}
 async function save(){
- if(!OPS.length||SAVING)return;if(!TOKEN){loginDialog();return}if(!navigator.onLine){toast('📴 離線中，有網路時再儲存');return}
+ if(!OPS.length||SAVING)return;if(!PW){loginDialog();return}if(!navigator.onLine){toast('📴 離線中，有網路時再儲存');return}
  SAVING=true;bar();
  try{
   for(let n=0;n<4;n++){
    const g=await ghGet(),t=g.data?JSON.parse(JSON.stringify(g.data)):{version:1,spots:{},days:[]};
    OPS.forEach(o=>applyOp(t,o));t.version=1;t.updated=new Date().toISOString();t.by=ME;
-   const r=await fetch(API,{method:'PUT',headers:{...ghH(),'Content-Type':'application/json'},
-    body:JSON.stringify({message:`行程更新（${ME}）：${opsSummary()}`,content:b64e(JSON.stringify(t,null,1)+'\n'),...(g.sha?{sha:g.sha}:{}),branch:'main'})});
-   if(r.status===409||r.status===422&&!g.sha)continue; // 別人剛好也存檔：拿最新版重新套用
-   if(r.status===401||r.status===403)throw '沒有寫入權限，請確認 token 的 Contents 是 Read and write';
-   if(!r.ok)throw 'GitHub '+r.status;
-   const j=await r.json();TRIP=t;TSHA=j.content.sha;OPS=[];LS.set(OPK,OPS);LS.set('itin',TRIP);TSRC='GitHub 資料庫（即時）';
+   const r=await wFetch('/save',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:`行程更新（${ME}）：${opsSummary()}`,content:b64e(JSON.stringify(t,null,1)+'\n'),sha:g.sha})});
+   if(r.status===409)continue; // 別人剛好也存檔：拿最新版重新套用
+   if(r.status===401){PW='';LS.del('tripPw');throw '行程密碼錯誤或已變更，請重新登入'}
+   if(!r.ok)throw (await r.json().catch(()=>({}))).error||'編輯服務錯誤 '+r.status;
+   const j=await r.json();TRIP=t;TSHA=j.sha;OPS=[];LS.set(OPK,OPS);LS.set('itin',TRIP);TSRC='GitHub 資料庫（即時）';
    toast('✅ 已儲存，網站約 1 分鐘後更新');SAVING=false;init(false);return}
   throw '多次遇到同時存檔，請稍後再試'
  }catch(e){toast('⚠️ 儲存失敗：'+e,7000)}
@@ -418,7 +427,7 @@ async function checkRemote(){ // 定時看看別人有沒有更新
  if(document.hidden||!navigator.onLine||SAVING||!TRIP)return;
  try{const g=await ghGet();if(g.sha&&TSHA&&g.sha!==TSHA){TRIP=g.data;TSHA=g.sha;LS.set('itin',TRIP);OPS.forEach(o=>applyOp(TRIP,o));
   toast('🔄 已載入'+(g.data.by?' '+g.data.by+' ':'其他人')+'的最新修改');init(false)}}catch(e){}}
-$('#ed').onclick=()=>{if(!TOKEN){loginDialog();return}EDIT=!EDIT;init(false)};
+$('#ed').onclick=()=>{if(!PW){loginDialog();return}EDIT=!EDIT;init(false)};
 $('#list').addEventListener('click',e=>{const b=e.target.closest('[data-e]');if(!b)return;e.stopPropagation();edAct(b)},true);
 $('#ebar').addEventListener('click',e=>{const b=e.target.closest('[data-e]');if(b)edAct(b)});
 function edAct(b){
@@ -426,8 +435,8 @@ function edAct(b){
  if(a==='save')return save();
  if(a==='discard'){if(!confirm('放棄 '+OPS.length+' 項未儲存的修改？'))return;OPS=[];LS.set(OPK,OPS);RELOAD=true;init(false);return}
  if(a==='exit'){EDIT=false;init(false);return}
- if(a==='enter'){if(!TOKEN)return loginDialog();EDIT=true;init(false);return}
- if(a==='logout'){if(OPS.length&&!confirm('還有未儲存的修改，登出後仍會保留在這台裝置。確定登出？'))return;TOKEN='';ME='';LS.del('ghToken');LS.del('ghUser');EDIT=false;init(false);return}
+ if(a==='enter'){if(!PW)return loginDialog();EDIT=true;init(false);return}
+ if(a==='logout'){if(OPS.length&&!confirm('還有未儲存的修改，登出後仍會保留在這台裝置。確定登出？'))return;PW='';LS.del('tripPw');EDIT=false;init(false);return}
  if(!TRIP)return;
  if(a==='dadd'){doOp({op:'day.add',id:uid('d'),after:null},true);sel=TRIP.days.length;init(false);return}
  if(a==='dins'){doOp({op:'day.add',id:uid('d'),after:dayIdOf(n)},true);sel=n+1;init(false);return}
