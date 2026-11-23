@@ -353,6 +353,17 @@
    "lat": 64.11852566382719,
    "lng": -21.796043444851545,
    "intro": "小豬超市"
+  },
+  "orkan-hraunbaer": {
+   "name": "Orkan-Hraunbær",
+   "lat": 64.11774953813148,
+   "lng": -21.797559558362927,
+   "intro": "Orkan 加油站"
+  },
+  "moar-guesthouse": {
+   "name": "Moar Guesthouse",
+   "lat": 64.3111109902323,
+   "lng": -21.986388523554062
   }
  },
  "days": [
@@ -409,6 +420,17 @@
      "id": "ismlf6g3",
      "spot": "bonus-hraunbaer",
      "title": "Bónus小豬超市-Hraunbær"
+    },
+    {
+     "id": "is2k6ykh",
+     "spot": "orkan-hraunbaer",
+     "title": "Orkan加油站-Hraunbær",
+     "note": "Hraunbær 102, 110 Reykjavík, 冰島"
+    },
+    {
+     "id": "il1zd82e",
+     "spot": "moar-guesthouse",
+     "title": "Moar Guesthouse-第一天住宿"
     }
    ]
   },
@@ -417,7 +439,8 @@
    "items": [
     {
      "id": "iodupgun",
-     "spot": "reykjavik"
+     "spot": "moar-guesthouse",
+     "title": "Moar Guesthouse-第一天住宿"
     },
     {
      "id": "iwpy45ag",
@@ -763,6 +786,6 @@
    ]
   }
  ],
- "updated": "2026-11-23T06:54:16.553Z",
+ "updated": "2026-11-23T07:02:15.769Z",
  "by": "JC"
 }
