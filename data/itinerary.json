@@ -285,6 +285,11 @@
    "name": "凱夫拉維克 Keflavík",
    "lat": 64.000317,
    "lng": -22.559835
+  },
+  "keflavik-airport-kef": {
+   "name": "凱夫拉維克國際機場-Keflavík Airport (KEF)",
+   "lat": 63.997090864926385,
+   "lng": -22.62004873400246
   }
  },
  "days": [
@@ -293,8 +298,9 @@
    "items": [
     {
      "id": "ijki6k0a",
-     "spot": "kef",
-     "note": "取車"
+     "spot": "keflavik-airport-kef",
+     "note": "冰島國際機場 P2停車場，15分鐘內免費",
+     "title": "凱夫拉維克國際機場(KEF)"
     },
     {
      "id": "i1iri3bl",
@@ -654,6 +660,6 @@
    ]
   }
  ],
- "updated": "2026-11-21T04:05:07.207Z",
- "by": "Ming"
+ "updated": "2026-11-23T03:24:47.113Z",
+ "by": "JC"
 }
