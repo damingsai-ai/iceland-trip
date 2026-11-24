@@ -664,17 +664,13 @@
    "items": [
     {
      "id": "iwmnk4u2",
-     "spot": "grundarfjordur"
+     "spot": "kirkjufell-guesthouse",
+     "title": "Kirkjufell Guesthouse-第二天住宿"
     },
     {
      "id": "igrs60is",
      "spot": "hvammstangi",
      "note": "加油、早午餐"
-    },
-    {
-     "id": "i2uzd9gh",
-     "spot": "hvitserkur",
-     "note": "711 碎石路，視路況"
     },
     {
      "id": "ictzu4vc",
@@ -964,6 +960,6 @@
    ]
   }
  ],
- "updated": "2026-11-24T07:52:07.228Z",
+ "updated": "2026-11-24T08:35:40.139Z",
  "by": "JC"
 }
