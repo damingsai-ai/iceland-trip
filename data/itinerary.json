@@ -423,6 +423,56 @@
    "lat": 64.73270102215186,
    "lng": -23.78471613838308,
    "intro": "Lóndrangar  有兩座聳立在海邊的兩座巨大玄武岩柱（高度分別為 75 公尺與 61 公尺），屬於火山喉（Volcanic plug）——即火山口冷卻凝固的堅硬玄武岩核心，外圍是比較軟的火山碎屑，常年被海水侵蝕淘空，現在只剩這兩根石柱依然屹立。這裡的臨海峭壁（Þúfubjarg）是海鸚（Puffin）、三趾鷗（Kittiwake）等大批北極水鳥絕佳的築巢溫床。  每五月到八月都能看到大群水鳥，海風夾雜著鳥兒的味道，難得的體驗。"
+  },
+  "djupalonssandur-parking": {
+   "name": "Djúpalónssandur Parking",
+   "lat": 64.75351756036832,
+   "lng": -23.895078507318203
+  },
+  "djupalonssandur-2": {
+   "name": "Djúpalónssandur",
+   "lat": 64.75068533266297,
+   "lng": -23.915576127047817,
+   "intro": "沉船灣 Djúpalónssandur 位置，位於冰島西邊斯奈山半島最西邊靠海沿岸，曾經是斯奈山半島上，最熱閙的漁港，比旁邊的阿爾納斯塔皮 Arnarstapi 還更熱鬧。1948年英國拖網漁船Epine GY7在此失事，殘骸碎片遺留至今以提醒人們冰島海岸有多麼危險。"
+  },
+  "ingjaldsholskirkja-2": {
+   "name": "Ingjaldshólskirkja",
+   "lat": 64.91155813732611,
+   "lng": -23.857838749620463,
+   "intro": "Ingjaldshólskirkja（又稱英嘉德教堂）是一座位於冰島西部斯奈山半島（Snæfellsnes Peninsula）的歷史悠久教堂，因外型神似眼科驗光機裡的「視力檢查紅色小屋」而聞名全球。"
+  },
+  "kirkjufell-parking": {
+   "name": "Kirkjufell Parking",
+   "lat": 64.92770908431804,
+   "lng": -23.313291862504943
+  },
+  "kirkjufell-2": {
+   "name": "Kirkjufell",
+   "lat": 64.9426895686264,
+   "lng": -23.307152329611714,
+   "intro": "Kirkjufell（教會山／教堂山，又稱草帽山）是冰島西部斯奈山半島最具代表性的地標山峰，因獨特的圓錐外型與壯麗自然景致，被譽為冰島最上鏡的山峰。"
+  },
+  "kirkjufellsfoss-view-point": {
+   "name": "Kirkjufellsfoss View Point",
+   "lat": 64.92628769747873,
+   "lng": -23.311365229349875,
+   "intro": "拍攝教會山的推薦View Point"
+  },
+  "kirkjufell-waterfall": {
+   "name": "Kirkjufell Waterfall",
+   "lat": 64.9245235167792,
+   "lng": -23.30767450982468,
+   "intro": "可以同時拍攝到嶠暉山與瀑布"
+  },
+  "n1-self-service": {
+   "name": "N1 Self-service",
+   "lat": 64.91523454396433,
+   "lng": -23.884125470600512
+  },
+  "kirkjufell-guesthouse": {
+   "name": "Kirkjufell Guesthouse",
+   "lat": 64.92535369513891,
+   "lng": -23.20673542353767
   }
  },
  "days": [
@@ -562,21 +612,50 @@
      "note": "水鳥只有在5~8月才看得到，冬天只能看奇石美景"
     },
     {
-     "id": "ib45q8k2",
-     "spot": "djupalonssandur"
+     "id": "idxzqtff",
+     "spot": "djupalonssandur-parking",
+     "title": "Djúpalónssandur Parking 沈船灣停車場"
+    },
+    {
+     "id": "i1mdozs2",
+     "spot": "djupalonssandur-2",
+     "title": "Djúpalónssandur 沈船灣黑沙灘"
+    },
+    {
+     "id": "izj0659a",
+     "spot": "n1-self-service",
+     "title": "N1 Self-service 加油站-斯奈山半島"
     },
     {
      "id": "i1qhcqve",
-     "spot": "ingjaldsholskirkja"
+     "spot": "ingjaldsholskirkja-2",
+     "title": "Ingjaldshólskirkja 英嘉德紅教堂"
     },
     {
      "id": "i9fy8hnf",
-     "spot": "kirkjufell",
-     "note": "教會山瀑布同一個停車場"
+     "spot": "kirkjufell-parking",
+     "note": "教會山、教會山瀑布同一個停車場",
+     "title": "Kirkjufell Parking 教會山停車場"
+    },
+    {
+     "id": "iffpotf7",
+     "spot": "kirkjufell-2",
+     "title": "Kirkjufell 教會山"
+    },
+    {
+     "id": "iobnbacd",
+     "spot": "kirkjufellsfoss-view-point",
+     "title": "Kirkjufellsfoss 教會山 View Point"
+    },
+    {
+     "id": "iradmo3j",
+     "spot": "kirkjufell-waterfall",
+     "title": "Kirkjufell Waterfall 教會山瀑布"
     },
     {
      "id": "iazf7ksd",
-     "spot": "grundarfjordur"
+     "spot": "kirkjufell-guesthouse",
+     "title": "Kirkjufell Guesthouse-第二天住宿"
     }
    ]
   },
@@ -885,6 +964,6 @@
    ]
   }
  ],
- "updated": "2026-11-24T07:05:10.667Z",
+ "updated": "2026-11-24T07:52:07.228Z",
  "by": "JC"
 }
