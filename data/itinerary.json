@@ -364,6 +364,65 @@
    "name": "Moar Guesthouse",
    "lat": 64.3111109902323,
    "lng": -21.986388523554062
+  },
+  "ytri-tunga-beach-parking": {
+   "name": "Ytri Tunga Beach Parking",
+   "lat": 64.80379397771176,
+   "lng": -23.08132597303189,
+   "intro": "Ytri Tunga海豹沙灘停車場，步行約5-10分鐘，石頭路不是非常好走"
+  },
+  "ytri-tunga-2": {
+   "name": "Ytri Tunga",
+   "lat": 64.80274398065116,
+   "lng": -23.080320019630776,
+   "intro": "這裡常年有海豹棲息，最常見的是港海豹（Harbor Seals）和灰海豹（Grey Seals）。"
+  },
+  "bjarnarfoss-2": {
+   "name": "Bjarnarfoss",
+   "lat": 64.8480274594686,
+   "lng": -23.40359399003262,
+   "intro": "這座瀑布名為比雅納瀑布（Bjarnarfoss），位於冰島西部的斯奈山半島。它從約80公尺高的懸崖上分兩級傾瀉而下。從54號公路可以直接看到這座瀑布，它位於布迪爾（Búðir）附近。"
+  },
+  "bjarnarfoss-view-point-parking": {
+   "name": "Bjarnarfoss View Point Parking",
+   "lat": 64.84266611683317,
+   "lng": -23.402944015986428,
+   "intro": "免費停車場，也是拍攝瀑布及山巒的 View Point"
+  },
+  "budakirkja-2": {
+   "name": "Búðakirkja",
+   "lat": 64.82173327406626,
+   "lng": -23.38399237667394,
+   "intro": "是冰島最古老的木教堂之一，不同於冰島多數所見的教堂，以紅色屋頂為主，如它的外觀，其屋頂為黑色，因而命名為「黑教堂」，最早歷史記載可追溯到1703年，不過由於是純木質結構，因此300多年來被毀與重建來來回回好幾遭，如今教堂的建築體在1980年代時重新修整過，也是。"
+  },
+  "laugarbrekka-snaefellsnes": {
+   "name": "Laugarbrekka (Snæfellsnes)",
+   "lat": 64.75574635987581,
+   "lng": -23.688074728146464,
+   "intro": "斯奈山半島（Snæfellsnes）上著名的維京女人雕像是位於南岸 Laugarbrekka 的「遠行者」古德里德（Guðríður Þorbjarnardóttir）青銅雕像，描繪她帶著幼子站在維京船頭向遠方眺望的姿態。"
+  },
+  "arnarstapi-2": {
+   "name": "Arnarstapi",
+   "lat": 64.7695566434472,
+   "lng": -23.623562407475873,
+   "intro": "阿爾納斯塔皮(Arnarstapi) 是位於冰島西岸斯奈山半島南側的漁村與旅遊小鎮。以玄武岩海岸懸崖、海蝕拱門、海岸步道及半巨人守護神傳說聞名。"
+  },
+  "hellnar": {
+   "name": "Hellnar",
+   "lat": 64.75077608509959,
+   "lng": -23.646546945703648,
+   "intro": "海德納爾(Hellnar) 是冰島斯奈山半島最西端的一座古老小漁村，也是前往斯奈菲爾冰川國家公園的必經之地。曾經是斯奈山半島最繁忙的漁業站"
+  },
+  "londrangar-parking": {
+   "name": "Lóndrangar Parking",
+   "lat": 64.73753394737125,
+   "lng": -23.7757860573802
+  },
+  "londrangar-2": {
+   "name": "Lóndrangar",
+   "lat": 64.73270102215186,
+   "lng": -23.78471613838308,
+   "intro": "Lóndrangar  有兩座聳立在海邊的兩座巨大玄武岩柱（高度分別為 75 公尺與 61 公尺），屬於火山喉（Volcanic plug）——即火山口冷卻凝固的堅硬玄武岩核心，外圍是比較軟的火山碎屑，常年被海水侵蝕淘空，現在只剩這兩根石柱依然屹立。這裡的臨海峭壁（Þúfubjarg）是海鸚（Puffin）、三趾鷗（Kittiwake）等大批北極水鳥絕佳的築巢溫床。  每五月到八月都能看到大群水鳥，海風夾雜著鳥兒的味道，難得的體驗。"
   }
  },
  "days": [
@@ -444,23 +503,63 @@
     },
     {
      "id": "iwpy45ag",
-     "spot": "ytri-tunga"
+     "spot": "ytri-tunga-beach-parking",
+     "title": "Ytri Tunga 海豹沙灘-停車場",
+     "note": "要停車費，有簡易廁所"
     },
     {
-     "id": "ipwc3hcp",
-     "spot": "bjarnarfoss"
+     "id": "i5j3158s",
+     "spot": "ytri-tunga-2",
+     "title": "Ytri Tunga 海豹沙灘",
+     "note": "建議退潮的時候來，海豹有可能會爬到玄武岩礁石上曬太陽。",
+     "remind": "務必保持 50 公尺以上的安全與禮貌距離。"
     },
     {
      "id": "i338v78r",
-     "spot": "budakirkja"
+     "spot": "budakirkja-2",
+     "title": "Búðakirkja 布迪爾黑教堂",
+     "note": "教堂前方空地就可以停車"
+    },
+    {
+     "id": "ipwc3hcp",
+     "spot": "bjarnarfoss-view-point-parking",
+     "title": "Bjarnarfoss 瀑布-停車場",
+     "note": "可以在停車場遠眺山巒及瀑布"
+    },
+    {
+     "id": "ic4jlkiz",
+     "spot": "bjarnarfoss-2",
+     "title": "Bjarnarfoss 瀑布",
+     "note": "時間充足再考慮走進去，時間有限可以在停車場拍拍遠景就很美了。"
     },
     {
      "id": "inryo2nz",
-     "spot": "arnarstapi"
+     "spot": "arnarstapi-2",
+     "title": "Arnarstapi 阿爾納斯塔皮",
+     "note": "主要景點：加特克萊圖爾海蝕拱門(Gatklettur)、巴爾德爾石像(Barodar)、玄武岩懸崖與石橋(Stone Bridge)"
+    },
+    {
+     "id": "ic6j96ti",
+     "spot": "hellnar",
+     "title": "Hellnar 海德納爾",
+     "note": "主要景點：小鎮外圍的海崖與步道是"
+    },
+    {
+     "id": "izq7nbtu",
+     "spot": "laugarbrekka-snaefellsnes",
+     "title": "Laugarbrekka (Snæfellsnes) 遠行者-古德里德青銅雕像<維京女人雕像>",
+     "note": "一個雕塑品，有時間有路過可以去看看，不需要特別繞過去"
     },
     {
      "id": "iiwpyw6o",
-     "spot": "londrangar"
+     "spot": "londrangar-parking",
+     "title": "Lóndrangar Parking 怪物海灘停車場"
+    },
+    {
+     "id": "ij2ecjgt",
+     "spot": "londrangar-2",
+     "title": "Lóndrangar 怪物海灘",
+     "note": "水鳥只有在5~8月才看得到，冬天只能看奇石美景"
     },
     {
      "id": "ib45q8k2",
@@ -786,6 +885,6 @@
    ]
   }
  ],
- "updated": "2026-11-23T07:02:15.769Z",
+ "updated": "2026-11-24T07:05:10.667Z",
  "by": "JC"
 }
