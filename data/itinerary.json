@@ -561,6 +561,91 @@
    "lat": 65.68183737129353,
    "lng": -18.091166847858627,
    "intro": "阿克雷里（Akureyri）最知名且必吃的熱狗攤是位於市中心的 Pylsuvagninn á Akureyri，主打豐富配料組合與相對平實的價格。"
+  },
+  "viti-parking": {
+   "name": "Viti parking",
+   "lat": 65.71770137867689,
+   "lng": -16.757621994156697
+  },
+  "viti-in-krafla": {
+   "name": "Víti in Krafla",
+   "lat": 65.71755297520961,
+   "lng": -16.754581634201752,
+   "intro": "維提火山湖（Víti）是冰島兩座著名地熱火口湖的共同名稱，「Víti」在冰島語中意為「地獄」，源於古代冰島人認為這些冒著蒸氣與硫磺味的火山口是通往地獄的入口。\n克拉夫拉維提火山湖（Víti in Krafla）這是最容易抵達、一般環島旅客最常造訪的一座。位於冰島北部米湖（Lake Mývatn）東北方的克拉夫拉（Krafla）火山系統內，形成於 1724 年「米湖之火（Mývatn Fires）」火山爆發初期。 火山口直徑約 300 公尺，湖水因富含礦物質而呈現鮮豔的藍綠色或乳藍色，與周圍紅褐、黑灰色的火山岩壁形成強烈對比。"
+  },
+  "godafoss-2": {
+   "name": "Goðafoss",
+   "lat": 65.68273776210489,
+   "lng": -17.55017930806886
+  },
+  "godafoss-west-bank-parking": {
+   "name": "Goðafoss West Bank Parking",
+   "lat": 65.68553457819914,
+   "lng": -17.545757701818403,
+   "intro": "西側（West Bank）設有平緩的觀景平台，能正面拍攝到瀑布最對稱、最寬廣的全景"
+  },
+  "godafoss-east-bank-parking": {
+   "name": "Goðafoss East Bank Parking",
+   "lat": 65.68396284258618,
+   "lng": -17.54047107298268,
+   "intro": "東側（East Bank）則建有一條沿著峽谷下切的蜿蜒小徑，可以一路步行走到最底部的河灘石堆上，以極近距離的仰視視角，感受水霧撲面而來的震撼力。"
+  },
+  "hverir-parking": {
+   "name": "Hverir Parking",
+   "lat": 65.64252947817016,
+   "lng": -16.80313100182141
+  },
+  "hverir-2": {
+   "name": "Hverir",
+   "lat": 65.64090552786502,
+   "lng": -16.80930027298562,
+   "intro": "Hverir（又稱 Námafjall Hverir 或 Hverarönd）是位於冰島北部米湖（Lake Mývatn）東側的一座活火山地熱區，為 Namafjall 地熱區的一部分，以如火星表面般的荒涼赭紅地貌、沸騰泥漿池與冒煙噴氣孔聞名，富含硫磺的土壤，散發出濃郁的硫磺氣味。"
+  },
+  "grjotagja-2": {
+   "name": "Grjótagjá",
+   "lat": 65.62640963156092,
+   "lng": -16.88292186992607,
+   "intro": "Grjótagjá（地洞溫泉）是一座位於冰島北部米湖（Mývatn）附近的天然熔岩洞穴，以洞內清澈湛藍的地熱溫泉與美劇《冰與火之歌：權力遊戲》取景地聞名。 洞穴由火山活動與地殼板塊推擠形成，光線從岩石縫隙灑入時，水池會折射出夢幻的藍綠色光澤，水面上常伴隨氤氳蒸氣。遊客亦可沿步道走到洞穴上方，觀賞地表巨大的板塊裂谷景觀。"
+  },
+  "hverfell": {
+   "name": "Hverfell",
+   "lat": 65.60489204825649,
+   "lng": -16.873512335467552,
+   "intro": "Hverfell（更常稱為 Hverfjall，中文譯為「惠爾山」或「惠爾火山」）是一座位於冰島北部米湖（Lake Mývatn）東側的巨大火山碎屑錐（Tuff ring）。它大約形成於 2,500 年前，因岩漿與地下水接觸發生劇烈蒸氣爆發而產生，造就了直徑約 1 公里、幾乎呈正圓形的壯觀黑色火山口。Hverfell（更常稱為 Hverfjall，中文譯為「惠爾山」或「惠爾火山」）是一座位於冰島北部米湖（Lake Mývatn）東側的巨大火山碎屑錐（Tuff ring）。它大約形成於 2,500 年前，因岩漿與地下水接觸發生劇烈蒸氣爆發而產生，造就了直徑約 1 公里、幾乎呈正圓形的壯觀黑色火山口。"
+  },
+  "hverfell-parking": {
+   "name": "Hverfell Parking",
+   "lat": 65.61304813819767,
+   "lng": -16.876707132420655
+  },
+  "dimmuborgir-parking": {
+   "name": "Dimmuborgir Parking",
+   "lat": 65.59169281310376,
+   "lng": -16.91262796483993
+  },
+  "dimmuborgir-2": {
+   "name": "Dimmuborgir",
+   "lat": 65.59129361670061,
+   "lng": -16.912263184868632,
+   "intro": "該地景在冰島語中意為「黑暗之城」或「黑暗堡壘」，位於冰島北部米湖（Lake Mývatn）東岸的一片奇特火山熔岩地貌區，因其嶙峋的黑色熔岩柱、天然拱門與洞穴，遠看彷彿一座荒廢的中世紀城堡而得名。 冰島民間傳說認為這裡是「隱秘居民」（精靈）與巨魔的居所，更是冰島傳統中 13 位淘氣「聖誕小伙子」（Yule Lads）的家園。此外，早期北歐基督教傳說也曾將此地視為地獄與人間的交界處。"
+  },
+  "jardbodin-vid-myvatn": {
+   "name": "Jarðböðin við Mývatn",
+   "lat": 65.6308901513016,
+   "lng": -16.847622430657964,
+   "intro": "米湖溫泉（Jarðböðin við Mývatn），已於 2026 年 7 月完成大規模擴建並正式更名為 Earth Lagoon Mývatn，是冰島北部米湖（Lake Mývatn）地區最著名的天然地熱溫泉，常被稱為「北部藍湖」。泉水取自地下深達 2,500 公尺的地熱水，富含硫磺與多種礦物質，呈夢幻的乳藍色且呈弱鹼性（無需添加氯即可天然抑菌），水溫維持在舒適的 36°C 至 40°C 之間。"
+  },
+  "skutustadagigar-2": {
+   "name": "Skútustaðagígar",
+   "lat": 65.57086788976191,
+   "lng": -17.034673674941683,
+   "intro": "位於冰島北部米湖（Lake Mývatn）南岸的一處著名「偽火山口（Pseudocraters）」自然保護區。些起伏如月球表面的坑洞大約在 2,300 年前形成。當時周邊火山噴發出的高溫熔岩流經米湖一帶的沼澤與濕地，使地下水瞬間沸騰並引發劇烈的蒸氣爆炸，將熔岩炸開堆積成火山口狀的土丘（又稱無根火山錐，底下並無岩漿通道）。"
+  },
+  "skutustadir-farmers-guesthouse": {
+   "name": "Skútustaðir farmers guesthouse",
+   "lat": 65.56711276681517,
+   "lng": -17.039695944154865,
+   "intro": "是一間位於冰島北部米湖（Lake Mývatn）南岸的家庭經營農場民宿，以道地的農場體驗、自製早餐與絕佳的自然景觀聞名。"
   }
  },
  "days": [
@@ -846,32 +931,82 @@
      "title": "K16 apartment-第三天住宿"
     },
     {
+     "id": "ipfftr21",
+     "spot": "godafoss-west-bank-parking",
+     "title": "Goðafoss West Bank Parking 眾神瀑布西側停車場"
+    },
+    {
      "id": "i5o6a67v",
-     "spot": "godafoss"
+     "spot": "godafoss-2",
+     "title": "Goðafoss 眾神瀑布",
+     "note": "距離停車場步行時間不長，步道也算好走，停車場免費，瀑布的東、西兩側都規劃了非常完善的觀景步道。西側（West Bank）設有平緩的觀景平台，能正面拍攝到瀑布最對稱、最寬廣的全景；東側（East Bank）則建有一條沿著峽谷下切的蜿蜒小徑，可以一路步行走到最底部的河灘石堆上，以極近距離的仰視視角，感受水霧撲面而來的震撼力。"
     },
     {
-     "id": "i09eck9x",
-     "spot": "skutustadagigar",
-     "note": "沿 848 繞湖南岸"
+     "id": "imknb03j",
+     "spot": "godafoss-east-bank-parking",
+     "title": "Goðafoss East Bank Parking 眾神瀑布東側停車場",
+     "note": "東側有一家大型商店和加油站"
     },
     {
-     "id": "i81fikx0",
-     "spot": "dimmuborgir",
-     "note": "Hverfjall 火山錐就在旁邊，可加"
+     "id": "ifrxctio",
+     "spot": "viti-parking",
+     "title": "Viti parking 維提火山口湖停車場",
+     "remind": "同一區停車代號相同只需付款一次"
     },
     {
-     "id": "ilag9azs",
-     "spot": "grjotagja"
+     "id": "itdl0qwu",
+     "spot": "viti-in-krafla",
+     "title": "Víti in Krafla 克拉夫拉維提火山湖"
     },
     {
      "id": "irmerita",
-     "spot": "hverir",
-     "note": "過 Námaskarð 山口"
+     "spot": "hverir-parking",
+     "title": "Hverir Parking 地熱區停車場"
+    },
+    {
+     "id": "iqxdk4fz",
+     "spot": "hverir-2",
+     "title": "Hverir 地熱區"
     },
     {
      "id": "iyt8z2l2",
-     "spot": "myvatn-nature-baths",
-     "note": "泡湯到天黑"
+     "spot": "jardbodin-vid-myvatn",
+     "note": "• Earth Essential（基礎方案）：成人約 7,900 ISK 起（依時段與季節浮動），包含主溫泉池、熱水按摩池、蒸氣浴及標準更衣室與私人淋浴間。\n• Earth Signature（升級方案）：成人約 9,900 ISK 起，額外包含毛巾、飲品兌換券與餐廳折扣（使用特色熔岩更衣區，無獨立隔間淋浴）。",
+     "title": "※Jarðböðin við Mývatn 米湖溫泉"
+    },
+    {
+     "id": "ilag9azs",
+     "spot": "grjotagja-2",
+     "title": "Grjótagjá 洞穴溫泉",
+     "remind": "禁止下水泡湯或觸摸溫泉水"
+    },
+    {
+     "id": "iy9qvbq5",
+     "spot": "hverfell-parking",
+     "title": "Hverfell Parking 惠爾火山停車場",
+     "note": "收費停車場，旁邊有乾淨的洗手間。"
+    },
+    {
+     "id": "igzp6ajb",
+     "spot": "hverfell",
+     "note": "直接爬坡道上山，單程約20分鐘。",
+     "title": "Hverfell 惠爾火山"
+    },
+    {
+     "id": "i81fikx0",
+     "spot": "dimmuborgir-parking",
+     "title": "Dimmuborgir Parking 黑色城堡停車場"
+    },
+    {
+     "id": "ivyuj0er",
+     "spot": "dimmuborgir-2",
+     "title": "Dimmuborgir 黑色城堡"
+    },
+    {
+     "id": "io20qavw",
+     "spot": "skutustadir-farmers-guesthouse",
+     "title": "Skútustaðir farmers guesthouse-第四天住宿",
+     "note": "斯庫圖斯塔德農家樂，有提供早餐"
     }
    ]
   },
@@ -880,7 +1015,13 @@
    "items": [
     {
      "id": "idufa2vn",
-     "spot": "myvatn-nature-baths"
+     "spot": "skutustadir-farmers-guesthouse",
+     "title": "Skútustaðir farmers guesthouse-第四天住宿"
+    },
+    {
+     "id": "ipb3c41v",
+     "spot": "skutustadagigar-2",
+     "title": "Skútustaðagígar 偽火山口"
     },
     {
      "id": "ilby95cm",
@@ -1109,6 +1250,6 @@
    ]
   }
  ],
- "updated": "2026-11-25T03:21:15.384Z",
+ "updated": "2026-11-25T06:14:21.882Z",
  "by": "JC"
 }
