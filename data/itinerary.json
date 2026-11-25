@@ -473,6 +473,94 @@
    "name": "Kirkjufell Guesthouse",
    "lat": 64.92535369513891,
    "lng": -23.20673542353767
+  },
+  "kolugljufur-car-park": {
+   "name": "Kolugljúfur Car Park",
+   "lat": 65.33269660427372,
+   "lng": -20.56954700182134,
+   "intro": "從冰島 1 號環島公路轉入 715 號公路（部分為碎石路，但普通二輪傳動轎車即可輕鬆應付），開車約 5 至 6 公里即可抵達，免費停車"
+  },
+  "kolugljufur-2": {
+   "name": "Kolugljúfur",
+   "lat": 65.33339958815037,
+   "lng": -20.571327988568942,
+   "intro": "巨人峽谷是「維達達爾河」（Víðidalsáriver）上的一座峽谷。這座長一公里的峽谷是在維達達爾河的長期沖刷下所形成。峽谷中擁有好幾座大大小小的瀑布，其中以Kolufoss最為著名、也是巨人峽谷的代表景色。巨人峽谷（Kolugljúfur）的名字來自冰島的民間傳說:據說有一位名叫「科拉」（Kola）的女巨人生活在這座峽谷的岩壁上。科拉以捕食維達達爾河的鮭魚維生，有時候會生食鮭魚、有時候則會把鮭魚丟進附近一處名為Koluketill、充滿沸水的地下洞穴中煮食。"
+  },
+  "vioimyrarkirkja-turf-church": {
+   "name": "Vioimyrarkirkja Turf Church",
+   "lat": 65.53893441722948,
+   "lng": -19.47027686303263,
+   "intro": "Víðimýrarkirkja（又稱 Víðimýri Turf Church）是位於冰島北部瓦爾馬赫利茲（Varmahlíð）附近、環島一號公路旁的一座傳統草皮教堂，現存建築建於 1834 年。它是冰島僅存的幾座草皮教堂之一，並納入冰島國家博物館歷史建築收藏。：依 Skagafjörður Heritage Museum 資訊，夏季通常於 6 月 1 日至 8 月 31 日開放（週二至週日，週一休館），其餘月份一般不對外常態開放。"
+  },
+  "blonduos-2": {
+   "name": "Blönduós",
+   "lat": 65.6591236326694,
+   "lng": -20.284688362759862,
+   "intro": "布倫迪歐斯（Blönduós）是位於冰島西北區胡納灣（Húnaflói）畔的一座城鎮，坐落於冰川河布蘭達河（Blanda）的出海口。它正好位於冰島一號環島公路上（介於首都雷克雅維克與北部大城阿庫雷里之間），是自駕旅客沿途重要的補給、加油與休息站。"
+  },
+  "blonduoskirkja": {
+   "name": "Blönduóskirkja",
+   "lat": 65.65974322206367,
+   "lng": -20.2805584308759,
+   "intro": "Blönduóskirkja（布倫迪歐斯教堂） 是位於冰島西北部小鎮布倫迪歐斯（Blönduós）的一座現代路德宗教堂，由冰島建築師 Dr. Maggi Jónsson 設計，於 1982 年動工、1993 年完工。建築原本的設計概念是模擬「噴發中的火山口」與周圍山脈的線條，但因黝黑不對稱的流線造型，從特定角度看極像一隻巨大的鯨魚。因外觀神似一隻躍出或俯臥於地面的鯨魚，而被華人旅人暱稱為「鯨魚教堂」。"
+  },
+  "vatnsdalsholar": {
+   "name": "Vatnsdalshólar",
+   "lat": 65.48891862936584,
+   "lng": -20.358296882646638,
+   "intro": "Vatnsdalshólar是位於冰島西北部瓦特恩斯達勒峽谷（Vatnsdalur）北端入口處的一片草皮丘陵群，面積約 4 至 5.5 平方公里，最高點海拔約 83 至 84 公尺。它與布雷扎峽灣（Breiðafjörður）的群島及阿爾納瓦特恩斯黑濟（Arnarvatnsheiði）湖群並列為冰島三大「數不清（uncountable）」的自然奇觀之一。雖然組成岩石多為火山岩，但它並非火山口，主流觀點認為是距今約 7,000 至 10,000 年前巨大山體滑坡或土石流堆積形成的特殊地貌。"
+  },
+  "hvitserkur-parking-lot": {
+   "name": "Hvítserkur parking lot",
+   "lat": 65.6037456795434,
+   "lng": -20.640035057626083
+  },
+  "hvitserkur-2": {
+   "name": "Hvítserkur",
+   "lat": 65.60638050918818,
+   "lng": -20.635244101824032,
+   "intro": "Hvítserkur（中文常稱犀牛石、象鼻石或巨怪石）是一座位於冰島西北部瓦斯半島（Vatnsnes Peninsula）東岸胡納灣（Húnaflói）中的著名海蝕玄武岩柱，高達 15 公尺，因底部有兩個天然孔洞，遠看宛如一隻正低頭在海中飲水的巨獸。"
+  },
+  "oxnadalur": {
+   "name": "Öxnadalur",
+   "lat": 65.58462017975474,
+   "lng": -18.53498797025052,
+   "intro": "厄赫斯納谷地（Öxnadalur）是位於冰島北部埃亞峽灣（Eyjafjörður）西側的一座壯麗冰川山谷，沿著冰島一號環島公路（Route 1）往返阿克雷里（Akureyri）與斯卡加峽灣（Skagafjörður）時必經此地。這裡有豐沛的牧草，山坡上都是放養的牛羊，一派山谷田園風光。"
+  },
+  "akureyri-2": {
+   "name": "Akureyri",
+   "lat": 65.68274480725916,
+   "lng": -18.09168139578667,
+   "intro": "阿克雷里（Akureyri）是冰島第二大都會區及北部最大城鎮，面積為135平方公里，2021年時人口數量為19,219人。為冰島第四大市鎮，第二大都會區及北部最大城鎮，也是冰島人口稠密的西南角之外人口最多的城鎮，被譽為冰島的「北方首都」。"
+  },
+  "akureyrarkirkja": {
+   "name": "Akureyrarkirkja",
+   "lat": 65.67991207819546,
+   "lng": -18.090759644147052,
+   "intro": "阿克雷里大教堂（Akureyrarkirkja）是冰島北部最大城市阿克雷里最具代表性的地標，坐落於市中心的小山丘上，俯瞰著埃亞峽灣（Eyjafjörður）。 教堂後方設有一座極為壯觀的大型管風琴，由超過 3,200 支音管組成，音色渾厚，夏季常舉辦音樂會。中殿天花板懸掛著一艘精緻的帆船模型，這是北歐沿海教堂的傳統，象徵祈求上帝保佑海上漁民與船員平安歸來。• 祭壇後方的彩繪玻璃原本是英國考文垂大教堂（Coventry Cathedral）的舊窗，二戰期間為躲避轟炸而被拆下保存，戰後輾轉來到冰島並鑲嵌於此；中央窗戶則描绘了耶穌基督的生平故事。"
+  },
+  "lystigardurinn": {
+   "name": "Lystigarðurinn",
+   "lat": 65.67516149750134,
+   "lng": -18.093841530654917,
+   "intro": "阿庫雷里植物園，坐落於冰島北部第一大城阿庫雷里的高地上，園內成功培育了數千種植物。這裡不僅涵蓋了冰島本土的絕大多數原生植物，還引進了來自全球各個高山與高緯度地區的耐寒花卉，在盛夏時節百花齊放，色彩繽紛。公園規劃得極為精緻，擁有平整的草坪、蜿蜒的碎石步道、小巧的噴泉與古典的水池。"
+  },
+  "menningarhusid-hof": {
+   "name": "Menningarhúsið Hof",
+   "lat": 65.68346357819789,
+   "lng": -18.087354030654595,
+   "intro": "Menningarhúsið Hof（霍夫文化與會議中心）是位於冰島北部重鎮阿克雷里（Akureyri）海濱的現代化藝文地標，於 2010 年啟用，也是冰島北部最重要的文化與活動中心。外牆採用冰島當地特有的玄武岩裝飾，圓柱形結構搭配大片玻璃帷幕，使其與周圍的海灣景致自然融合。館內設有多功能主音樂廳（Hamrar，可容納約 500 人）以及多個中小型會議廳，經常舉辦音樂會、戲劇演出、藝術展覽及國際會議。"
+  },
+  "k16-apartment": {
+   "name": "K16 apartment",
+   "lat": 65.68008827819584,
+   "lng": -18.0927650306548
+  },
+  "pylsuvagninn-a-akureyri": {
+   "name": "Pylsuvagninn á Akureyri",
+   "lat": 65.68183737129353,
+   "lng": -18.091166847858627,
+   "intro": "阿克雷里（Akureyri）最知名且必吃的熱狗攤是位於市中心的 Pylsuvagninn á Akureyri，主打豐富配料組合與相對平實的價格。"
   }
  },
  "days": [
@@ -668,24 +756,84 @@
      "title": "Kirkjufell Guesthouse-第二天住宿"
     },
     {
-     "id": "igrs60is",
-     "spot": "hvammstangi",
-     "note": "加油、早午餐"
+     "id": "ictzu4vc",
+     "spot": "kolugljufur-car-park",
+     "title": "Kolugljúfur Car Park 巨人峽谷停車場"
     },
     {
-     "id": "ictzu4vc",
-     "spot": "kolugljufur",
-     "note": "從 1 號公路轉 715 南下"
+     "id": "i4u8tofa",
+     "spot": "kolugljufur-2",
+     "title": "Kolugljúfur 巨人峽谷",
+     "note": "停車場走過來約5分鐘"
+    },
+    {
+     "id": "ifsxf916",
+     "spot": "vatnsdalsholar",
+     "title": "※Vatnsdalshólar 瓦斯達爾丘陵-蟻丘火山"
+    },
+    {
+     "id": "ikcohtfb",
+     "spot": "hvitserkur-parking-lot",
+     "title": "※Hvítserkur parking lot 犀牛石停車場"
+    },
+    {
+     "id": "iz2gmgi5",
+     "spot": "hvitserkur-2",
+     "title": "※Hvítserkur 犀牛石"
     },
     {
      "id": "imicu36w",
-     "spot": "blonduos",
-     "note": "加油加滿、休息"
+     "spot": "blonduos-2",
+     "note": "加油加滿、休息",
+     "title": "※Blönduós 布倫迪歐斯小鎮"
+    },
+    {
+     "id": "ino5vasy",
+     "spot": "blonduoskirkja",
+     "title": "※Blönduóskirkja 布倫迪歐斯教堂-鯨魚教堂"
+    },
+    {
+     "id": "iw6i7d0s",
+     "spot": "vioimyrarkirkja-turf-church",
+     "title": "Vioimyrarkirkja Turf Church 維德麥里草皮教堂"
+    },
+    {
+     "id": "i7zdne4i",
+     "spot": "oxnadalur",
+     "title": "Öxnadalur 厄赫斯纳谷"
     },
     {
      "id": "ieg5j8tp",
-     "spot": "akureyri",
-     "note": "市區、阿克雷里大教堂"
+     "spot": "akureyri-2",
+     "title": "Akureyri 阿克雷里(亞庫來利)",
+     "note": "市區的紅燈是愛心形狀的"
+    },
+    {
+     "id": "i7m19pj0",
+     "spot": "menningarhusid-hof",
+     "title": "※Menningarhúsið Hof 霍夫文化與會議中心"
+    },
+    {
+     "id": "iee1ch2w",
+     "spot": "pylsuvagninn-a-akureyri",
+     "note": "營業時間：周一到六11:00~18:00，周日12:00~17:00",
+     "title": "Pylsuvagninn á Akureyri 熱狗堡"
+    },
+    {
+     "id": "irxn901x",
+     "spot": "akureyrarkirkja",
+     "title": "Akureyrarkirkja 阿克雷里大教堂"
+    },
+    {
+     "id": "ivvgrb3s",
+     "spot": "lystigardurinn",
+     "title": "※Lystigarðurinn 阿克萊里植物園",
+     "note": "免費入園"
+    },
+    {
+     "id": "i74wl9vn",
+     "spot": "k16-apartment",
+     "title": "K16 apartment-第三天住宿"
     }
    ]
   },
@@ -960,6 +1108,6 @@
    ]
   }
  ],
- "updated": "2026-11-24T08:35:40.139Z",
+ "updated": "2026-11-25T03:12:18.215Z",
  "by": "JC"
 }
