@@ -646,6 +646,114 @@
    "lat": 65.56711276681517,
    "lng": -17.039695944154865,
    "intro": "是一間位於冰島北部米湖（Lake Mývatn）南岸的家庭經營農場民宿，以道地的農場體驗、自製早餐與絕佳的自然景觀聞名。"
+  },
+  "dettifoss": {
+   "name": "Dettifoss",
+   "lat": 65.81469926676732,
+   "lng": -16.384632097611565,
+   "intro": "黛提瀑布（Dettifoss）是位於冰島東北部瓦特納冰川國家公園內的知名瀑布，也是全歐洲水量最豐沛的瀑布之一，常被稱為「魔鬼瀑布」。前往黛提瀑布主要有兩條路線，分別通往峽谷的兩側，景觀與路況截然不同。\n西岸多為鋪裝柏油路，路況通常較佳，自駕較便利。近距離感受瀑布水霧與震撼水勢，從停車場步行約 800 公尺至 1 公里可達觀景點。遊客較多。\n東岸多為碎石路，路面較顛簸，需留意車況與天候。視野開闊，部分角度能更完整看到瀑布與峽谷的壯闊面貌，也可貼近岸邊感受氣勢。遊客較少。"
+  },
+  "dettifoss-parking-east": {
+   "name": "Dettifoss Parking (East)",
+   "lat": 65.81902867303603,
+   "lng": -16.37930014413769
+  },
+  "modrudalur-2": {
+   "name": "Möðrudalur",
+   "lat": 65.3744419327986,
+   "lng": -15.882858321797766,
+   "intro": "莫茲魯達勒（冰島語：Möðrudalur，或稱 Möðrudalur á Fjöllum）是位於冰島東北部高原邊緣的聚落與農場，海拔約 469 公尺，是冰島海拔最高且有人居住的農場聚落。由當地農民兼藝術家 Jón A. Stefánsson 於 1949 年建造，用以紀念 1944 年逝世的妻子，教堂內的祭壇畫亦由他親手繪製。"
+  },
+  "asbyrgi": {
+   "name": "Ásbyrgi",
+   "lat": 65.99954874818222,
+   "lng": -16.513662291181692,
+   "intro": "馬蹄峽谷（冰島語：Ásbyrgi）是位於冰島東北部「鑽石圈（Diamond Circle）」路線上的馬蹄形峽谷，屬於瓦特納冰川國家公園的一部分。峽谷長約 3.5 公里、寬約 1.1 公里，兩側崖壁高達約 100 公尺。"
+  },
+  "studlagil-canyon": {
+   "name": "Stuðlagil Canyon",
+   "lat": 65.16332104811408,
+   "lng": -15.306977756367226,
+   "intro": "Stuðlagil Canyon（斯圖德拉吉爾峽谷） 是位於冰島東部約庫爾山谷（Jökuldalur）的一座壯觀玄武岩柱峽谷，以高聳的六角形玄武岩石柱群與穿越其中的冰川河（Jökulsá á Dal）聞名。它原本深藏在水下，直到 2009 年上游水力發電廠（Kárahnjúkar）建成、水位大幅下降後才重見天日，並於 2016 年起迅速成為冰島最受歡迎的秘境景點之一。"
+  },
+  "studlagil-east-side-parking": {
+   "name": "Stuðlagil - East Side Parking",
+   "lat": 65.17535612878554,
+   "lng": -15.269020970499549
+  },
+  "ormurinn-guesthouse": {
+   "name": "Ormurinn Guesthouse",
+   "lat": 65.28062646710832,
+   "lng": -14.43155215023062
+  },
+  "seydisfjordur": {
+   "name": "Seyðisfjörður",
+   "lat": 65.25997436609741,
+   "lng": -14.009841908954327,
+   "intro": "賽濟斯菲厄澤（Seyðisfjörður）是位於冰島東部峽灣（Eastfjords）盡頭的一座港口小鎮，以繽紛的北歐木造建築、濃厚的藝術氣息，以及電影《白日夢冒險王》滑板下坡的經典取景地（93 號公路）而聞名。"
+  },
+  "seydisfjardarkirkja": {
+   "name": "Seyðisfjarðarkirkja",
+   "lat": 65.26123617791734,
+   "lng": -14.010437586503922,
+   "intro": "Seyðisfjarðarkirkja（塞濟斯菲厄澤教堂，俗稱「藍色教堂」Bláa kirkjan）是冰島東部峽灣小鎮塞濟斯菲厄澤（Seyðisfjörður）最具代表性的地標，因教堂前方延伸著一條色彩繽紛的彩虹步道（Norðurgata），成為攝影師與旅客必訪的經典景點。\n彩虹街（Norðurgata）。 教堂正前方的磚砌步道於 2014 至 2016 年間由當地居民發起彩繪，起初是為了響應同志驕傲遊行與展現社群包容，如今每年初夏居民都會齊聚重新粉刷，象徵小鎮的藝術氣息與友善精神。"
+  },
+  "how-s-it-going-phone-booth": {
+   "name": "How's It Going? Phone Booth",
+   "lat": 65.26752251394696,
+   "lng": -13.98862388593197,
+   "intro": "「How's It Going?」電話亭（冰島語：Hvernig gengur?，原名 How Are Things...?）是位於冰島東部塞濟斯菲厄澤（Seyðisfjörður）的一座戶外公共藝術雕塑，由冰島藝術家 Guðjón Ketilsson 創作於 2006 年。為紀念 1906 年連接蘇格蘭與冰島的第一條國際海底電報電纜啟用一百週年而設。"
+  },
+  "gufufoss": {
+   "name": "Gufufoss",
+   "lat": 65.23990184203147,
+   "lng": -14.057572801463134,
+   "intro": "Gufufoss（蒸汽瀑布） 是位於冰島東部峽灣（East Fjords）的一座著名瀑布，同時也是電影《白日夢冒險王》（The Secret Life of Walter Mitty）男主角溜滑板的經典取景地之一。"
+  },
+  "bulandstindur-2": {
+   "name": "Búlandstindur",
+   "lat": 64.69549743121549,
+   "lng": -14.415385031762751,
+   "intro": "Búlandstindur（布蘭斯峰，又稱「金字塔神山」）是位於冰島東部峽灣區（Eastfjords）的一座著名玄武岩山峰，海拔 1,069 公尺，以其獨特且對稱的金字塔外型聞名。"
+  },
+  "eggin-i-gledivik": {
+   "name": "Eggin í Gleðivík",
+   "lat": 64.6618095266415,
+   "lng": -14.294726786545006,
+   "intro": "Eggin í Gleðivík（中文常譯為「快樂灣的鳥蛋」或「梅里灣巨型鳥蛋」）是位於冰島東部小鎮都皮沃古爾（Djúpivogur）海岸邊的知名戶外公共藝術裝置。 沿著 Gleðivík（Merry Bay）港灣堤道整齊排列了 34 顆大型花崗岩雕塑，每一顆都等比例放大雕刻自當地築巢的 34 種原生鳥類之鳥蛋，並保留了不同的色澤與斑紋特徵。 堤道上體積最大的一顆蛋代表紅喉潛鳥（Red-throated diver，冰島語為 Lómur），它是都皮沃古爾小鎮的象徵代表鳥類。"
+  },
+  "vestrahorn-2": {
+   "name": "Vestrahorn",
+   "lat": 64.27311180226665,
+   "lng": -15.00814792986389,
+   "intro": "Vestrahorn（西角山，又稱為「蝙蝠山」）是位於冰島東南部 Stokksnes 半島的著名鋸齒狀山脈，以黑沙灘淺水區映照出的「天空之鏡」倒影聞名。"
+  },
+  "viking-cafe-guesthouse": {
+   "name": "Viking Cafe & Guesthouse",
+   "lat": 64.25501540000002,
+   "lng": -14.993540535582063
+  },
+  "stokksnes": {
+   "name": "Stokksnes",
+   "lat": 64.24597468706278,
+   "lng": -14.970224811917168
+  },
+  "hofn-2": {
+   "name": "Höfn",
+   "lat": 64.25492340621454,
+   "lng": -15.208809441518126,
+   "intro": "赫本（冰島語：Höfn，又稱霍芬鎮）是位於冰島東南部 Hornafjörður 峽灣附近的一座漁港小鎮，也是環島公路（1號公路）的重要補給與住宿中繼站。小鎮以盛產挪威小龍蝦（Langoustine）與鄰近的瓦特納冰原（Vatnajökull）景觀聞名。"
+  },
+  "pakkhus-restaurant": {
+   "name": "Pakkhús Restaurant",
+   "lat": 64.25009998958105,
+   "lng": -15.203915998213965,
+   "intro": "Pakkhús Restaurant 是位於冰島東南部赫本 Höfn 港口的餐廳，除了坐擁船隻和碼頭美景，更主打當地新鮮食材 (包含肉類和海鮮)，其中以龍蝦最為知名，到 Pakkhús 用餐的遊客幾乎每桌都會點上一份龍蝦主餐；餐廳旁則是瓦特納冰川國家公園遊客中心和小型展覽館。\n赫本 Höfn 以龍蝦(螯蝦)聞名，常被稱為冰島的龍蝦(螯蝦)之都。Pakkhús Restaurant 的螯蝦來自停靠在碼頭的Sigurður Ólafssin SF 44、Skinneyjar-Þinganess、Skinney、órir號等漁船。"
+  },
+  "hofn-hi-hostel": {
+   "name": "Höfn HI Hostel",
+   "lat": 64.26213356684308,
+   "lng": -15.212323903027603
   }
  },
  "days": [
@@ -1024,27 +1132,39 @@
      "title": "Skútustaðagígar 偽火山口"
     },
     {
-     "id": "ilby95cm",
-     "spot": "dettifoss-862",
-     "note": "862 冬季路況先查 umferdin.is"
+     "id": "iuzbekgt",
+     "spot": "dettifoss-parking-east",
+     "title": "Dettifoss Parking (East) 黛提瀑布東側停車場",
+     "note": "走864號公路，路況較顛波難走，但風景比較壯麗，停車場廁所冬季常關閉。",
+     "remind": "前往前先查詢是否封路。"
     },
     {
-     "id": "isx1igde",
-     "spot": "modrudalur",
-     "note": "午餐、草皮屋教堂"
+     "id": "ilby95cm",
+     "spot": "dettifoss",
+     "note": "西岸走862 號公路，路況較好，但遊客多。\n東岸走864 號公路，路況較差，冬季容易封路。",
+     "title": "Dettifoss 黛提瀑布"
     },
     {
      "id": "is1qsvyi",
-     "spot": "egilsstadir"
+     "spot": "asbyrgi",
+     "title": "Ásbyrgi 馬蹄峽谷"
+    },
+    {
+     "id": "ieqhjebz",
+     "spot": "studlagil-east-side-parking",
+     "title": "Stuðlagil - East Side Parking 斯圖拉吉爾峽谷東側停車場",
+     "note": "東岸（Klaustursel 方向），觀景視角\t可走到峽谷底部與河岸旁，近距離接觸玄武岩柱，需走一段碎石與自然小徑，單程約 30 分鐘至 1.5 小時不等"
     },
     {
      "id": "i54g6trk",
-     "spot": "vok-baths",
-     "note": "泡湯"
+     "spot": "studlagil-canyon",
+     "note": "峽谷兩岸之間沒有橋樑相通，出發前需決定要從哪一側前往。\n東岸（Klaustursel 方向），可走到峽谷底部與河岸旁，近距離接觸玄武岩柱（經典近景角度），需走一段碎石與自然小徑，單程約 30 分鐘至 1.5 小時不等，碎石路與農路較顛簸，沿途設施較少。\n西岸（Grund 方向），主要在上方觀景台俯瞰峽谷與河流全景，步行時間較短，需走一段階梯前往觀景平台，設有觀景平台、洗手間與季節性餐車/露營區等設施。",
+     "title": "Stuðlagil Canyon 斯圖德拉吉爾玄武岩峽谷"
     },
     {
      "id": "ip0frx2b",
-     "spot": "egilsstadir"
+     "spot": "ormurinn-guesthouse",
+     "title": "Ormurinn Guesthouse-第五天住宿"
     }
    ]
   },
@@ -1052,28 +1172,72 @@
    "id": "dqy9hgjz",
    "items": [
     {
-     "id": "ihh3gwsz",
-     "spot": "egilsstadir"
+     "id": "i0b8cv3l",
+     "spot": "ormurinn-guesthouse",
+     "title": "Ormurinn Guesthouse-第五天住宿"
+    },
+    {
+     "id": "ipageqwt",
+     "spot": "seydisfjordur",
+     "title": "Seyðisfjörður 塞濟斯菲厄澤-白日夢冒險王小鎮"
+    },
+    {
+     "id": "ix5ng4dy",
+     "spot": "seydisfjardarkirkja",
+     "title": "Seyðisfjarðarkirkja 塞濟斯菲厄澤教堂(藍色教堂與彩虹街)"
+    },
+    {
+     "id": "iidof1j7",
+     "spot": "how-s-it-going-phone-booth",
+     "title": "How's It Going? Phone Booth 電話亭裝置藝術"
+    },
+    {
+     "id": "iqjsius6",
+     "spot": "gufufoss",
+     "title": "Gufufoss 蒸汽瀑布"
     },
     {
      "id": "i5drcahl",
-     "spot": "bulandstindur",
-     "note": "金字塔山觀景"
+     "spot": "bulandstindur-2",
+     "title": "Búlandstindur 金字塔山"
     },
     {
      "id": "ivy5jmur",
-     "spot": "djupivogur",
-     "note": "石蛋 Eggin í Gleðivík"
+     "spot": "eggin-i-gledivik",
+     "title": "Eggin í Gleðivík 巨型蛋雕塑"
+    },
+    {
+     "id": "igcjshht",
+     "spot": "viking-cafe-guesthouse",
+     "title": "Viking Cafe & Guesthouse 維京咖啡-西角山/蝙蝠山入園購票區",
+     "note": "要進去拍 西角山/蝙蝠山 需要先在這邊買票"
     },
     {
      "id": "i54nsens",
-     "spot": "vestrahorn",
-     "note": "Stokksnes 需付私人道路費"
+     "spot": "vestrahorn-2",
+     "note": "需要入場費，天氣不好可以考慮不要進去，漲潮時才可以拍到倒影",
+     "title": "Vestrahorn 蝙蝠山/西角山"
+    },
+    {
+     "id": "ixadklse",
+     "spot": "stokksnes",
+     "title": "Stokksnes 黑沙灘-拍攝西角山/蝙蝠山倒影最佳點",
+     "note": "Stokksnes 為可以欣賞「西角山Vestrahorn 和蝙蝠山Brunnhorn」最佳角度的私人黑沙灘。"
     },
     {
      "id": "ie2shjs6",
-     "spot": "hofn",
-     "note": "Pakkhús 龍蝦晚餐"
+     "spot": "hofn-2",
+     "title": "Höfn 赫本/霍芬"
+    },
+    {
+     "id": "ifl8fnc5",
+     "spot": "pakkhus-restaurant",
+     "title": "Pakkhús Restaurant 龍蝦餐廳"
+    },
+    {
+     "id": "iz8t2ew4",
+     "spot": "hofn-hi-hostel",
+     "title": "Höfn HI Hostel-第六天住宿"
     }
    ]
   },
@@ -1250,6 +1414,6 @@
    ]
   }
  ],
- "updated": "2026-11-25T06:14:21.882Z",
+ "updated": "2026-11-25T07:53:18.111Z",
  "by": "JC"
 }
