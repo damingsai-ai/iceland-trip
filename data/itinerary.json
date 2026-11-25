@@ -1246,7 +1246,8 @@
    "items": [
     {
      "id": "im1ktfgp",
-     "spot": "hofn"
+     "spot": "hofn-hi-hostel",
+     "title": "Höfn HI Hostel-第六天住宿"
     },
     {
      "id": "iii20e4n",
@@ -1414,6 +1415,6 @@
    ]
   }
  ],
- "updated": "2026-11-25T07:53:18.111Z",
+ "updated": "2026-11-25T08:03:37.526Z",
  "by": "JC"
 }
