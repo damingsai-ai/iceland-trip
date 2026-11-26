@@ -894,6 +894,109 @@
    "name": "Gesthús Selfoss",
    "lat": 63.93305557706634,
    "lng": -20.988669627071403
+  },
+  "kerid-parking": {
+   "name": "Kerið Parking",
+   "lat": 64.04193594628784,
+   "lng": -20.886637910117543
+  },
+  "kerid-2": {
+   "name": "Kerið",
+   "lat": 64.0412690846048,
+   "lng": -20.885135873094747
+  },
+  "gullfoss-falls-car-park": {
+   "name": "Gullfoss falls Car Park",
+   "lat": 64.32524543325788,
+   "lng": -20.129863252334605
+  },
+  "gullfoss-2": {
+   "name": "Gullfoss",
+   "lat": 64.32707809442984,
+   "lng": -20.1199765363483
+  },
+  "geysir-parking": {
+   "name": "Geysir Parking",
+   "lat": 64.30926189303217,
+   "lng": -20.303367086155106
+  },
+  "geysir-2": {
+   "name": "Geysir",
+   "lat": 64.31037009214852,
+   "lng": -20.302338879931163
+  },
+  "bruarfoss-parking": {
+   "name": "Brúarfoss Parking",
+   "lat": 64.2622128687614,
+   "lng": -20.52116140412769
+  },
+  "bruarfoss-2": {
+   "name": "Brúarfoss",
+   "lat": 64.26429791859387,
+   "lng": -20.515735973079572
+  },
+  "thingvellir-parking": {
+   "name": "Þingvellir Parking",
+   "lat": 64.2556331298133,
+   "lng": -21.136404467876268
+  },
+  "thingvellir-2": {
+   "name": "Þingvellir",
+   "lat": 64.26057190975477,
+   "lng": -21.12162505174684
+  },
+  "grindavik-guesthouse": {
+   "name": "Grindavik Guesthouse",
+   "lat": 63.84170750073679,
+   "lng": -22.437352090132414
+  },
+  "blue-lagoon-parking": {
+   "name": "Blue Lagoon Parking",
+   "lat": 63.88303083125974,
+   "lng": -22.448827144269455
+  },
+  "blue-lagoon-blaa-lonid": {
+   "name": "Blue Lagoon(Bláa lónið)",
+   "lat": 63.880442046836656,
+   "lng": -22.44891098849243
+  },
+  "gunnuhver-east-parking": {
+   "name": "Gunnuhver East Parking",
+   "lat": 63.81909224463913,
+   "lng": -22.682211719693637
+  },
+  "gunnuhver-2": {
+   "name": "Gunnuhver",
+   "lat": 63.81927685582962,
+   "lng": -22.684539877078972
+  },
+  "reykjanes-2": {
+   "name": "Reykjanes",
+   "lat": 63.808877210748506,
+   "lng": -22.69417522995638
+  },
+  "perlan": {
+   "name": "Perlan",
+   "lat": 64.1292106441379,
+   "lng": -21.91878507123748
+  },
+  "hofdi-house": {
+   "name": "Höfði House",
+   "lat": 64.1465101986614,
+   "lng": -21.90635047308748
+  },
+  "refurinn": {
+   "name": "Refurinn"
+  },
+  "refurinn-guesthouse": {
+   "name": "Refurinn Guesthouse",
+   "lat": 64.1485589162977,
+   "lng": -21.94791813627479
+  },
+  "baejarins-beztu-pylsur": {
+   "name": "Bæjarins Beztu Pylsur",
+   "lat": 64.14818325930324,
+   "lng": -21.93788568607914
   }
  },
  "days": [
@@ -1574,27 +1677,60 @@
     },
     {
      "id": "iu7ap16v",
-     "spot": "kerid"
+     "spot": "kerid-parking",
+     "title": "Kerið Parking 火口湖停車軮"
     },
     {
-     "id": "i4rvfacz",
-     "spot": "gullfoss"
+     "id": "ipavge27",
+     "spot": "kerid-2",
+     "title": "Kerið 火口湖",
+     "note": "需入場費，依人為單位"
     },
     {
      "id": "isk731ye",
-     "spot": "geysir"
+     "spot": "geysir-parking",
+     "title": "Geysir Parking 蓋錫爾與斯特羅柯間歇泉停車場"
+    },
+    {
+     "id": "ia9rwcdh",
+     "spot": "geysir-2",
+     "title": "Geysir 蓋錫爾與斯特羅柯間歇泉",
+     "note": "每10-30分鐘噴發一次，沒規律只能等"
+    },
+    {
+     "id": "i4rvfacz",
+     "spot": "gullfoss-falls-car-park",
+     "title": "Gullfoss falls Car Park 古佛斯瀑布停車場"
+    },
+    {
+     "id": "ikecfz1x",
+     "spot": "gullfoss-2",
+     "title": "Gullfoss 古佛斯瀑布"
     },
     {
      "id": "ixwf1y0w",
-     "spot": "bruarfoss"
+     "spot": "bruarfoss-parking",
+     "title": "Brúarfoss Parking 藍色秘境瀑布停車場"
+    },
+    {
+     "id": "ih8ud5bx",
+     "spot": "bruarfoss-2",
+     "title": "Brúarfoss 藍色秘境瀑布"
     },
     {
      "id": "illjgxec",
-     "spot": "thingvellir"
+     "spot": "thingvellir-parking",
+     "title": "Þingvellir Parking 辛格韋德利國家公園停車場"
+    },
+    {
+     "id": "i24fowz4",
+     "spot": "thingvellir-2",
+     "title": "Þingvellir 辛格韋德利國家公園"
     },
     {
      "id": "is63qv0c",
-     "spot": "reykjavik"
+     "spot": "grindavik-guesthouse",
+     "title": "Grindavik Guesthouse-第十天住宿"
     }
    ]
   },
@@ -1603,26 +1739,57 @@
    "items": [
     {
      "id": "i1xfjszi",
-     "spot": "reykjavik"
+     "spot": "grindavik-guesthouse",
+     "title": "Grindavik Guesthouse-第十天住宿"
     },
     {
      "id": "it98j06i",
-     "spot": "blue-lagoon",
-     "note": "已預約；沿 41/43 號"
+     "spot": "blue-lagoon-parking",
+     "title": "Blue Lagoon Parking 藍湖溫泉停車場"
+    },
+    {
+     "id": "iq94fe3b",
+     "spot": "blue-lagoon-blaa-lonid",
+     "title": "Blue Lagoon(Bláa lónið) 藍湖溫泉",
+     "note": "需預訂。第一時段8:00AM入場\n沒限時間"
     },
     {
      "id": "it7cjobl",
-     "spot": "gunnuhver"
+     "spot": "gunnuhver-east-parking",
+     "title": "Gunnuhver East Parking 地熱區停車場"
+    },
+    {
+     "id": "i8dbxjeh",
+     "spot": "gunnuhver-2",
+     "title": "Gunnuhver 地熱區"
     },
     {
      "id": "ibuuci9e",
-     "spot": "reykjanes",
-     "note": "燈塔"
+     "spot": "reykjanes-2",
+     "title": "※Reykjanes 雷恰內斯"
+    },
+    {
+     "id": "in08pu6m",
+     "spot": "perlan",
+     "title": "※Perlan 珍珠樓博物館",
+     "note": "需購票入場"
+    },
+    {
+     "id": "itfb5xxw",
+     "spot": "hofdi-house",
+     "title": "※Höfði House 霍夫迪樓"
+    },
+    {
+     "id": "iqe1jj4v",
+     "spot": "baejarins-beztu-pylsur",
+     "title": "Bæjarins Beztu Pylsur BBP熱狗堡",
+     "note": "號稱歐洲最好吃的肉狗堡，美國前總統柯林頓有吃過"
     },
     {
      "id": "i128x9nn",
-     "spot": "keflavik",
-     "note": "整理行李"
+     "spot": "refurinn-guesthouse",
+     "note": "整理行李",
+     "title": "Refurinn Guesthouse-第十一天住宿"
     }
    ]
   },
@@ -1631,16 +1798,16 @@
    "items": [
     {
      "id": "iqnnexkb",
-     "spot": "keflavik"
+     "spot": "refurinn-guesthouse",
+     "title": "Refurinn Guesthouse-第十一天住宿"
     },
     {
      "id": "ifc3aypc",
-     "spot": "kef",
-     "note": "還車後搭 18:05 SK2596"
+     "spot": "keflavik-airport-kef"
     }
    ]
   }
  ],
- "updated": "2026-11-26T02:53:05.299Z",
+ "updated": "2026-11-26T03:51:42.318Z",
  "by": "JC"
 }
