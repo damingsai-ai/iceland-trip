@@ -754,6 +754,146 @@
    "name": "Höfn HI Hostel",
    "lat": 64.26213356684308,
    "lng": -15.212323903027603
+  },
+  "blue-ice-lake-diamond-beach-parking-nort": {
+   "name": "Blue Ice Lake / Diamond Beach Parking North",
+   "lat": 64.04807707700267,
+   "lng": -16.180433136467283
+  },
+  "jokulsarlon-2": {
+   "name": "Jökulsárlón",
+   "lat": 64.04955243187426,
+   "lng": -16.188951886717962
+  },
+  "diamond-beach-ice-on-beach": {
+   "name": "Diamond Beach-ice on beach",
+   "lat": 64.04443421961057,
+   "lng": -16.1776908754687
+  },
+  "diamond-beach-ice-in-lake": {
+   "name": "Diamond Beach-ice in lake",
+   "lat": 64.04943572741742,
+   "lng": -16.180647981226826
+  },
+  "crystal-blue-ice-cave-super-jeep-tour-me": {
+   "name": "Crystal Blue Ice Cave Super Jeep Tour Meeting Point(Jökulsárlón)",
+   "lat": 64.0473431,
+   "lng": -16.1784974
+  },
+  "fjallsarlon-2": {
+   "name": "Fjallsárlón",
+   "lat": 64.0179012212489,
+   "lng": -16.393108042046254
+  },
+  "mulagljufur-2": {
+   "name": "Múlagljúfur",
+   "lat": 63.98996149108816,
+   "lng": -16.462944608238537
+  },
+  "hofskirkja-2": {
+   "name": "Hofskirkja",
+   "lat": 63.906943720451174,
+   "lng": -16.70683117310383
+  },
+  "litla-hof": {
+   "name": "Litla Hof",
+   "lat": 63.90457394030202,
+   "lng": -16.70290211977776
+  },
+  "vatnajokull-blue-ice-glacier-hike-meetin": {
+   "name": "Vatnajökull Blue Ice Glacier Hike Meeting Point (Skaftafell)",
+   "lat": 64.016098,
+   "lng": -16.968208
+  },
+  "fjadrargljufur-parking": {
+   "name": "Fjaðrárgljúfur parking",
+   "lat": 63.77971704451901,
+   "lng": -18.16865029396283
+  },
+  "fjadrargljufur-2": {
+   "name": "Fjaðrárgljúfur",
+   "lat": 63.779527433827525,
+   "lng": -18.17693295525996
+  },
+  "skaftarhreppur-waterfall": {
+   "name": "Skaftárhreppur Waterfall",
+   "lat": 63.80139986240375,
+   "lng": -18.19709102565884
+  },
+  "reynir-guesthouse": {
+   "name": "Reynir Guesthouse",
+   "lat": 63.423810000026315,
+   "lng": -19.05071093539783
+  },
+  "vik-i-myrdal-church": {
+   "name": "Vík i Myrdal Church",
+   "lat": 63.42048969669737,
+   "lng": -19.002871207463684
+  },
+  "vik-parking-black-sand-beach": {
+   "name": "Vik-Parking Black Sand Beach",
+   "lat": 63.41421460245351,
+   "lng": -19.01847852465808
+  },
+  "vikurfjara-black-sand-beach": {
+   "name": "Víkurfjara Black Sand Beach",
+   "lat": 63.414260282750824,
+   "lng": -19.010363922795033
+  },
+  "parkplatz-fur-strand": {
+   "name": "Parkplatz für Strand",
+   "lat": 63.404187621417606,
+   "lng": -19.044744978747765
+  },
+  "reynisfjara-2": {
+   "name": "Reynisfjara",
+   "lat": 63.40606483297336,
+   "lng": -19.07160918970022
+  },
+  "dyrholaey-2": {
+   "name": "Dyrhólaey",
+   "lat": 63.40223568171061,
+   "lng": -19.130609035757928
+  },
+  "skogafoss-parking": {
+   "name": "Skógafoss Parking",
+   "lat": 63.52776325834569,
+   "lng": -19.51273920201152
+  },
+  "skogafoss-2": {
+   "name": "Skógafoss",
+   "lat": 63.53225848236935,
+   "lng": -19.51128008033223
+  },
+  "hestavadsfoss": {
+   "name": "Hestavaðsfoss",
+   "lat": 63.53332958018989,
+   "lng": -19.50746061475998
+  },
+  "steinbogafoss": {
+   "name": "Steinbogafoss",
+   "lat": 63.53801481783261,
+   "lng": -19.502072245552824
+  },
+  "seljalandsfoss-parking": {
+   "name": "Seljalandsfoss Parking",
+   "lat": 63.6157194948805,
+   "lng": -19.993791087174998
+  },
+  "seljalandsfoss-2": {
+   "name": "Seljalandsfoss",
+   "lat": 63.61565603356214,
+   "lng": -19.988624094515522
+  },
+  "gljufrabui-2": {
+   "name": "Gljúfrabúi",
+   "lat": 63.620858531482284,
+   "lng": -19.986451370887817
+  },
+  "gesthus-selfoss": {
+   "name": "Gesthús Selfoss",
+   "lat": 63.93305557706634,
+   "lng": -20.988669627071403
   }
  },
  "days": [
@@ -1250,31 +1390,55 @@
      "title": "Höfn HI Hostel-第六天住宿"
     },
     {
+     "id": "iitugn80",
+     "spot": "blue-ice-lake-diamond-beach-parking-nort",
+     "title": "Blue Ice Lake / Diamond Beach Parking North 冰河湖/鑽石沙灘停車場",
+     "note": "也是藍冰洞tour集合地點"
+    },
+    {
      "id": "iii20e4n",
-     "spot": "jokulsarlon",
-     "note": "藍冰洞團：需訂上午梯次"
+     "spot": "jokulsarlon-2",
+     "title": "Jökulsárlón 冰河湖"
     },
     {
      "id": "irdmz5pq",
-     "spot": "diamond-beach"
+     "spot": "diamond-beach-ice-on-beach",
+     "title": "Diamond Beach 鑽石沙灘-沙灘冰塊"
+    },
+    {
+     "id": "izv0dh36",
+     "spot": "diamond-beach-ice-in-lake",
+     "title": "Diamond Beach 鑽石沙灘-冰河湖浮冰"
+    },
+    {
+     "id": "ifr24clb",
+     "spot": "crystal-blue-ice-cave-super-jeep-tour-me",
+     "title": "Crystal Blue Ice Cave Super Jeep Tour Meeting Point(Jökulsárlón)-藍冰洞Tour集合點",
+     "note": "水晶藍冰洞超級吉普車之旅集合地點",
+     "remind": "13:00-16:00\n12:40前須報到完畢"
     },
     {
      "id": "i8w9tx66",
-     "spot": "fjallsarlon"
+     "spot": "fjallsarlon-2",
+     "title": "※Fjallsárlón 小冰河湖"
     },
     {
      "id": "idbcspds",
-     "spot": "mulagljufur",
-     "note": "來回健行約 1.5 小時，抓緊日照"
+     "spot": "mulagljufur-2",
+     "note": "來回健行約 1.5 小時，抓緊日照",
+     "title": "※Múlagljúfur 侏儸紀峽谷"
     },
     {
      "id": "iiueq8po",
-     "spot": "hofskirkja",
-     "note": "黃昏快速拍照"
+     "spot": "hofskirkja-2",
+     "note": "草皮屋頂教堂",
+     "title": "※Hofskirkja 霍夫斯草皮教堂"
     },
     {
      "id": "izjsrgms",
-     "spot": "freysnes"
+     "spot": "litla-hof",
+     "title": "Litla Hof-第七天住宿",
+     "note": "離冰川健行Tour 20min車程"
     }
    ]
   },
@@ -1283,21 +1447,35 @@
    "items": [
     {
      "id": "ihjc06f5",
-     "spot": "freysnes"
+     "spot": "litla-hof",
+     "title": "Litla Hof-第七天住宿"
     },
     {
      "id": "is2npmu8",
-     "spot": "spot",
-     "note": "冰川健行 09:30–13:30"
+     "spot": "vatnajokull-blue-ice-glacier-hike-meetin",
+     "note": "瓦特那冰川藍冰健行 09:30–13:30\n9:10前需報到完畢",
+     "title": "Vatnajökull Blue Ice Glacier Hike Meeting Point (Skaftafell)-冰川健行集合點"
     },
     {
      "id": "iypalqsb",
-     "spot": "fjadrargljufur"
+     "spot": "fjadrargljufur-parking",
+     "title": "Fjaðrárgljúfur parking 羽毛峽谷停車場"
+    },
+    {
+     "id": "i84p6off",
+     "spot": "fjadrargljufur-2",
+     "title": "Fjaðrárgljúfur 羽毛峽谷"
     },
     {
      "id": "ik5mlcn3",
-     "spot": "vik",
-     "note": "Smiðjan 漢堡 / Black Crust Pizzeria"
+     "spot": "skaftarhreppur-waterfall",
+     "title": "Skaftárhreppur Waterfall 瀑布"
+    },
+    {
+     "id": "ihha0ic6",
+     "spot": "reynir-guesthouse",
+     "title": "Reynir Guesthouse-第八天住宿",
+     "note": "黑沙灘附近"
     }
    ]
   },
@@ -1306,36 +1484,83 @@
    "items": [
     {
      "id": "in9dq3bw",
-     "spot": "vik"
-    },
-    {
-     "id": "ixdq160p",
-     "spot": "reynisfjara",
-     "note": "遵守海浪警示"
-    },
-    {
-     "id": "imhcubyt",
-     "spot": "dyrholaey"
+     "spot": "reynir-guesthouse",
+     "title": "Reynir Guesthouse-第八天住宿"
     },
     {
      "id": "i2n0orul",
-     "spot": "kvernufoss"
+     "spot": "vik-i-myrdal-church",
+     "title": "Vík i Myrdal Church  維克教堂",
+     "note": "停車費自由捐贈"
+    },
+    {
+     "id": "ixdq160p",
+     "spot": "vik-parking-black-sand-beach",
+     "note": "免費",
+     "title": "Vik-Parking Black Sand Beach 維克黑沙灘停車場"
+    },
+    {
+     "id": "i3q5utxk",
+     "spot": "vikurfjara-black-sand-beach",
+     "title": "Víkurfjara Black Sand Beach 維克黑沙灘"
+    },
+    {
+     "id": "i8rv2ao3",
+     "spot": "parkplatz-fur-strand",
+     "title": "Parkplatz für Strand 雷尼斯黑沙灘停車場"
+    },
+    {
+     "id": "iqy3b5ja",
+     "spot": "reynisfjara-2",
+     "title": "Reynisfjara 雷尼斯黑沙灘",
+     "remind": "注意潮汐，小心海浪"
+    },
+    {
+     "id": "imhcubyt",
+     "spot": "dyrholaey-2",
+     "title": "※Dyrhólaey 海蝕洞燈塔"
     },
     {
      "id": "ib82ei4t",
-     "spot": "skogafoss"
+     "spot": "skogafoss-parking",
+     "title": "Skógafoss Parking 史可加瀑布停車場"
+    },
+    {
+     "id": "ijv01gqo",
+     "spot": "skogafoss-2",
+     "title": "Skógafoss 史可加爾瀑布(彩虹瀑布)"
+    },
+    {
+     "id": "i3p6adrp",
+     "spot": "hestavadsfoss",
+     "title": "Hestavaðsfoss 瀑布"
+    },
+    {
+     "id": "iorrk4yd",
+     "spot": "steinbogafoss",
+     "title": "Steinbogafoss 瀑布"
     },
     {
      "id": "ipf70thd",
-     "spot": "seljalandsfoss"
+     "spot": "seljalandsfoss-parking",
+     "title": "Seljalandsfoss Parking 塞里雅蘭瀑布停車場"
+    },
+    {
+     "id": "ihfcqosq",
+     "spot": "seljalandsfoss-2",
+     "title": "Seljalandsfoss 塞里雅蘭瀑布(水濂洞瀑布)"
     },
     {
      "id": "i1o70mt2",
-     "spot": "gljufrabui"
+     "spot": "gljufrabui-2",
+     "title": "Gljúfrabúi 秘密瀑布",
+     "note": "可能需要涉水"
     },
     {
      "id": "i3x6qr7n",
-     "spot": "selfoss"
+     "spot": "gesthus-selfoss",
+     "title": "Gesthús Selfoss-第九天住宿",
+     "note": "小木屋"
     }
    ]
   },
@@ -1344,7 +1569,8 @@
    "items": [
     {
      "id": "irvsga32",
-     "spot": "selfoss"
+     "spot": "gesthus-selfoss",
+     "title": "Gesthús Selfoss-第九天住宿"
     },
     {
      "id": "iu7ap16v",
@@ -1415,6 +1641,6 @@
    ]
   }
  ],
- "updated": "2026-11-25T08:03:37.526Z",
+ "updated": "2026-11-26T02:53:05.299Z",
  "by": "JC"
 }
