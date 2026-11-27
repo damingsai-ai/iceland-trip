@@ -1050,17 +1050,6 @@
      "title": "Hallgrímskirkja 哈爾格林姆教堂"
     },
     {
-     "id": "ismlf6g3",
-     "spot": "bonus-hraunbaer",
-     "title": "Bónus小豬超市-Hraunbær"
-    },
-    {
-     "id": "is2k6ykh",
-     "spot": "orkan-hraunbaer",
-     "title": "Orkan加油站-Hraunbær",
-     "note": "Hraunbær 102, 110 Reykjavík, 冰島"
-    },
-    {
      "id": "il1zd82e",
      "spot": "moar-guesthouse",
      "title": "Moar Guesthouse-第一天住宿"
@@ -1808,6 +1797,6 @@
    ]
   }
  ],
- "updated": "2026-11-26T03:51:42.318Z",
+ "updated": "2026-11-27T06:20:24.195Z",
  "by": "JC"
 }
